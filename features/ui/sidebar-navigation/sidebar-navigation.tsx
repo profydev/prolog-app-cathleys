@@ -29,6 +29,7 @@ const containerStyles = css`
 
 const Container = styled.div<{ isCollapsed: boolean }>`
   ${containerStyles}
+  transition: all 0.7s ease-in-out;
 
   @media (min-width: ${breakpoint("desktop")}) {
     ${(props) =>
@@ -49,6 +50,7 @@ const Container = styled.div<{ isCollapsed: boolean }>`
 const FixedContainer = styled.div`
   ${containerStyles}
   position: fixed;
+  transition: all 0.7s ease-in-out;
 `;
 
 const Header = styled.header`
@@ -61,6 +63,7 @@ const Header = styled.header`
   background: ${color("gray", 900)};
   position: relative;
   z-index: ${zIndex("header")};
+  transition: 0.7s ease;
 
   @media (min-width: ${breakpoint("desktop")}) {
     height: unset;
@@ -146,7 +149,7 @@ const LinkList = styled(List)`
 
 const CollapseMenuItem = styled(MenuItemButton)`
   display: none;
-  transform: ${({ isCollapsed }) => (isCollapsed ? "rotate(180deg)" : [])};
+  transform: ${({ isCollapsed }) => (isCollapsed ? " rotate(180deg) " : [])};
 
   @media (min-width: ${breakpoint("desktop")}) {
     display: flex;
