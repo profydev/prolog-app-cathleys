@@ -29,7 +29,7 @@ const containerStyles = css`
 
 const Container = styled.div<{ isCollapsed: boolean }>`
   ${containerStyles}
-
+  transition: all 0.7s ease-in-out;
   @media (min-width: ${breakpoint("desktop")}) {
     ${(props) =>
       props.isCollapsed &&
