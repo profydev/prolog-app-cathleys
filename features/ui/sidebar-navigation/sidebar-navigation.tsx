@@ -49,6 +49,7 @@ const Container = styled.div<{ isCollapsed: boolean }>`
 const FixedContainer = styled.div`
   ${containerStyles}
   position: fixed;
+  transition: all 0.7s ease-in-out;
 `;
 
 const Header = styled.header`
