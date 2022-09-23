@@ -7,6 +7,7 @@ import { MenuItemButton } from "./menu-item-button";
 import { MenuItemLink } from "./menu-item-link";
 import { Button } from "@features/ui";
 import { breakpoint, color, space, zIndex } from "@styles/theme";
+import ContactSupport from "./contact-support";
 
 const menuItems = [
   { text: "Projects", iconSrc: "/icons/projects.svg", href: Routes.projects },
@@ -29,6 +30,7 @@ const containerStyles = css`
 
 const Container = styled.div<{ isCollapsed: boolean }>`
   ${containerStyles}
+  transition: all 0.7s ease;
 
   @media (min-width: ${breakpoint("desktop")}) {
     ${(props) =>
@@ -49,7 +51,7 @@ const Container = styled.div<{ isCollapsed: boolean }>`
 const FixedContainer = styled.div`
   ${containerStyles}
   position: fixed;
-  transition: all 0.7s ease-in-out;
+  transition: all 0.7s ease;
 `;
 
 const Header = styled.header`
@@ -195,7 +197,7 @@ export function SidebarNavigation() {
               text="Support"
               iconSrc="/icons/support.svg"
               isCollapsed={isSidebarCollapsed}
-              onClick={() => alert("Support")}
+              onClick={ContactSupport}
             />
             <CollapseMenuItem
               text="Collapse"
