@@ -29,7 +29,7 @@ const containerStyles = css`
 
 const Container = styled.div<{ isCollapsed: boolean }>`
   ${containerStyles}
-
+  transition: all 0.7s ease-in-out;
   @media (min-width: ${breakpoint("desktop")}) {
     ${(props) =>
       props.isCollapsed &&
@@ -191,11 +191,12 @@ export function SidebarNavigation() {
           </LinkList>
 
           <List>
-            <MenuItemButton
+            <MenuItemLink
               text="Support"
               iconSrc="/icons/support.svg"
               isCollapsed={isSidebarCollapsed}
-              onClick={() => alert("Support")}
+              href="mailto:support@prolog-app.com?subject='Support Request:'"
+              isActive={true}
             />
             <CollapseMenuItem
               text="Collapse"
