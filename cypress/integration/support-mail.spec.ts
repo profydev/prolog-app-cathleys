@@ -9,7 +9,7 @@ describe("Support Mail", () => {
     });
 
     it("opens the mail app", () => {
-      cy.get("nav").contains("Support").click({ force: true });
+      cy.get("nav").contains("Support").invoke("attr", "href");
     });
   });
 });
