@@ -75,6 +75,10 @@ const Logo = styled.img`
   @media (min-width: ${breakpoint("desktop")}) {
     margin: ${space(0, 4)};
   }
+
+  @media (max-width: 1023px) {
+    width: 1.4375rem;
+  }
 `;
 
 const MenuButton = styled(Button)`
@@ -196,7 +200,7 @@ export function SidebarNavigation() {
               iconSrc="/icons/support.svg"
               isCollapsed={isSidebarCollapsed}
               href="mailto:support@prolog-app.com?subject='Support Request:'"
-              isActive={true}
+              isActive={false}
             />
             <CollapseMenuItem
               text="Collapse"
