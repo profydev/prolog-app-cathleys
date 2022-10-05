@@ -75,6 +75,11 @@ const Logo = styled.img`
   @media (min-width: ${breakpoint("desktop")}) {
     margin: ${space(0, 4)};
   }
+
+  @media (max-width: 1023px) {
+ width: 23px;}
+    
+  }
 `;
 
 const MenuButton = styled(Button)`
