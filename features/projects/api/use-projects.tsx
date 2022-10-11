@@ -2,8 +2,11 @@ import { useQuery } from "react-query";
 import axios from "axios";
 import { Project } from "../types/project.types";
 
+const URL = "https://prolog-api.profy.dev/project";
+
 async function getProjects() {
-  const { data } = await axios.get("https://prolog-api.profy.dev/project");
+  const { data } = await axios.get(URL);
+
   return data;
 }
 
