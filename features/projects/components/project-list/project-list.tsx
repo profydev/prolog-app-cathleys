@@ -3,6 +3,8 @@ import { ProjectCard } from "../project-card";
 import { useProjects } from "../../api/use-projects";
 import { breakpoint, space } from "@styles/theme";
 
+import { ErrorPage } from "./error-page";
+
 const List = styled.ul`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -26,8 +28,8 @@ export function ProjectList() {
   }
 
   if (isError) {
-    console.error(error);
-    return <div>Error: {error.message}</div>;
+    console.log(error.message);
+    return <ErrorPage />;
   }
 
   return (
