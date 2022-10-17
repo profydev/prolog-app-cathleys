@@ -2,8 +2,8 @@ import styled from "styled-components";
 import { ProjectCard } from "../project-card";
 import { useProjects } from "../../api/use-projects";
 import { breakpoint, space } from "@styles/theme";
-
-import { ErrorPage } from "./error-page";
+import { ErrorPage } from "../error-page";
+import { LoadingScreen } from "../loading-screen";
 
 const List = styled.ul`
   display: grid;
@@ -24,7 +24,7 @@ export function ProjectList() {
   const { data, isLoading, isError, error } = useProjects();
 
   if (isLoading) {
-    return <div>Loading</div>;
+    return <LoadingScreen />;
   }
 
   if (isError) {
