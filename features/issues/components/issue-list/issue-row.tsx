@@ -5,7 +5,6 @@ import { Badge, BadgeColor, BadgeSize } from "@features/ui";
 import { IssueLevel } from "../../types/issue.types";
 import { ProjectLanguage } from "@features/projects";
 import type { Issue } from "../../types/issue.types";
-
 type IssueRowProps = {
   projectLanguage: ProjectLanguage;
   issue: Issue;
@@ -48,7 +47,7 @@ const ErrorType = styled.span`
 `;
 
 export function IssueRow({ projectLanguage, issue }: IssueRowProps) {
-  const { name, message, stack, level, numEvents } = issue;
+  const { name, message, stack, level, numEvents, numUsers } = issue;
   const firstLineOfStackTrace = stack.split("\n")[1];
   return (
     <Row>
@@ -71,7 +70,7 @@ export function IssueRow({ projectLanguage, issue }: IssueRowProps) {
         </Badge>
       </Cell>
       <Cell>{numEvents}</Cell>
-      <Cell>{numEvents}</Cell>
+      <Cell>{numUsers}</Cell>
     </Row>
   );
 }
