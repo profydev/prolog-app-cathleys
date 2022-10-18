@@ -1,7 +1,7 @@
 import React from "react";
 import Head from "next/head";
 import styled from "styled-components";
-import { SidebarNavigation } from "@features/ui";
+import { SidebarNavigation, Footer } from "@features/ui";
 import { color, displayFont, textFont, space, breakpoint } from "@styles/theme";
 
 type PageContainerProps = {
@@ -22,6 +22,15 @@ const Container = styled.div`
 
 const Main = styled.main`
   flex: 1;
+  position: relative;
+`;
+
+const ContentFooter = styled.div`
+  position: absolute;
+  right: ${space(8)};
+  left: ${space(8)};
+  padding: 1.125rem 0;
+  background: white;
 `;
 
 const ContentContainer = styled.div`
@@ -68,6 +77,9 @@ export function PageContainer({ children, title, info }: PageContainerProps) {
           <Info>{info}</Info>
           {children}
         </ContentContainer>
+        {/* <ContentFooter>
+          <Footer />
+        </ContentFooter> */}
       </Main>
     </Container>
   );
