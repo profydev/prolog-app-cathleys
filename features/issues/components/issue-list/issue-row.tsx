@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import capitalize from "lodash/capitalize";
 import { color, space, textFont } from "@styles/theme";
 import { Badge, BadgeColor, BadgeSize } from "@features/ui";
 import { IssueLevel } from "../../types/issue.types";
@@ -14,6 +13,11 @@ const levelColors = {
   [IssueLevel.info]: BadgeColor.success,
   [IssueLevel.warning]: BadgeColor.warning,
   [IssueLevel.error]: BadgeColor.error,
+};
+const levelWords = {
+  [IssueLevel.info]: "Stable",
+  [IssueLevel.warning]: "Warning",
+  [IssueLevel.error]: "Critical",
 };
 
 const Row = styled.tr`
@@ -66,7 +70,7 @@ export function IssueRow({ projectLanguage, issue }: IssueRowProps) {
       </IssueCell>
       <Cell>
         <Badge color={levelColors[level]} size={BadgeSize.sm}>
-          {capitalize(level)}
+          {levelWords[level]}
         </Badge>
       </Cell>
       <Cell>{numEvents}</Cell>
