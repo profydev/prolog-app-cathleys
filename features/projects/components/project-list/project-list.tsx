@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { ProjectCard } from "../project-card";
 import { useProjects } from "../../api/use-projects";
 import { breakpoint, space } from "@styles/theme";
-
 import { ErrorPage } from "./error-page";
 
 const List = styled.ul`
