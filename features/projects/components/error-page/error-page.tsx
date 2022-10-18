@@ -1,32 +1,25 @@
 import React from "react";
-import {
-  AlertIcon,
-  AlertWrapper,
-  ArrowIcon,
-  Container,
-  Message,
-  RefreshButton,
-  Wrapper,
-} from "./error-style";
+import { useRouter } from "next/router";
+import * as E from "./error.style";
 
 export function ErrorPage() {
-  const refreshPage = () => {
-    window.location.reload();
-  };
+  const router = useRouter();
 
   return (
-    <Container>
-      <Wrapper>
-        <AlertWrapper>
-          <AlertIcon src={"/icons/alert-circle.svg"} alt="alert" />
-          <Message>There was a problem while loading the project data</Message>
-        </AlertWrapper>
+    <E.Container>
+      <E.Wrapper>
+        <E.AlertWrapper>
+          <E.AlertIcon src={"/icons/alert-circle.svg"} alt="alert" />
+          <E.Message>
+            There was a problem while loading the project data
+          </E.Message>
+        </E.AlertWrapper>
 
-        <RefreshButton onClick={refreshPage}>
+        <E.RefreshButton onClick={() => router.reload()}>
           Try again
-          <ArrowIcon src={"/icons/refresh-arrow.svg"} alt="arrow" />
-        </RefreshButton>
-      </Wrapper>
-    </Container>
+          <E.ArrowIcon src={"/icons/refresh-arrow.svg"} alt="arrow" />
+        </E.RefreshButton>
+      </E.Wrapper>
+    </E.Container>
   );
 }
