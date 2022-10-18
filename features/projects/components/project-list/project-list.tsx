@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { ProjectCard } from "../project-card";
 import { useProjects } from "../../api/use-projects";
 import { breakpoint, space } from "@styles/theme";
+import { LoadingScreen } from "../loading-screen";
 import { ErrorPage } from "./error-page";
 
 const List = styled.ul`
@@ -23,7 +24,7 @@ export function ProjectList() {
   const { data, isLoading, isError, error } = useProjects();
 
   if (isLoading) {
-    return <div>Loading</div>;
+    return <LoadingScreen />;
   }
 
   if (isError) {

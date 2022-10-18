@@ -76,7 +76,7 @@ const Logo = styled.img`
     margin: ${space(0, 4)};
   }
 
-  @media (max-width: 1023px) {
+  @media calc(max-width: ${breakpoint("desktop")} - 1px) {
     width: 1.4375rem;
   }
 `;
@@ -200,7 +200,6 @@ export function SidebarNavigation() {
               iconSrc="/icons/support.svg"
               isCollapsed={isSidebarCollapsed}
               href="mailto:support@prolog-app.com?subject='Support Request:'"
-              isActive={false}
             />
             <CollapseMenuItem
               text="Collapse"
