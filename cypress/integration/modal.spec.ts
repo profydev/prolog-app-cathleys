@@ -3,6 +3,9 @@ describe("Popup Modal", () => {
     it("opens the modal on contact button ", () => {
       cy.visit("http://localhost:3000");
       cy.get('[data-cy="contact-button"]').click();
+      cy.get(".popup-content").find("img");
+      cy.get(".popup-content").find("h1");
+      cy.get(".popup-content").find("p");
     });
 
     it("closes the modal on cancel button", () => {
