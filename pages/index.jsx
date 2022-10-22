@@ -2,8 +2,8 @@ import styled from "styled-components";
 import { Routes } from "@config/routes";
 import * as M from "./modal";
 import Popup from "reactjs-popup";
-import { EmailApp } from "./modal/email-app";
-import { OpenModal } from "./modal/open-modal";
+import { EmailApp } from "./modal/components/email-app";
+import { OpenModal } from "./modal/components/open-modal";
 
 const Header = styled.header`
   width: 100%;

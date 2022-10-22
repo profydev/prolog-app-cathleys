@@ -1,5 +1,5 @@
-export { EmailApp } from "./email-app";
-export { OpenModal } from "./open-modal";
+export { EmailApp } from "./components/email-app";
+export { OpenModal } from "./components/open-modal";
 
 export {
   StyledPopup,
@@ -9,4 +9,4 @@ export {
   Content,
   ButtonWrapper,
   CancelButton,
-} from "./modal.style";
+} from "./components/modal.style";
