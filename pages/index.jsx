@@ -1,5 +1,9 @@
 import styled from "styled-components";
 import { Routes } from "@config/routes";
+import * as M from "./modal";
+import Popup from "reactjs-popup";
+import { EmailApp } from "./modal/email-app";
+import { OpenModal } from "./modal/open-modal";
 
 const Header = styled.header`
   width: 100%;
@@ -34,18 +38,58 @@ const IssuesPage = () => {
       <Header>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/icons/logo-large.svg" alt="Prolog logo" />
+
+        {/* TURN THIS INTO A BUTTON COMPONENT*/}
         <a href={Routes.projects}>Dashboard</a>
       </Header>
-      <ContactButton
-        onClick={() =>
-          alert(
-            "Implement this in Challenge 2 - Modal:\n\nhttps://profy.dev/rjs-challenge-modal"
-          )
+
+      <M.StyledPopup
+        trigger={
+          <ContactButton data-cy="contact-button">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/icons/message.svg" alt="Contact" />
+          </ContactButton>
         }
+        modal
+        nested
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/icons/message.svg" alt="Contact" />
-      </ContactButton>
+        {(close) => (
+          <div>
+            <M.Modal>
+              <OpenModal
+                className="popup-content"
+                src="/icons/modal.svg"
+                alt="email icon"
+                title=" Contact Us Via Email"
+                content="Any questions? Send us an email at prolog@profy.dev. We usually
+                answer within 24 hours."
+              />
+
+              <M.ButtonWrapper>
+                <M.CancelButton
+                  onClick={() => {
+                    console.log("modal closed ");
+                    close();
+                  }}
+                  data-cy="cancel-button"
+                >
+                  Cancel
+                </M.CancelButton>
+                <div>
+                  <Popup
+                    trigger={
+                      <EmailApp
+                        text="Open Email App"
+                        href="mailto:support@prolog-app.com?subject='Support Request:'"
+                      />
+                    }
+                  ></Popup>
+                </div>
+              </M.ButtonWrapper>
+            </M.Modal>
+          </div>
+        )}
+      </M.StyledPopup>
     </div>
   );
 };
