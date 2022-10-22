@@ -101,3 +101,22 @@ export const CancelButton = styled(Button)`
     padding: 0.625rem 2.766rem;
   }
 `;
+
+export const OpenEmailButton = styled(CancelButton)`
+  padding: 0.625rem 1.5rem;
+  margin: 0 0 0 0.375rem;
+  background: ${color("primary", 600)};
+
+  &:hover {
+    background: ${color("primary", 700)};
+  }
+
+  @media (max-width: 26.563em) {
+    padding: 0.625rem 0.609rem;
+  }
+`;
+
+export const Anchor = styled.a`
+  text-decoration: none;
+  color: white;
+`;

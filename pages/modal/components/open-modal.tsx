@@ -1,5 +1,5 @@
 import React from "react";
-import * as M from "./modal.style";
+import * as M from "../modal.style";
 
 type OpenModalProps = {
   className: string;
