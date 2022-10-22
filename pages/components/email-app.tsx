@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { Anchor, OpenEmailButton } from "../modal.style";
+import { Anchor, OpenEmailButton } from "../components/modal.style";
 
 type EmailAppProps = {
   text: string;
