@@ -16,7 +16,7 @@ export const OpenEmailButton = styled.button`
   background: ${color("primary", 600)};
   ${textFont("md", "medium")};
 
-  @media (max-width: 425px) {
+  @media (max-width: 26.563em) {
     padding: 0.625rem 0.609rem;
   }
 
