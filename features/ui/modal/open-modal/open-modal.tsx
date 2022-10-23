@@ -30,7 +30,7 @@ export const Content = styled.p`
   text-align: center;
 `;
 
-export default function OpenModal(props: OpenModalProps) {
+export function OpenModal(props: OpenModalProps) {
   const { src, alt, title, content, className } = props;
   return (
     <>

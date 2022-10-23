@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { Routes } from "@config/routes";
 import Popup from "reactjs-popup";
-import OpenModal from "./dashboard/components/open-modal/open-modal";
-import EmailApp from "./dashboard/components/email-app/email-app";
+import { OpenModal } from "../features/ui/modal/open-modal/index";
+import { EmailApp } from "../features/ui/modal/email-app/index";
 import { Button } from "@features/ui";
 import { color, space, textFont } from "@styles/theme";
 
