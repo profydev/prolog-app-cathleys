@@ -30,7 +30,7 @@ export const Anchor = styled.a`
   color: white;
 `;
 
-export function EmailApp(props: EmailAppProps) {
+export default function EmailApp(props: EmailAppProps) {
   const { text, href } = props;
 
   return (
