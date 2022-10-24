@@ -1,9 +1,8 @@
-import { color, space, textFont } from "@styles/theme";
 import React from "react";
 import styled from "styled-components";
+import { color, textFont } from "@styles/theme";
 
 const Wrapper = styled.div`
-  border: 1px solid red;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -12,27 +11,31 @@ const Wrapper = styled.div`
   ${textFont("md", "medium")};
 `;
 
-const ContentLinks = styled.ul`
-  display: flex;
-  border: 1px solid gray;
-  list-style: none;
-  padding: 0;
-  margin: 0;
+const VersionText = styled.div`
+  color: ${color("gray", 500)};
 `;
+
+const Anchor = styled.a`
+  margin-right: 24px;
+  margin-bottom: 18px;
+  color: ${color("gray", 500)};
+  text-decoration: none;
+
+  &:hover {
+    background: ${color("gray", 200)};
+  }
+`;
+
 export function Footer() {
   return (
     <Wrapper>
-      {/* use nextjs for this */}
-      <div>Version number</div>
+      <VersionText>{process.env.NEXT_PUBLIC_VERSION}</VersionText>
 
       <div>
-        <ContentLinks>
-          {/* use Route for this */}
-          <li>Docs</li>
-          <li>API</li>
-          <li>Help</li>
-          <li>Community</li>
-        </ContentLinks>
+        <Anchor href="#docs">Docs</Anchor>
+        <Anchor href="#api">API</Anchor>
+        <Anchor href="#help">Help</Anchor>
+        <Anchor href="#community">Community</Anchor>
       </div>
 
       <div>

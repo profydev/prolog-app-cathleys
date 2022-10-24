@@ -1,8 +1,9 @@
 import React from "react";
 import Head from "next/head";
 import styled from "styled-components";
-import { SidebarNavigation, Footer } from "@features/ui";
+import { SidebarNavigation } from "@features/ui";
 import { color, displayFont, textFont, space, breakpoint } from "@styles/theme";
+import { Footer } from "../footer";
 
 type PageContainerProps = {
   children: React.ReactNode;
@@ -77,9 +78,9 @@ export function PageContainer({ children, title, info }: PageContainerProps) {
           <Info>{info}</Info>
           {children}
         </ContentContainer>
-        {/* <ContentFooter>
+        <ContentFooter>
           <Footer />
-        </ContentFooter> */}
+        </ContentFooter>
       </Main>
     </Container>
   );
