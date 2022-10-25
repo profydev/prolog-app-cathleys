@@ -11,9 +11,7 @@ describe("Popup Modal", () => {
     it("closes the modal on cancel button", () => {
       cy.get('[data-cy = "cancel-button"]').click();
     });
-  });
 
-  context("Open email app", () => {
     it("opens mailto", () => {
       cy.visit("http://localhost:3000");
       cy.get('[data-cy="contact-button"]').click();
