@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import { Routes } from "@config/routes";
 import Popup from "reactjs-popup";
+import { OpenModal } from "../features/ui/modal/open-modal/index";
+import { EmailApp } from "../features/ui/modal/email-app/index";
 import { Button } from "@features/ui";
-import { EmailApp } from "../features/ui/email-app/index";
-import { OpenModal } from "../features/ui/open-modal/index";
 import { color, space, textFont } from "@styles/theme";
 
 const Header = styled.header`
