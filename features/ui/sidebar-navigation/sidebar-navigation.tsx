@@ -76,7 +76,7 @@ const Logo = styled.img`
     margin: ${space(0, 4)};
   }
 
-  @media (max-width: 1023px) {
+  @media calc(max-width: ${breakpoint("desktop")} - 1px) {
     width: 1.4375rem;
   }
 `;
