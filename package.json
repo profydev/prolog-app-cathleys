@@ -1,6 +1,5 @@
 {
   "name": "prolog-app",
-  "type": "module",
   "version": "14.5.1",
   "private": true,
   "scripts": {

@@ -26,14 +26,6 @@ const Main = styled.main`
   position: relative;
 `;
 
-const ContentFooter = styled.div`
-  position: absolute;
-  right: ${space(8)};
-  left: ${space(8)};
-  padding: 1.125rem 0;
-  background: white;
-`;
-
 const ContentContainer = styled.div`
   min-height: calc(
     100vh - 2 * ${space(8)} - ${({ theme }) => theme.size.headerHeight}
@@ -78,9 +70,7 @@ export function PageContainer({ children, title, info }: PageContainerProps) {
           <Info>{info}</Info>
           {children}
         </ContentContainer>
-        <ContentFooter>
-          <Footer />
-        </ContentFooter>
+        <Footer />
       </Main>
     </Container>
   );
