@@ -57,7 +57,7 @@ const Logo = styled.img`
 `;
 export function Footer() {
   return (
-    <Wrapper>
+    <Wrapper className="footer">
       <Box>
         <VersionText data-cy="version">
           Version: {process.env.NEXT_PUBLIC_VERSION}
