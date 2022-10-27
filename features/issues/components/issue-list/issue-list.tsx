@@ -13,7 +13,6 @@ const Container = styled.div`
     0px 2px 4px -2px rgba(16, 24, 40, 0.06);
   border-radius: ${space(2)};
   overflow: hidden;
-  margin-bottom: 3rem;
 `;
 
 const Table = styled.table`

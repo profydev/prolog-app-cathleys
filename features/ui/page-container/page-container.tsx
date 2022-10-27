@@ -14,16 +14,16 @@ type PageContainerProps = {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  background: ${color("gray", 900)};
 
+  background: ${color("gray", 900)};
   @media (min-width: ${breakpoint("desktop")}) {
     flex-direction: row;
   }
 `;
 
 const Main = styled.main`
-  flex: 1;
   position: relative;
+  flex: 1;
 `;
 
 const ContentContainer = styled.div`

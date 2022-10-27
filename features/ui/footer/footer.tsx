@@ -2,11 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import { color, space, textFont } from "@styles/theme";
 
-const Wrapper = styled.div`
+const Wrapper = styled.footer`
   position: absolute;
   left: 0;
   right: 0;
-  padding-top: 15.25rem;
 `;
 const Box = styled.div`
   display: flex;
@@ -58,7 +57,7 @@ const Logo = styled.img`
 `;
 export function Footer() {
   return (
-    <Wrapper className="footer">
+    <Wrapper>
       <Box>
         <VersionText data-cy="version">
           Version: {process.env.NEXT_PUBLIC_VERSION}
