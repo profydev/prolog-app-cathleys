@@ -122,6 +122,7 @@ export function IssueList() {
           <PaginationButton
             onClick={() => navigateToPage(page - 1)}
             disabled={page === 1}
+            data-cy="Previous"
           >
             Previous
           </PaginationButton>
