@@ -6,12 +6,22 @@ import * as M from "../features/ui/modal/index";
 const Header = styled.header`
   width: 100%;
   height: 80px;
-  padding: 0 2rem;
+  padding: 0 7rem;
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background: white;
+`;
+
+const NavLink = styled.nav`
+  display: inline-flex;
+`;
+const LinkItems = styled.a`
+  text-decoration: none;
+  padding: 0px 1rem;
+  font-weight: 500;
+  color: #667085;
 `;
 
 const ContactButton = styled.button`
@@ -81,7 +91,15 @@ const IssuesPage = () => {
       <Header>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/icons/logo-large.svg" alt="Prolog logo" />
-        <a href={Routes.projects}>Dashboard</a>
+
+        <NavLink>
+          <LinkItems href={Routes.home}>Home</LinkItems>
+          <LinkItems href="/products">Products</LinkItems>
+          <LinkItems href="/documentation">Documentation</LinkItems>
+          <LinkItems href="/pricing">Pricing</LinkItems>
+        </NavLink>
+
+        <a href={Routes.projects}>Open Dashboard</a>
       </Header>
 
       {/* Contact Modal */}
