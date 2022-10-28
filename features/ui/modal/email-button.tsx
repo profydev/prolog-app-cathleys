@@ -41,7 +41,7 @@ export const CancelButton = styled.button`
   border-radius: 0.5rem;
   border: 1px solid ${color("gray", 300)};
   color: ${color("gray", 700)};
-
+  background: white;
   @media (max-width: 26.75rem) {
     padding: 0.656rem 2.766rem;
   }
