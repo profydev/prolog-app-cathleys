@@ -1,6 +1,6 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import { Button } from "./ui-kit-button";
+import { Button, ButtonSize, ButtonColor, ButtonState } from "./ui-kit-button";
 
 export default {
   title: "UI/Button",
@@ -11,9 +11,20 @@ export default {
   },
 } as ComponentMeta<typeof Button>;
 
-const Template: ComponentStory<typeof Button> = () => (
+const Template: ComponentStory<typeof Button> = (props) => (
   <div style={{ padding: 50 }}>
-    <Button>Button CTA</Button>
+    <Button {...props} />
   </div>
 );
-export const Primary = Template.bind({});
+export const Default = Template.bind({});
+Default.args = {
+  size: ButtonSize.sm,
+  color: ButtonColor.primary,
+  href: "superman",
+  state: ButtonState.default,
+  label: " Button CTA",
+};
+
+Default.parameters = {
+  viewMode: "docs",
+};
