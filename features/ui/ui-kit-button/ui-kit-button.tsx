@@ -23,7 +23,7 @@ export enum ButtonState {
   default = "default",
   hover = "hover",
   focus = "focus",
-  disable = "disable",
+  disabled = "disabled",
 }
 
 enum ButtonIcon {
@@ -35,11 +35,9 @@ enum ButtonIcon {
 type ButtonProps = {
   size: ButtonSize;
   color: ButtonColor;
-  state: ButtonState;
   label: string;
   href: string;
-  icon?: string;
-  alttext?: string;
+  disabled?: string;
 };
 
 const UiButton = styled.button<{
@@ -87,17 +85,17 @@ const UiButton = styled.button<{
         return css`
           background: ${color("primary", 600)};
           color: white;
-      
-         &: ${ButtonState.hover} : {
+
+          &:hover {
             background: ${color("primary", 700)};
           }
-          &: ${ButtonState.focus} {
+          &:focus {
             background: ${color("primary", 600)};
             border: 1px solid ${color("primary", 600)};
             box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05),
               0px 0px 0px 4px ${color("primary", 100)};
           }
-          &: ${ButtonState.disable} {
+          &:disabled {
             background: ${color("primary", 200)};
           }
         `;
@@ -106,17 +104,17 @@ const UiButton = styled.button<{
           background: ${color("primary", 50)};
           color: ${color("primary", 700)};
 
-          &: ${ButtonState.hover} {
+          &:hover {
             background: ${color("primary", 100)};
           }
 
-          &: ${ButtonState.focus} {
+          &:focus {
             background: ${color("primary", 50)};
             border: 1px solid ${color("primary", 50)};
             box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05),
               0px 0px 0px 4px ${color("primary", 100)};
           }
-          &: ${ButtonState.disable} {
+          &:disabled {
             background: ${color("primary", 25)};
             color: ${color("primary", 300)};
           }
@@ -127,20 +125,20 @@ const UiButton = styled.button<{
           color: ${color("gray", 700)};
           border: 1px solid ${color("gray", 300)};
 
-          &: ${ButtonState.hover} {
+          &:hover {
             background: ${color("gray", 50)};
             color: ${color("gray", 800)};
             border: 1px solid ${color("gray", 300)};
             box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
           }
-          &: ${ButtonState.focus} {
+          &:focus {
             background: white;
             color: ${color("gray", 700)};
             border: 1px solid ${color("gray", 300)};
             box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05),
               0px 0px 0px 4px ${color("gray", 100)};
           }
-          &: ${ButtonState.disable} {
+          &:disabled {
             background: white;
             color: ${color("gray", 300)};
             border: 1px solid ${color("gray", 200)};
@@ -152,13 +150,13 @@ const UiButton = styled.button<{
           background: none;
           color: ${color("primary", 700)};
 
-          &: ${ButtonState.hover} {
+          &:hover {
             background: ${color("primary", 50)};
           }
-          &: ${ButtonState.focus} {
+          &:focus {
             background: none;
           }
-          &: ${ButtonState.disable} {
+          &:disabled {
             color: ${color("gray", 300)};
           }
         `;
@@ -167,14 +165,14 @@ const UiButton = styled.button<{
           background: none;
           color: ${color("gray", 500)};
 
-          &: ${ButtonState.hover} {
+          &:hover {
             background: ${color("gray", 50)};
             color: ${color("gray", 600)};
           }
-          &: ${ButtonState.focus} {
+          &:focus {
             background: none;
           }
-          &: ${ButtonState.disable} {
+          &:disabled {
             color: ${color("gray", 300)};
           }
         `;
@@ -183,18 +181,18 @@ const UiButton = styled.button<{
           background: ${color("error", 600)};
           color: white;
 
-          &: ${ButtonState.hover} {
+          &:hover {
             background: ${color("error", 700)};
           }
 
-          &: ${ButtonState.focus} {
+          &:focus {
             background: ${color("error", 600)};
             border: 1px solid ${color("error", 600)};
             box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05),
               0px 0px 0px 4px ${color("error", 100)};
           }
 
-          &: ${ButtonState.disable} {
+          &:disabled {
             background: ${color("error", 200)};
           }
         `;
@@ -209,13 +207,13 @@ const Anchor = styled.a`
 export function Button({
   size = ButtonSize.md,
   color = ButtonColor.primary,
-  state = ButtonState.default,
   label,
   href,
+  disabled,
 }: ButtonProps) {
   return (
     <Link href={href} passHref>
-      <Anchor as={UiButton} size={size} color={color} state={state}>
+      <Anchor as={UiButton} size={size} color={color} disabled={disabled}>
         {label}
       </Anchor>
     </Link>

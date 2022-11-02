@@ -1,6 +1,6 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import { Button, ButtonSize, ButtonColor, ButtonState } from "./ui-kit-button";
+import { Button, ButtonSize, ButtonColor } from "./ui-kit-button";
 
 export default {
   title: "UI/Button",
@@ -21,10 +21,39 @@ Default.args = {
   size: ButtonSize.sm,
   color: ButtonColor.primary,
   href: "superman",
-  state: ButtonState.default,
   label: " Button CTA",
 };
 
-Default.parameters = {
-  viewMode: "docs",
+export const Hover = Template.bind({});
+Hover.args = {
+  size: ButtonSize.md,
+  color: ButtonColor.primary,
+  href: "superman",
+  label: "Click Me!",
+};
+Hover.parameters = {
+  pseudo: { hover: true },
+};
+
+export const Focus = Template.bind({});
+Focus.args = {
+  size: ButtonSize.md,
+  color: ButtonColor.primary,
+  href: "superman",
+  label: "Click Me!",
+};
+Focus.parameters = {
+  pseudo: { focus: true },
+};
+
+export const Disabled = Template.bind({});
+Disabled.args = {
+  size: ButtonSize.md,
+  color: ButtonColor.primary,
+  href: "superman",
+  label: "Click Me!",
+  disabled: "disabled",
+};
+Disabled.parameters = {
+  pseudo: { disabled: true },
 };
