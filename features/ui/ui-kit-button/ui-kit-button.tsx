@@ -19,19 +19,6 @@ export enum ButtonColor {
   error = "error",
 }
 
-export enum ButtonState {
-  default = "default",
-  hover = "hover",
-  focus = "focus",
-  disabled = "disabled",
-}
-
-enum ButtonIcon {
-  leading = "leading",
-  trailing = "trailing",
-  only = "only",
-}
-
 type ButtonProps = {
   size: ButtonSize;
   color: ButtonColor;
@@ -40,7 +27,7 @@ type ButtonProps = {
   disabled?: string;
 };
 
-const UiButton = styled.button<{
+export const UiButton = styled.button<{
   size: ButtonSize;
   color: ButtonColor;
 }>`

@@ -1,1 +1,1 @@
-import { Button, ButtonColor, ButtonState, ButtonSize } from "./ui-kit-button";
+export { Button, ButtonColor, ButtonSize, UiButton } from "./ui-kit-button";

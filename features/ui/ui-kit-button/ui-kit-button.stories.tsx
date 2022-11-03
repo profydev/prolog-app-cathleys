@@ -23,6 +23,9 @@ Default.args = {
   href: "superman",
   label: " Button CTA",
 };
+Default.parameters = {
+  viewMode: "docs",
+};
 
 export const Hover = Template.bind({});
 Hover.args = {
