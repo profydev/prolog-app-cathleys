@@ -68,13 +68,6 @@ const Label = styled.label`
     border: 1px solid ${color("primary", 600)};
   }
 
-  // NOT YET FIXED
-  &:focus {
-    background: white;
-    border: 1px solid ${color("primary", 300)};
-    box-shadow: 0px 0px 0px 4px ${color("primary", 100)};
-  }
-
   /* Create the checkmark/indicator (hidden when not checked) */
   ${Checkmark}:after {
     content: "";
@@ -98,6 +91,13 @@ const Label = styled.label`
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
+  }
+
+  /* When the checkbox is checked: focused */
+  ${Input}:checked ~ ${Checkmark} {
+    background: white;
+    border: 1px solid ${color("primary", 600)};
+    box-shadow: 0px 0px 0px 4px ${color("primary", 100)};
   }
 `;
 
