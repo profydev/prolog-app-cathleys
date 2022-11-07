@@ -11,9 +11,9 @@ export default {
   },
 } as ComponentMeta<typeof Checkbox>;
 
-const Template: ComponentStory<typeof Checkbox> = (args) => (
+const Template: ComponentStory<typeof Checkbox> = (props) => (
   <div style={{ padding: 50 }}>
-    <Checkbox {...args}></Checkbox>
+    <Checkbox {...props}></Checkbox>
   </div>
 );
 
