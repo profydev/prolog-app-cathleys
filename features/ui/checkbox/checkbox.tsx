@@ -1,13 +1,11 @@
 import { color, space, textFont } from "@styles/theme";
 import React from "react";
 import styled, { css } from "styled-components";
-import checkboxStories from "./checkbox.stories";
 
 type CheckboxProps = {
   label?: string;
   size: CheckboxSize;
-  default?: CheckboxDynamicState;
-  disabled?: string;
+  state: CheckboxState;
 };
 
 export enum CheckboxSize {
@@ -21,13 +19,6 @@ export enum CheckboxState {
   partlyChecked = "partlyChecked",
 }
 
-export enum CheckboxDynamicState {
-  default = "default",
-  hover = "hover",
-  focus = "focus",
-  disabled = "disabled",
-}
-
 // Hides the default checkbox
 const Input = styled.input`
   position: absolute;
@@ -38,35 +29,107 @@ const Input = styled.input`
 `;
 
 // Creates custom checkbox
-const Checkmark = styled.span`
+const Checkmark = styled.span<{ size: CheckboxSize }>`
   position: absolute;
   top: 0;
   left: 0;
-  height: 1.25rem;
-  width: 1.25rem;
+  height: ${({ size }) => (size === "sm" ? "1rem" : "1.25rem")};
+  width: ${({ size }) => (size === "sm" ? "1rem" : "1.25rem")};
   border: 1px solid ${color("gray", 300)};
-  border-radius: 6px;
+  border-radius: ${({ size }) => (size === "sm" ? "4px" : "6px")};
 `;
 
-const Label = styled.label`
+const Label = styled.label<{ size: CheckboxSize; state: CheckboxState }>`
   display: flex;
   align-items: center;
   position: relative;
-  padding-left: ${space(8)};
   color: ${color("gray", 700)};
-  ${textFont("md", "medium")};
   letter-spacing: 0.7px;
   cursor: pointer;
 
-  &:default {
-    background: white;
-    border: 1px solid ${color("gray", 300)};
-  }
+  ${(props) => {
+    switch (props.size) {
+      case CheckboxSize.sm:
+        switch (props.state) {
+          case CheckboxState.unchecked:
+            return css`
+              padding-left: ${space(6)};
+              ${textFont("sm", "medium")};
+            `;
 
-  &:hover ${Input} ~ ${Checkmark} {
-    background: ${color("primary", 50)};
-    border: 1px solid ${color("primary", 600)};
-  }
+          case CheckboxState.checked:
+            return css`
+              padding-left: ${space(6)};
+              ${textFont("sm", "medium")};
+              // small check
+              ${Checkmark}:after {
+                left: 5px;
+                top: 1px;
+                width: 4px;
+                height: 8px;
+                border: solid ${color("primary", 600)};
+                border-width: 0 2px 2px 0;
+                -webkit-transform: rotate(45deg);
+                -ms-transform: rotate(45deg);
+                transform: rotate(45deg);
+              }
+            `;
+
+          case CheckboxState.partlyChecked:
+            return css`
+              padding-left: ${space(6)};
+              ${textFont("sm", "medium")};
+              ${Checkmark}:after {
+                left: 4px;
+                top: 6px;
+                width: 6px;
+                border: solid ${color("primary", 600)};
+                border-width: 0 2px 2px 0;
+              }
+            `;
+        }
+        break;
+
+      case CheckboxSize.md:
+        switch (props.state) {
+          case CheckboxState.unchecked:
+            return css`
+              padding-left: ${space(8)};
+              ${textFont("md", "medium")};
+            `;
+
+          case CheckboxState.checked:
+            return css`
+              padding-left: ${space(8)};
+              ${textFont("md", "medium")};
+              ${Checkmark}:after {
+                left: 7px;
+                top: 2px;
+                width: 4px;
+                height: 10px;
+                border: solid ${color("primary", 600)};
+                border-width: 0 2px 2px 0;
+                -webkit-transform: rotate(45deg);
+                -ms-transform: rotate(45deg);
+                transform: rotate(45deg);
+              }
+            `;
+
+          case CheckboxState.partlyChecked:
+            return css`
+              padding-left: ${space(8)};
+              ${textFont("md", "medium")};
+              ${Checkmark}:after {
+                left: 5px;
+                top: 8px;
+                width: 8px;
+                border: solid ${color("primary", 600)};
+                border-width: 0 2px 2px 0;
+              }
+            `;
+        }
+    }
+  }};
 
   /* Create the checkmark/indicator (hidden when not checked) */
   ${Checkmark}:after {
@@ -80,34 +143,35 @@ const Label = styled.label`
     display: block;
   }
 
-  /* Style the checkmark/indicator */
-  ${Checkmark}:after {
-    left: 7px;
-    top: 2px;
-    width: 4px;
-    height: 10px;
-    border: solid ${color("primary", 600)};
-    border-width: 0 2px 2px 0;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
-  }
-
   /* When the checkbox is checked: focused */
   ${Input}:checked ~ ${Checkmark} {
     background: white;
     border: 1px solid ${color("primary", 600)};
     box-shadow: 0px 0px 0px 4px ${color("primary", 100)};
   }
+
+  &:hover ${Input} ~ ${Checkmark} {
+    background: ${color("primary", 50)};
+    border: 1px solid ${color("primary", 600)};
+  }
+
+  &:disabled ${Input}~ ${Checkmark} {
+    background: ${color("gray", 100)};
+    border: 1px solid ${color("gray", 200)};
+    color: ${color("gray", 300)};
+  }
 `;
 
-export function Checkbox({ label }: CheckboxProps) {
+export function Checkbox({
+  label,
+  size = CheckboxSize.md,
+  state,
+}: CheckboxProps) {
   return (
-    <Label>
-      {" "}
+    <Label size={size} state={state}>
       {label}
       <Input type="checkbox" />
-      <Checkmark />
+      <Checkmark size={size} />
     </Label>
   );
 }
