@@ -1,7 +1,6 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import { Checkbox } from "./checkbox";
-import { addBasePath } from "next/dist/shared/lib/router/router";
+import { Checkbox, CheckboxSize, CheckboxState } from "./checkbox";
 
 export default {
   title: "UI/Checkbox",
@@ -12,16 +11,15 @@ export default {
   },
 } as ComponentMeta<typeof Checkbox>;
 
-const Template: ComponentStory<typeof Checkbox> = (props) => (
+const Template: ComponentStory<typeof Checkbox> = (args) => (
   <div style={{ padding: 50 }}>
-    <Checkbox {...props}></Checkbox>
+    <Checkbox {...args}></Checkbox>
   </div>
 );
 
 export const Default = Template.bind({});
 Default.args = {
   label: "Label",
-};
-Default.parameters = {
-  viewMode: "docs",
+  state: CheckboxState.checked,
+  size: CheckboxSize.sm,
 };
