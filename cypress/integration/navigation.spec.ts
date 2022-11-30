@@ -68,7 +68,7 @@ describe("Sidebar Navigation", () => {
       isNotInViewport("nav");
 
       // open mobile navigation
-      cy.get("img[alt='open menu']").click();
+      cy.get("img[alt='open menu']").click({ force: true });
 
       // wait for animation to finish
       cy.wait(500);
@@ -82,7 +82,7 @@ describe("Sidebar Navigation", () => {
       cy.get("nav").contains("Collapse").should("not.be.visible");
 
       // close mobile navigation and check that it disappears
-      cy.get("img[alt='close menu']").click();
+      cy.get("img[alt='close menu']").click({ force: true });
       cy.wait(500);
       isNotInViewport("nav");
     });
