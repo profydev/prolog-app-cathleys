@@ -3,4 +3,4 @@ export {
   ButtonColor,
   ButtonSize,
   ButtonIcons,
-} from "./ui-kit-button-with-icon";
+} from "./button-header-icon";
