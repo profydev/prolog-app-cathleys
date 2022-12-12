@@ -5,7 +5,7 @@ import { Routes } from "@config/routes";
 import { NavigationContext } from "./navigation-context";
 import { MenuItemButton } from "./menu-item-button";
 import { MenuItemLink } from "./menu-item-link";
-import { Button } from "@features/ui";
+import { NavButton } from "@features/ui";
 import { breakpoint, color, space, zIndex } from "@styles/theme";
 
 const menuItems = [
@@ -81,13 +81,13 @@ const Logo = styled.img`
   }
 `;
 
-const MenuButton = styled(Button)`
+export const MenuButton = styled(NavButton)`
   @media (min-width: ${breakpoint("desktop")}) {
     display: none;
   }
 `;
 
-const MenuIcon = styled.img`
+export const MenuIcon = styled.img`
   display: block;
   width: ${space(10)};
 `;

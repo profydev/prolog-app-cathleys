@@ -5,7 +5,7 @@ import {
   ButtonwithIcon,
   ButtonColor,
   ButtonSize,
-} from "./ui-kit-button-with-icon";
+} from "./button-header-icon";
 
 export default {
   title: "UI/Button/with Icon",

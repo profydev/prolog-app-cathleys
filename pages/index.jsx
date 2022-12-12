@@ -1,25 +1,46 @@
+import { useState } from "react";
 import styled from "styled-components";
-import { Routes } from "@config/routes";
 import Popup from "reactjs-popup";
-import * as M from "../features/ui/modal/index";
+import { Routes } from "@config/routes";
+import * as M from "@features/ui/modal/index";
+import { ButtonHeader } from "@features/ui/button-header/index";
+import { MenuButton, MenuIcon } from "@features/ui/sidebar-navigation/index";
 
 const Header = styled.header`
-  width: 100%;
-  height: 80px;
-  padding: 0 7rem;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: white;
+display: flex;
+width: 100%;
+padding: 1.469rem 7rem;
+box-sizing: border-box;
+position: relative;
+justify-content: space-between;
+align-items: center;
+background: white;
+
+  @media(max-width: 64rem){
+    padding: 1.219rem 0.75rem 1.219rem 1rem;
+   
+    
+  
+`;
+const ButtonDiv = styled.div`
+  @media (max-width: 64rem) {
+    display: none;
+  }
 `;
 
-const NavLink = styled.nav`
-  display: inline-flex;
+const Nav = styled.nav`
+  display: flex;
+
+  @media (max-width: 64rem) {
+    display: none;
+  }
 `;
+
 const LinkItems = styled.a`
+  display: flex;
+  flex: 1;
   text-decoration: none;
-  padding: 0px 1rem;
+  padding: 0 1rem;
   font-weight: 500;
   color: #667085;
 `;
@@ -86,20 +107,27 @@ const Modal = styled.div`
 `;
 
 const IssuesPage = () => {
+  const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   return (
     <div>
       <Header>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/icons/logo-large.svg" alt="Prolog logo" />
 
-        <NavLink>
-          <LinkItems href={Routes.home}>Home</LinkItems>
+        <MenuButton onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}>
+          <MenuIcon src="/icons/menu-home.svg" alt="open menu" />
+        </MenuButton>
+
+        <Nav isMobileMenuOpen={isMobileMenuOpen}>
+          <LinkItems href="/">Home</LinkItems>
           <LinkItems href="/products">Products</LinkItems>
           <LinkItems href="/documentation">Documentation</LinkItems>
           <LinkItems href="/pricing">Pricing</LinkItems>
-        </NavLink>
+        </Nav>
 
-        <a href={Routes.projects}>Open Dashboard</a>
+        <ButtonDiv>
+          <ButtonHeader label="Open Dashboard" href={Routes.projects} />
+        </ButtonDiv>
       </Header>
 
       {/* Contact Modal */}

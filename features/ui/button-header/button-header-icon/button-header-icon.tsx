@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import styled, { css } from "styled-components";
-import { UiButton } from "../ui-kit-button";
+import { UiButton } from "../button-header";
 import { space } from "@styles/theme";
 
 export enum ButtonSize {
