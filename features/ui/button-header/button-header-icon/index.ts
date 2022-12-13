@@ -1,6 +1,1 @@
-export {
-  ButtonwithIcon,
-  ButtonColor,
-  ButtonSize,
-  ButtonIcons,
-} from "./button-header-icon";
+export { ButtonwithIcon, ButtonIcons } from "./button-header-icon";
