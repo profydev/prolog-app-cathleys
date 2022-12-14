@@ -23,15 +23,18 @@ export const Leading = Template.bind({});
 Leading.args = {
   label: "Button CTA",
   icon: ButtonIcons.leading,
+  iconSrc: "/icons/circle.svg",
 };
 
 export const Trailing = Template.bind({});
 Trailing.args = {
   label: "Button CTA",
   icon: ButtonIcons.trailing,
+  iconSrc: "/icons/circle.svg",
 };
 
 export const Only = Template.bind({});
 Only.args = {
   icon: ButtonIcons.only,
+  iconSrc: "/icons/circle.svg",
 };
