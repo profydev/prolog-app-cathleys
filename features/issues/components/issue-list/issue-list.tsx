@@ -4,7 +4,7 @@ import { useIssues } from "@features/issues";
 import { ProjectLanguage, useProjects } from "@features/projects";
 import { color, space, textFont } from "@styles/theme";
 import { IssueRow } from "./issue-row";
-import { ButtonColor, ButtonHeader, ButtonSize } from "@features/ui";
+import * as F from "@features/ui";
 import {
   ButtonIcons,
   ButtonwithIcon,
@@ -107,20 +107,30 @@ export function IssueList() {
   return (
     <>
       <Box>
-        <ButtonHeader size={ButtonSize.lg} color={ButtonColor.primary} href="">
+        <F.ButtonHeader
+          size={F.ButtonSize.lg}
+          color={F.ButtonColor.primary}
+          href=""
+        >
           <ButtonwithIcon
             iconSrc="/icons/check.svg"
             icon={ButtonIcons.leading}
             label="Resolve selected issues"
           />
-        </ButtonHeader>
+        </F.ButtonHeader>
       </Box>
 
       <Container>
         <Table>
           <thead>
             <HeaderRow>
-              <HeaderCell>Issue</HeaderCell>
+              <HeaderCell>
+                <F.Checkbox
+                  size={F.CheckboxSize.md}
+                  state={F.CheckboxState.partlyChecked}
+                  label="Issue"
+                />
+              </HeaderCell>
               <HeaderCell>Level</HeaderCell>
               <HeaderCell>Events</HeaderCell>
               <HeaderCell>Users</HeaderCell>
