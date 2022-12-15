@@ -1,6 +1,12 @@
-import { color, space } from "@styles/theme";
+import { color, space, textFont } from "@styles/theme";
 import React from "react";
 import styled, { css } from "styled-components";
+
+type CheckboxProps = {
+  label?: string;
+  size: CheckboxSize;
+  state: CheckboxState;
+};
 
 export enum CheckboxSize {
   sm = "sm",
@@ -12,12 +18,6 @@ export enum CheckboxState {
   checked = "checked",
   partlyChecked = "partlyChecked",
 }
-
-type CheckboxProps = {
-  label?: string;
-  size: CheckboxSize;
-  state: CheckboxState;
-};
 
 // Hides the default checkbox
 const Input = styled.input`
@@ -31,6 +31,7 @@ const Input = styled.input`
 // Creates custom checkbox
 const Checkmark = styled.span<{ size: CheckboxSize }>`
   position: absolute;
+  top: 0;
   left: 0;
   height: ${({ size }) => (size === "sm" ? "1rem" : "1.25rem")};
   width: ${({ size }) => (size === "sm" ? "1rem" : "1.25rem")};
@@ -42,6 +43,8 @@ const Label = styled.label<{ size: CheckboxSize; state: CheckboxState }>`
   display: flex;
   align-items: center;
   position: relative;
+  color: ${color("gray", 700)};
+  letter-spacing: 0.7px;
   cursor: pointer;
 
   ${(props) => {
@@ -51,12 +54,13 @@ const Label = styled.label<{ size: CheckboxSize; state: CheckboxState }>`
           case CheckboxState.unchecked:
             return css`
               padding-left: ${space(6)};
+              ${textFont("sm", "medium")};
             `;
 
           case CheckboxState.checked:
             return css`
               padding-left: ${space(6)};
-
+              ${textFont("sm", "medium")};
               // small check
               ${Checkmark}:after {
                 left: 5px;
@@ -74,7 +78,7 @@ const Label = styled.label<{ size: CheckboxSize; state: CheckboxState }>`
           case CheckboxState.partlyChecked:
             return css`
               padding-left: ${space(6)};
-
+              ${textFont("sm", "medium")};
               ${Checkmark}:after {
                 left: 4px;
                 top: 6px;
@@ -91,12 +95,13 @@ const Label = styled.label<{ size: CheckboxSize; state: CheckboxState }>`
           case CheckboxState.unchecked:
             return css`
               padding-left: ${space(8)};
+              ${textFont("md", "medium")};
             `;
 
           case CheckboxState.checked:
             return css`
               padding-left: ${space(8)};
-
+              ${textFont("md", "medium")};
               ${Checkmark}:after {
                 left: 7px;
                 top: 2px;
@@ -113,7 +118,7 @@ const Label = styled.label<{ size: CheckboxSize; state: CheckboxState }>`
           case CheckboxState.partlyChecked:
             return css`
               padding-left: ${space(8)};
-
+              ${textFont("md", "medium")};
               ${Checkmark}:after {
                 left: 5px;
                 top: 8px;
@@ -138,10 +143,11 @@ const Label = styled.label<{ size: CheckboxSize; state: CheckboxState }>`
     display: block;
   }
 
-  /* When the checkbox is checked */
+  /* When the checkbox is checked: focused */
   ${Input}:checked ~ ${Checkmark} {
     background: white;
     border: 1px solid ${color("primary", 600)};
+    box-shadow: 0px 0px 0px 4px ${color("primary", 100)};
   }
 
   &:hover ${Input} ~ ${Checkmark} {
@@ -163,9 +169,9 @@ export function Checkbox({
 }: CheckboxProps) {
   return (
     <Label size={size} state={state}>
+      {label}
       <Input type="checkbox" />
       <Checkmark size={size} />
-      {label}
     </Label>
   );
 }
