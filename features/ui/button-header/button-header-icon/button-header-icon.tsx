@@ -1,4 +1,4 @@
-import { space } from "@styles/theme";
+import { space, textFont } from "@styles/theme";
 import React from "react";
 import styled, { css } from "styled-components";
 
