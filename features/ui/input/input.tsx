@@ -1,6 +1,6 @@
 import { color, textFont } from "@styles/theme";
 import React, { useState } from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 type InputProps = {
   label?: string;
@@ -87,7 +87,8 @@ export function Input({
       >
         <InputBox value={email} placeholder={placeholder} />
         <Span isEmailValid={isEmailValid}>
-          <img src="/icons/alert-circle-input.svg" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/icons/alert-circle-input.svg" alt="error icon" />
         </Span>
       </Container>
       <Hint isEmailValid={isEmailValid}>{hint}</Hint>
