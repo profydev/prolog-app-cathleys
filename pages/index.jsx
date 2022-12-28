@@ -1,26 +1,28 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Popup from "reactjs-popup";
 import { Routes } from "@config/routes";
 import * as M from "@features/ui/modal/index";
 import { ButtonHeader } from "@features/ui/button-header/index";
 import { MenuButton, MenuIcon } from "@features/ui/sidebar-navigation/index";
+import { useHero } from "@features/landing page/index";
+import * as H from "../features/landing page/components/hero-section";
+
+const URL = `https://prolog-api.profy.dev`;
 
 const Header = styled.header`
-display: flex;
-width: 100%;
-padding: 1.469rem 7rem;
-box-sizing: border-box;
-position: relative;
-justify-content: space-between;
-align-items: center;
-background: white;
+  display: flex;
+  width: 100%;
+  padding: 1.469rem 7rem;
+  box-sizing: border-box;
+  position: relative;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
 
-  @media(max-width: 64rem){
+  @media (max-width: 64rem) {
     padding: 1.219rem 0.75rem 1.219rem 1rem;
-   
-    
-  
+  }
 `;
 const ButtonDiv = styled.div`
   @media (max-width: 64rem) {
@@ -108,6 +110,12 @@ const Modal = styled.div`
 
 const IssuesPage = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { data } = useHero();
+
+  const H1 = data?.sections[0].title;
+  const H2 = data?.sections[0].subtitle;
+  const image = data?.sections[0].image.src;
+
   return (
     <div>
       <Header>
@@ -115,7 +123,9 @@ const IssuesPage = () => {
         <img src="/icons/logo-large.svg" alt="Prolog logo" />
 
         <MenuButton onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}>
-          <MenuIcon src="/icons/menu-home.svg" alt="open menu" />
+          <a href={Routes.projects}>
+            <MenuIcon src="/icons/menu-home.svg" alt="open dashboard" />
+          </a>
         </MenuButton>
 
         <Nav isMobileMenuOpen={isMobileMenuOpen}>
@@ -129,6 +139,14 @@ const IssuesPage = () => {
           <ButtonHeader label="Open Dashboard" href={Routes.projects} />
         </ButtonDiv>
       </Header>
+
+      <H.HeroContainer>
+        <H.Title>{H1}</H.Title>
+        <H.Subtitle>{H2}</H.Subtitle>
+        <H.HeroImage>
+          <img src={`${URL}${image}`} alt="hero-image" />
+        </H.HeroImage>
+      </H.HeroContainer>
 
       {/* Contact Modal */}
       <StyledPopup
