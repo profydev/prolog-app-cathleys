@@ -144,6 +144,7 @@ const IssuesPage = () => {
         <H.Title>{H1}</H.Title>
         <H.Subtitle>{H2}</H.Subtitle>
         <H.HeroImage>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={`${URL}${image}`} alt="hero-image" />
         </H.HeroImage>
       </H.HeroContainer>
