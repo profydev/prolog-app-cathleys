@@ -20,16 +20,16 @@ const Template: ComponentStory<typeof Input> = (props) => (
 export const Default = Template.bind({});
 Default.args = {
   label: "Email",
-  iconSrc: "",
+  iconSrc: "icons/mail-input.svg",
 };
 Default.parameters = {
   viewMode: "docs",
 };
 
-export const hasIconError = Template.bind({});
-hasIconError.args = {
+export const hasError = Template.bind({});
+hasError.args = {
   label: "Email",
-  hint: "this is hint",
-  iconSrc: "icons/mail-input.svg",
-  error: "thie email is invalid",
+  hint: "",
+  iconSrc: "",
+  error: "This is a error message.",
 };
