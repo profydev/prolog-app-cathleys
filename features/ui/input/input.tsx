@@ -10,12 +10,12 @@ type InputProps = {
   error: string;
 };
 
-const Container = styled.div<{ iconSrc: string; isEmailValid: boolean }>`
+const Container = styled.div<{ iconSrc: string; isInputValid: boolean }>`
   display: flex;
   max-width: 20rem;
   border: 1px solid
-    ${({ isEmailValid }) =>
-      isEmailValid ? color("gray", 300) : color("error", 300)};
+    ${({ isInputValid }) =>
+      isInputValid ? color("gray", 300) : color("error", 300)};
   border-radius: 0.5rem;
   padding: 0.625rem 0.875rem;
   background: white ${(props) => `url(${props.iconSrc}) no-repeat scroll 15px`};
@@ -44,23 +44,23 @@ const Label = styled.p`
   color: ${color("gray", 700)};
 `;
 
-const Span = styled.span<{ isEmailValid: boolean }>`
-  display: ${({ isEmailValid }) => (isEmailValid ? "none" : "inline")};
+const Span = styled.span<{ isInputValid: boolean }>`
+  display: ${({ isInputValid }) => (isInputValid ? "none" : "inline")};
 `;
 
-const Hint = styled.p<{ isEmailValid: boolean }>`
+const Hint = styled.p<{ isInputValid: boolean }>`
   margin-top: 0.375rem;
   ${textFont("sm", "regular")};
   color: ${color("gray", 500)};
-  display: ${({ isEmailValid }) => (isEmailValid ? "" : "none")};
+  display: ${({ isInputValid }) => (isInputValid ? "" : "none")};
 `;
 
-const ErrorMessage = styled.p<{ isEmailValid: boolean }>`
+const ErrorMessage = styled.p<{ isInputValid: boolean }>`
   margin: 0;
   ${textFont("sm", "regular")}
-  color: ${({ isEmailValid }) =>
-    isEmailValid ? color("gray", 500) : color("error", 500)};
-  display: ${({ isEmailValid }) => (isEmailValid ? "none" : "")};
+  color: ${({ isInputValid }) =>
+    isInputValid ? color("gray", 500) : color("error", 500)};
+  display: ${({ isInputValid }) => (isInputValid ? "none" : "")};
 `;
 
 export function Input({
@@ -70,11 +70,10 @@ export function Input({
   error,
   placeholder,
 }: InputProps) {
-  const [email, setEmail] = useState("");
-  const isEmailValid = !!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
+  const [isInputValid, setInputValid] = useState(true);
 
   const onChangeValue = (e: any) => {
-    setEmail(e.target.value);
+    setInputValid(e.target.value);
   };
 
   return (
@@ -83,16 +82,16 @@ export function Input({
       <Container
         iconSrc={iconSrc}
         onChange={onChangeValue}
-        isEmailValid={isEmailValid}
+        isInputValid={isInputValid}
       >
-        <InputBox value={email} placeholder={placeholder} />
-        <Span isEmailValid={isEmailValid}>
+        <InputBox placeholder={placeholder} />
+        <Span isInputValid={isInputValid}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/icons/alert-circle-input.svg" alt="error icon" />
         </Span>
       </Container>
-      <Hint isEmailValid={isEmailValid}>{hint}</Hint>
-      <ErrorMessage isEmailValid={isEmailValid}>{error} </ErrorMessage>
+      <Hint isInputValid={isInputValid}>{hint}</Hint>
+      <ErrorMessage isInputValid={!isInputValid}>{error}</ErrorMessage>
     </>
   );
 }
