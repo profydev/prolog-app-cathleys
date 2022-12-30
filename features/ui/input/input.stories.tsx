@@ -25,11 +25,3 @@ Default.args = {
 Default.parameters = {
   viewMode: "docs",
 };
-
-export const hasIconError = Template.bind({});
-hasIconError.args = {
-  label: "Email",
-  hint: "this is hint",
-  iconSrc: "icons/mail-input.svg",
-  error: "thie email is invalid",
-};
