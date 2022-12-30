@@ -2,7 +2,6 @@ import React from "react";
 import { color, displayFont, space, textFont } from "@styles/theme";
 import styled from "styled-components";
 import { Hero } from "../types/hero.types";
-import { title } from "process";
 
 export type HeroProps = {
   hero: Hero;
@@ -54,6 +53,7 @@ export function HeroSection({ hero }: HeroProps) {
       <Title>{title}</Title>
       <Subtitle>{subtitle}</Subtitle>
       <HeroImage>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={image.src} alt="hero-image" />
       </HeroImage>
     </HeroContainer>
