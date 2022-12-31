@@ -29,7 +29,8 @@ const containerStyles = css`
 
 const Container = styled.div<{ isCollapsed: boolean }>`
   ${containerStyles}
-  transition: all 0.7s ease-in-out;
+  transition: all 0.5s ease-in-out;
+
   @media (min-width: ${breakpoint("desktop")}) {
     ${(props) =>
       props.isCollapsed &&
@@ -49,7 +50,7 @@ const Container = styled.div<{ isCollapsed: boolean }>`
 const FixedContainer = styled.div`
   ${containerStyles}
   position: fixed;
-  transition: all 0.7s ease-in-out;
+  transition: all 0.5s ease-in-out;
 `;
 
 const Header = styled.header`
@@ -71,7 +72,7 @@ const Header = styled.header`
 
 const Logo = styled.img`
   width: 7.375rem;
-
+  overflow: hidden;
   @media (min-width: ${breakpoint("desktop")}) {
     margin: ${space(0, 4)};
   }
