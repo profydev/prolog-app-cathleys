@@ -15,7 +15,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
 
-  background: ${color("gray", 900)};
   @media (min-width: ${breakpoint("desktop")}) {
     flex-direction: row;
   }
@@ -24,6 +23,7 @@ const Container = styled.div`
 const Main = styled.main`
   position: relative;
   flex: 1;
+  z-index: -2;
 `;
 
 const ContentContainer = styled.div`
