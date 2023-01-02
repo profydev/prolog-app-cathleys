@@ -2,11 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { color, space, textFont } from "@styles/theme";
 
-const Wrapper = styled.footer`
-  position: absolute;
-  left: 0;
-  right: 0;
-`;
+const Wrapper = styled.footer``;
 const Box = styled.div`
   display: flex;
   flex-wrap: wrap-reverse;

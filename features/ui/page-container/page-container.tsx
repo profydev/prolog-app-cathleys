@@ -21,9 +21,7 @@ const Container = styled.div`
 `;
 
 const Main = styled.main`
-  position: relative;
   flex: 1;
-  z-index: -2;
 `;
 
 const ContentContainer = styled.div`
