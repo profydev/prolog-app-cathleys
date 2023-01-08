@@ -8,8 +8,6 @@ import { MenuButton, MenuIcon } from "@features/ui/sidebar-navigation/index";
 import { useHero } from "@features/landing page/index";
 import * as H from "../features/landing page/components/hero-section";
 
-const URL = `https://prolog-api.profy.dev`;
-
 const Header = styled.header`
   display: flex;
   width: 100%;
@@ -24,6 +22,7 @@ const Header = styled.header`
     padding: 1.219rem 0.75rem 1.219rem 1rem;
   }
 `;
+
 const ButtonDiv = styled.div`
   @media (max-width: 64rem) {
     display: none;
@@ -112,10 +111,6 @@ const IssuesPage = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { data } = useHero();
 
-  const H1 = data?.sections[0].title;
-  const H2 = data?.sections[0].subtitle;
-  const image = data?.sections[0].image.src;
-
   return (
     <div>
       <Header>
@@ -140,13 +135,18 @@ const IssuesPage = () => {
         </ButtonDiv>
       </Header>
 
-      <H.HeroContainer>
-        <H.Title>{H1}</H.Title>
-        <H.Subtitle>{H2}</H.Subtitle>
-        <H.HeroImage>
-          <img src={`${URL}${image}`} alt="hero-image" />
-        </H.HeroImage>
-      </H.HeroContainer>
+      <H.Container>
+        <H.Title>{data?.sections[0].title}</H.Title>
+        <H.Subtitle>{data?.sections[0].subtitle}</H.Subtitle>
+        <H.Image>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            data-cy="hero-image"
+            src={`https://prolog-api.profy.dev${data?.sections[0].image.src}`}
+            alt="Hero image"
+          />
+        </H.Image>
+      </H.Container>
 
       {/* Contact Modal */}
       <StyledPopup

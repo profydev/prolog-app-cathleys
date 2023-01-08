@@ -1,13 +1,7 @@
-import React from "react";
 import { color, displayFont, space, textFont } from "@styles/theme";
 import styled from "styled-components";
-import { Hero } from "../types/hero.types";
 
-export type HeroProps = {
-  hero: Hero;
-};
-
-export const HeroContainer = styled.div`
+export const Container = styled.div`
   box-sizing: border-box;
   display: flex;
   justify-content: center;
@@ -16,6 +10,7 @@ export const HeroContainer = styled.div`
   padding-bottom: ${space(6)};
   background-color: ${color("gray", 50)};
 `;
+
 export const Title = styled.h1`
   box-sizing: border-box;
   display: flex;
@@ -38,24 +33,9 @@ export const Subtitle = styled.span`
   padding-bottom: ${space(16)};
 `;
 
-export const HeroImage = styled.div`
+export const Image = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   padding-bottom: 6.125rem;
 `;
-
-export function HeroSection({ hero }: HeroProps) {
-  const { title, subtitle, image } = hero;
-
-  return (
-    <HeroContainer>
-      <Title>{title}</Title>
-      <Subtitle>{subtitle}</Subtitle>
-      <HeroImage>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={image.src} alt="hero-image" />
-      </HeroImage>
-    </HeroContainer>
-  );
-}
