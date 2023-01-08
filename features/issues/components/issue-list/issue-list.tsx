@@ -9,6 +9,8 @@ import {
   ButtonIcons,
   ButtonwithIcon,
 } from "@features/ui/button-header/button-header-icon";
+import { LoadingScreen } from "@features/projects/components/loading-screen";
+import { ErrorPage } from "@features/projects/components/error-page";
 
 const Box = styled.div`
   padding-bottom: 1.563rem;
@@ -82,17 +84,17 @@ export function IssueList() {
   const projects = useProjects();
 
   if (projects.isLoading || issuesPage.isLoading) {
-    return <div>Loading</div>;
+    return <LoadingScreen />;
   }
 
   if (projects.isError) {
     console.error(projects.error);
-    return <div>Error loading projects: {projects.error.message}</div>;
+    return <ErrorPage />;
   }
 
   if (issuesPage.isError) {
     console.error(issuesPage.error);
-    return <div>Error loading issues: {issuesPage.error.message}</div>;
+    return <ErrorPage />;
   }
 
   const projectIdToLanguage = (projects.data || []).reduce(
@@ -124,13 +126,7 @@ export function IssueList() {
         <Table>
           <thead>
             <HeaderRow>
-              <HeaderCell>
-                <F.Checkbox
-                  size={F.CheckboxSize.md}
-                  state={F.CheckboxState.partlyChecked}
-                  label="Issue"
-                />
-              </HeaderCell>
+              <HeaderCell>Issue</HeaderCell>
               <HeaderCell>Level</HeaderCell>
               <HeaderCell>Events</HeaderCell>
               <HeaderCell>Users</HeaderCell>

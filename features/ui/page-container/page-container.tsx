@@ -15,14 +15,12 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
 
-  background: ${color("gray", 900)};
   @media (min-width: ${breakpoint("desktop")}) {
     flex-direction: row;
   }
 `;
 
 const Main = styled.main`
-  position: relative;
   flex: 1;
 `;
 
