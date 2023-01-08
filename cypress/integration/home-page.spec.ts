@@ -6,6 +6,6 @@ describe("Hero section", () => {
 
     cy.get("h1").contains(title);
     cy.get("span").should("be.visible");
-    cy.get("div").find("img").should("be.visible");
+    cy.get("div").find('[data-cy="hero-image"]').should("be.visible");
   });
 });
