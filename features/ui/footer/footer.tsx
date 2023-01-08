@@ -2,8 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { color, space, textFont } from "@styles/theme";
 
-const Wrapper = styled.footer``;
-const Box = styled.div`
+const Wrapper = styled.footer`
   display: flex;
   flex-wrap: wrap-reverse;
   justify-content: space-between;
@@ -33,6 +32,7 @@ const AnchorLinks = styled.div`
   display: inline-flex;
   align-items: center;
 `;
+
 const Anchor = styled.a`
   margin-right: ${space(6)};
   color: ${color("gray", 500)};
@@ -43,6 +43,7 @@ const Anchor = styled.a`
     color: ${color("gray", 600)};
   }
 `;
+
 const Logo = styled.img`
   padding-right: ${space(8)};
 
@@ -54,19 +55,17 @@ const Logo = styled.img`
 export function Footer() {
   return (
     <Wrapper className="footer">
-      <Box>
-        <VersionText data-cy="version">
-          Version: {process.env.NEXT_PUBLIC_VERSION}
-        </VersionText>
+      <VersionText data-cy="version">
+        Version: {process.env.NEXT_PUBLIC_VERSION}
+      </VersionText>
 
-        <AnchorLinks>
-          <Anchor href="#docs">Docs</Anchor>
-          <Anchor href="#api">API</Anchor>
-          <Anchor href="#help">Help</Anchor>
-          <Anchor href="#community">Community</Anchor>
-        </AnchorLinks>
-        <Logo src={"/icons/logo-small.svg"} alt=" prolog logo" />
-      </Box>
+      <AnchorLinks>
+        <Anchor href="#docs">Docs</Anchor>
+        <Anchor href="#api">API</Anchor>
+        <Anchor href="#help">Help</Anchor>
+        <Anchor href="#community">Community</Anchor>
+      </AnchorLinks>
+      <Logo src={"/icons/logo-small.svg"} alt=" prolog logo" />
     </Wrapper>
   );
 }
