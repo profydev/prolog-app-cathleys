@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import Popup from "reactjs-popup";
 import { Routes } from "@config/routes";
-import * as M from "@features/ui/modal/index";
 import { ButtonHeader } from "@features/ui/button-header/index";
 import { MenuButton, MenuIcon } from "@features/ui/sidebar-navigation/index";
-import { useHero } from "@features/landing page/index";
-import * as H from "../features/landing page/components/hero-section";
+import { useHero } from "@features/landing page";
+import * as H from "@features/landing page/components/hero-section";
+import { ContactModal } from "@features/ui/modal";
 
 const Header = styled.header`
   display: flex;
@@ -47,7 +46,7 @@ const LinkItems = styled.a`
 `;
 
 const ContactButton = styled.button`
-  position: absolute;
+  position: fixed;
   bottom: 2.5rem;
   right: 2.5rem;
   padding: 1rem;
@@ -62,53 +61,9 @@ const ContactButton = styled.button`
   }
 `;
 
-const StyledPopup = styled(Popup)`
-  &-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(52, 64, 84, 0.6);
-    backdrop-filter: blur(8px);
-    animation: fadein 0.5s;
-
-    /* animation */
-
-    @keyframes fadein {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
-    }
-    .text {
-      -webkit-animation: anvil 0.3s cubic-bezier(0.38, 0.1, 0.36, 0.9) forwards;
-    }
-  }
-`;
-
-const Modal = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 25rem;
-  height: 18rem;
-  background: white;
-  border-radius: 0.75rem;
-  box-shadow: 0px 20px 24px -4px rgba(16, 24, 40, 0.1),
-    0px 8px 8px -4px rgba(16, 24, 40, 0.04);
-  z-index: 1;
-  transition: all 0.5s ease;
-
-  @media (max-width: 26.75rem) {
-    width: 21.438rem;
-  }
-`;
-
 const IssuesPage = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const { data } = useHero();
 
   return (
@@ -119,7 +74,7 @@ const IssuesPage = () => {
 
         <MenuButton onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}>
           <a href={Routes.projects}>
-            <MenuIcon src="/icons/menu-home.svg" alt="open dashboard" />
+            <MenuIcon src="/icons/menu-home.svg" alt="open sesame" />
           </a>
         </MenuButton>
 
@@ -149,41 +104,15 @@ const IssuesPage = () => {
       </H.Container>
 
       {/* Contact Modal */}
-      <StyledPopup
-        trigger={
-          <ContactButton data-cy="contact-button">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/icons/message.svg" alt="Contact" />
-          </ContactButton>
-        }
-        modal
+
+      <ContactButton
+        data-cy="contact-button"
+        onClick={() => setShowModal(!showModal)}
       >
-        {(close) => (
-          <Modal>
-            <M.Icon src="/icons/mail.svg" alt="Email Icon" />
-            <M.Title> Contact Us Via Email </M.Title>
-            <M.Text className="text">
-              Any questions? Send us an email at prolog@profy.dev. We usually
-              answer within 24 hours.
-            </M.Text>
-            <M.ButtonWrapper>
-              <M.CancelButton
-                onClick={() => {
-                  console.log("modal closed ");
-                  close();
-                }}
-                data-cy="cancel-button"
-              >
-                Cancel
-              </M.CancelButton>
-              <M.EmailButton
-                text="Open Email App"
-                href="mailto:support@prolog-app.com?subject='Support Request:'"
-              />
-            </M.ButtonWrapper>
-          </Modal>
-        )}
-      </StyledPopup>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/icons/message.svg" alt="Contact" />
+      </ContactButton>
+      {showModal && <ContactModal setShowModal={setShowModal} />}
     </div>
   );
 };

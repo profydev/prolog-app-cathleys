@@ -6,3 +6,4 @@ export * from "./footer";
 export * from "./button-header";
 export * from "./checkbox";
 export * from "./input";
+export * from "./modal";
