@@ -1,7 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { space, color, textFont } from "@styles/theme";
 import { EmailButton } from "./email-button";
+
+type ModalProps = {
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
 const Overlay = styled.div`
   box-sizing: border-box;
@@ -89,7 +93,7 @@ const CancelButton = styled.button`
   }
 `;
 
-export function ContactModal({ setShowModal }: any) {
+export function ContactModal({ setShowModal }: ModalProps) {
   return (
     <Overlay onClick={() => setShowModal(false)}>
       <Modal onClick={(e) => e.stopPropagation()}>
