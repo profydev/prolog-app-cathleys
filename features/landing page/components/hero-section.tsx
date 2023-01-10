@@ -1,6 +1,10 @@
 import { color, displayFont, space, textFont } from "@styles/theme";
 import styled from "styled-components";
 
+type HeroProps = {
+  children: React.ReactNode;
+};
+
 export const Container = styled.div`
   box-sizing: border-box;
   display: flex;
@@ -39,3 +43,7 @@ export const Image = styled.div`
   align-items: center;
   padding-bottom: 6.125rem;
 `;
+
+export function HeroPage({ children }: HeroProps) {
+  return <Container>{children}</Container>;
+}

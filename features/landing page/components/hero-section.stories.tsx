@@ -1,22 +1,18 @@
 import React from "react";
-import {
-  Container,
-  Title,
-  Subtitle,
-  Image,
-  Hero,
-} from "@features/landing page";
+import { Title, Subtitle, Image, HeroPage } from "@features/landing page";
+import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 export default {
-  title: "Hero",
+  title: "Hero Page",
+  component: HeroPage,
   parameters: {
     // More on Story layout: https://storybook.js.org/docs/react/configure/story-layout
     layout: "fullscreen",
   },
-};
+} as ComponentMeta<typeof HeroPage>;
 
-const Template = () => (
-  <Container>
+const Template: ComponentStory<typeof HeroPage> = () => (
+  <HeroPage>
     <Title>Your Issues In Sight. At All Times.</Title>
     <Subtitle>
       Powerful error tracking and monitoring for software applications. Trusted
@@ -24,9 +20,14 @@ const Template = () => (
     </Subtitle>
     <Image>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={"./icons/home-hero-macbook.png"} width={768} height={449} />
+      <img
+        src={"./icons/home-hero-macbook.png"}
+        width={768}
+        height={449}
+        alt="Hero Image"
+      />
     </Image>
-  </Container>
+  </HeroPage>
 );
 
 export const Default = Template.bind({});
