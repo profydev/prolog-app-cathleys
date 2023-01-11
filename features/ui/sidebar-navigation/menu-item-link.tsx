@@ -14,6 +14,7 @@ type MenuItemProps = {
 export const ListItem = styled.li<{ isActive?: boolean }>`
   height: ${space(12)};
   display: flex;
+  overflow-x: hidden;
   align-items: center;
   margin-top: ${space(1)};
   padding: ${space(0, 3)};

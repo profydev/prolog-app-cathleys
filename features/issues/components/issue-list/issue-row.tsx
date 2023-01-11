@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { color, space, textFont } from "@styles/theme";
-import { Badge, BadgeColor, BadgeSize } from "@features/ui";
+import * as F from "@features/ui";
 import { IssueLevel } from "../../types/issue.types";
 import { ProjectLanguage } from "@features/projects";
 import type { Issue } from "../../types/issue.types";
@@ -10,9 +10,9 @@ type IssueRowProps = {
 };
 
 const levelColors = {
-  [IssueLevel.info]: BadgeColor.success,
-  [IssueLevel.warning]: BadgeColor.warning,
-  [IssueLevel.error]: BadgeColor.error,
+  [IssueLevel.info]: F.BadgeColor.success,
+  [IssueLevel.warning]: F.BadgeColor.warning,
+  [IssueLevel.error]: F.BadgeColor.error,
 };
 const levelWords = {
   [IssueLevel.info]: "Stable",
@@ -69,9 +69,9 @@ export function IssueRow({ projectLanguage, issue }: IssueRowProps) {
         </div>
       </IssueCell>
       <Cell>
-        <Badge color={levelColors[level]} size={BadgeSize.sm}>
+        <F.Badge color={levelColors[level]} size={F.BadgeSize.sm}>
           {levelWords[level]}
-        </Badge>
+        </F.Badge>
       </Cell>
       <Cell>{numEvents}</Cell>
       <Cell>{numUsers}</Cell>

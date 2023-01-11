@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { color, space, textFont } from "@styles/theme";
-import { Button } from "@features/ui";
+import { NavButton } from "@features/ui";
 
 export const Container = styled.div`
   border: 1px solid ${color("error", 300)};
@@ -28,7 +28,7 @@ export const Message = styled.div`
   padding-right: ${space(3)};
 `;
 
-export const RefreshButton = styled(Button)`
+export const RefreshButton = styled(NavButton)`
   display: flex;
   justify-content: flex-end;
   color: ${color("error", 700)};

@@ -20,11 +20,11 @@ export enum ButtonColor {
 }
 
 type ButtonProps = {
+  children: React.ReactNode;
   size: ButtonSize;
   color: ButtonColor;
-  label: string;
+  label?: string;
   href: string;
-  disabled?: string;
 };
 
 export const UiButton = styled.button<{
@@ -191,17 +191,18 @@ const Anchor = styled.a`
   text-decoration: none;
 `;
 
-export function Button({
+export function ButtonHeader({
   size = ButtonSize.md,
   color = ButtonColor.primary,
+  children,
   label,
   href,
-  disabled,
 }: ButtonProps) {
   return (
     <Link href={href} passHref>
-      <Anchor as={UiButton} size={size} color={color} disabled={disabled}>
+      <Anchor as={UiButton} size={size} color={color}>
         {label}
+        {children}
       </Anchor>
     </Link>
   );

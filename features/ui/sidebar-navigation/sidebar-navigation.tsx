@@ -5,7 +5,7 @@ import { Routes } from "@config/routes";
 import { NavigationContext } from "./navigation-context";
 import { MenuItemButton } from "./menu-item-button";
 import { MenuItemLink } from "./menu-item-link";
-import { Button } from "@features/ui";
+import { NavButton } from "@features/ui";
 import { breakpoint, color, space, zIndex } from "@styles/theme";
 
 const menuItems = [
@@ -29,7 +29,8 @@ const containerStyles = css`
 
 const Container = styled.div<{ isCollapsed: boolean }>`
   ${containerStyles}
-  transition: all 0.7s ease-in-out;
+  transition: all 0.5s ease-in-out;
+
   @media (min-width: ${breakpoint("desktop")}) {
     ${(props) =>
       props.isCollapsed &&
@@ -49,7 +50,7 @@ const Container = styled.div<{ isCollapsed: boolean }>`
 const FixedContainer = styled.div`
   ${containerStyles}
   position: fixed;
-  transition: all 0.7s ease-in-out;
+  transition: all 0.5s ease-in-out;
 `;
 
 const Header = styled.header`
@@ -71,23 +72,23 @@ const Header = styled.header`
 
 const Logo = styled.img`
   width: 7.375rem;
-
+  overflow: hidden;
   @media (min-width: ${breakpoint("desktop")}) {
     margin: ${space(0, 4)};
   }
 
-  @media calc(max-width: ${breakpoint("desktop")} - 1px) {
+  @media (max-width: calc(${breakpoint("desktop")} - 1px)) {
     width: 1.4375rem;
   }
 `;
 
-const MenuButton = styled(Button)`
+export const MenuButton = styled(NavButton)`
   @media (min-width: ${breakpoint("desktop")}) {
     display: none;
   }
 `;
 
-const MenuIcon = styled.img`
+export const MenuIcon = styled.img`
   display: block;
   width: ${space(10)};
 `;

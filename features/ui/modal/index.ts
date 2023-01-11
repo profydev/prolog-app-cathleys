@@ -1,8 +1,2 @@
-export {
-  Title,
-  Text,
-  CancelButton,
-  Icon,
-  ButtonWrapper,
-  EmailButton,
-} from "./email-button";
+export * from "./contact-modal";
+export * from "./email-button";

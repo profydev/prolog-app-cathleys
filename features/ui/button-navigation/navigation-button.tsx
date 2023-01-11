@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Button = styled.button`
+export const NavButton = styled.button`
   cursor: pointer;
 
   // remove default button styles

@@ -4,7 +4,17 @@ import { useIssues } from "@features/issues";
 import { ProjectLanguage, useProjects } from "@features/projects";
 import { color, space, textFont } from "@styles/theme";
 import { IssueRow } from "./issue-row";
+import * as F from "@features/ui";
+import {
+  ButtonIcons,
+  ButtonwithIcon,
+} from "@features/ui/button-header/button-header-icon";
+import { LoadingScreen } from "@features/projects/components/loading-screen";
+import { ErrorPage } from "@features/projects/components/error-page";
 
+const Box = styled.div`
+  padding-bottom: 1.563rem;
+`;
 const Container = styled.div`
   background: white;
   border: 1px solid ${color("gray", 200)};
@@ -74,17 +84,17 @@ export function IssueList() {
   const projects = useProjects();
 
   if (projects.isLoading || issuesPage.isLoading) {
-    return <div>Loading</div>;
+    return <LoadingScreen />;
   }
 
   if (projects.isError) {
     console.error(projects.error);
-    return <div>Error loading projects: {projects.error.message}</div>;
+    return <ErrorPage />;
   }
 
   if (issuesPage.isError) {
     console.error(issuesPage.error);
-    return <div>Error loading issues: {issuesPage.error.message}</div>;
+    return <ErrorPage />;
   }
 
   const projectIdToLanguage = (projects.data || []).reduce(
@@ -97,47 +107,63 @@ export function IssueList() {
   const { items, meta } = issuesPage.data || {};
 
   return (
-    <Container>
-      <Table>
-        <thead>
-          <HeaderRow>
-            <HeaderCell>Issue</HeaderCell>
-            <HeaderCell>Level</HeaderCell>
-            <HeaderCell>Events</HeaderCell>
-            <HeaderCell>Users</HeaderCell>
-          </HeaderRow>
-        </thead>
-        <tbody>
-          {(items || []).map((issue) => (
-            <IssueRow
-              key={issue.id}
-              issue={issue}
-              projectLanguage={projectIdToLanguage[issue.projectId]}
-            />
-          ))}
-        </tbody>
-      </Table>
-      <PaginationContainer>
-        <div>
-          <PaginationButton
-            onClick={() => navigateToPage(page - 1)}
-            disabled={page === 1}
-            data-cy="Previous"
-          >
-            Previous
-          </PaginationButton>
-          <PaginationButton
-            onClick={() => navigateToPage(page + 1)}
-            disabled={page === meta?.totalPages}
-          >
-            Next
-          </PaginationButton>
-        </div>
-        <PageInfo>
-          Page <PageNumber>{meta?.currentPage}</PageNumber> of{" "}
-          <PageNumber>{meta?.totalPages}</PageNumber>
-        </PageInfo>
-      </PaginationContainer>
-    </Container>
+    <>
+      <Box>
+        <F.ButtonHeader
+          size={F.ButtonSize.lg}
+          color={F.ButtonColor.primary}
+          href=""
+        >
+          <ButtonwithIcon
+            iconSrc="/icons/check.svg"
+            icon={ButtonIcons.leading}
+            label="Resolve selected issues"
+          />
+        </F.ButtonHeader>
+      </Box>
+
+      <Container>
+        <Table>
+          <thead>
+            <HeaderRow>
+              <HeaderCell>Issue</HeaderCell>
+              <HeaderCell>Level</HeaderCell>
+              <HeaderCell>Events</HeaderCell>
+              <HeaderCell>Users</HeaderCell>
+            </HeaderRow>
+          </thead>
+          <tbody>
+            {(items || []).map((issue) => (
+              <IssueRow
+                key={issue.id}
+                issue={issue}
+                projectLanguage={projectIdToLanguage[issue.projectId]}
+              />
+            ))}
+          </tbody>
+        </Table>
+        <PaginationContainer>
+          <div>
+            <PaginationButton
+              onClick={() => navigateToPage(page - 1)}
+              disabled={page === 1}
+              data-cy="Previous"
+            >
+              Previous
+            </PaginationButton>
+            <PaginationButton
+              onClick={() => navigateToPage(page + 1)}
+              disabled={page === meta?.totalPages}
+            >
+              Next
+            </PaginationButton>
+          </div>
+          <PageInfo>
+            Page <PageNumber>{meta?.currentPage}</PageNumber> of{" "}
+            <PageNumber>{meta?.totalPages}</PageNumber>
+          </PageInfo>
+        </PaginationContainer>
+      </Container>
+    </>
   );
 }

@@ -1,19 +1,19 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import { Button, ButtonSize, ButtonColor } from "./ui-kit-button";
+import { ButtonHeader, ButtonSize, ButtonColor } from "./button-header";
 
 export default {
   title: "UI/Button",
-  component: Button,
+  component: ButtonHeader,
   parameters: {
     // More on Story layout: https://storybook.js.org/docs/react/configure/story-layout
     layout: "fullscreen",
   },
-} as ComponentMeta<typeof Button>;
+} as ComponentMeta<typeof ButtonHeader>;
 
-const Template: ComponentStory<typeof Button> = (props) => (
+const Template: ComponentStory<typeof ButtonHeader> = (props) => (
   <div style={{ padding: 50 }}>
-    <Button {...props} />
+    <ButtonHeader {...props} />
   </div>
 );
 export const Default = Template.bind({});
@@ -55,7 +55,6 @@ Disabled.args = {
   color: ButtonColor.primary,
   href: "superman",
   label: "Click Me!",
-  disabled: "disabled",
 };
 Disabled.parameters = {
   pseudo: { disabled: true },

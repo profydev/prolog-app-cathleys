@@ -3,6 +3,7 @@ import Head from "next/head";
 import styled from "styled-components";
 import { SidebarNavigation } from "@features/ui";
 import { color, displayFont, textFont, space, breakpoint } from "@styles/theme";
+import { Footer } from "../footer";
 
 type PageContainerProps = {
   children: React.ReactNode;
@@ -13,7 +14,6 @@ type PageContainerProps = {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  background: ${color("gray", 900)};
 
   @media (min-width: ${breakpoint("desktop")}) {
     flex-direction: row;
@@ -68,6 +68,7 @@ export function PageContainer({ children, title, info }: PageContainerProps) {
           <Info>{info}</Info>
           {children}
         </ContentContainer>
+        <Footer />
       </Main>
     </Container>
   );
