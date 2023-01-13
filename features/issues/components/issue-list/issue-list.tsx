@@ -1,10 +1,12 @@
 import { useRouter } from "next/router";
+import Select from "react-select";
 import styled from "styled-components";
 import { useIssues } from "@features/issues";
 import { ProjectLanguage, useProjects } from "@features/projects";
 import { color, space, textFont } from "@styles/theme";
 import { IssueRow } from "./issue-row";
 import * as F from "@features/ui";
+import { customStyles } from "@features/ui";
 import {
   ButtonIcons,
   ButtonwithIcon,
@@ -12,9 +14,60 @@ import {
 import { LoadingScreen } from "@features/projects/components/loading-screen";
 import { ErrorPage } from "@features/projects/components/error-page";
 
+const WrapperStyle = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+`;
+
 const Box = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   padding-bottom: 1.563rem;
 `;
+
+const FilterStyle = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex
+  justify-content: space-around;
+`;
+
+const Form = styled.form`
+  border: none;
+  padding: 0;
+  background-color: white;
+`;
+const Input = styled.input.attrs({
+  type: "search",
+})`
+  width: 260px;
+  border: 1px solid ${color("gray", 300)};
+  display: block;
+  padding: 9px 4px 9px 40px;
+  background: transparent url("/icons/search.svg") no-repeat 13px center;
+  border-radius: 0.5rem;
+  outline: none;
+
+  ::placeholder {
+    color: ${color("gray", 500)};
+    ${textFont("md", "regular")};
+  }
+
+  &:focus {
+    border: 1px solid ${color("primary", 300)};
+    box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05),
+      0px 0px 0px 4px ${color("primary", 100)};
+  }
+`;
+
+const Dropdown = styled(Select)`
+  padding-right: ${space(4)};
+  width: 10rem;
+`;
+
 const Container = styled.div`
   background: white;
   border: 1px solid ${color("gray", 200)};
@@ -108,20 +161,54 @@ export function IssueList() {
 
   return (
     <>
-      <Box>
-        <F.ButtonHeader
-          size={F.ButtonSize.lg}
-          color={F.ButtonColor.primary}
-          href=""
-        >
-          <ButtonwithIcon
-            iconSrc="/icons/check.svg"
-            icon={ButtonIcons.leading}
-            label="Resolve selected issues"
-          />
-        </F.ButtonHeader>
-      </Box>
+      <WrapperStyle>
+        <Box>
+          <F.ButtonHeader
+            size={F.ButtonSize.md}
+            color={F.ButtonColor.primary}
+            href=""
+          >
+            <ButtonwithIcon
+              iconSrc="/icons/check.svg"
+              icon={ButtonIcons.leading}
+              label="Resolve selected issues"
+            />
+          </F.ButtonHeader>
+        </Box>
 
+        <FilterStyle>
+          <Dropdown
+            options={[
+              { value: " ", label: "--" },
+              { value: "Unresolved", label: "Unresolved" },
+              { value: "Resolved", label: "Resolved" },
+            ]}
+            placeholder={"Unresolved"}
+            isDisabled={false}
+            isSearchable={true}
+            isClearable={false}
+            styles={customStyles}
+          />
+
+          <Dropdown
+            placeholder={"Level"}
+            options={[
+              { value: " ", label: "--" },
+              { value: "Error", label: "Error" },
+              { value: "Warning", label: "Warning" },
+              { value: "Info", label: "Info" },
+            ]}
+            isDisabled={false}
+            isSearchable={true}
+            isClearable={false}
+            styles={customStyles}
+          />
+
+          <Form>
+            <Input type="search" placeholder="Project Name" />
+          </Form>
+        </FilterStyle>
+      </WrapperStyle>
       <Container>
         <Table>
           <thead>

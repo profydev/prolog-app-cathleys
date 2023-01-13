@@ -7,3 +7,4 @@ export * from "./button-header";
 export * from "./checkbox";
 export * from "./input";
 export * from "./modal";
+export * from "./select";
