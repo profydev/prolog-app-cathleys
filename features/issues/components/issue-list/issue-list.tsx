@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import { useState } from "react";
 import Select from "react-select";
 import styled from "styled-components";
 import { useIssues } from "@features/issues";
@@ -28,10 +29,10 @@ const Box = styled.div`
   padding-bottom: 1.563rem;
 `;
 
-const FilterStyle = styled.div`
+const FilterStyle = styled.form`
   display: flex;
   flex-direction: row;
-  flex
+  flex-wrap: wrap;
   justify-content: space-around;
 `;
 
@@ -124,6 +125,11 @@ const PageNumber = styled.span`
   ${textFont("sm", "medium")}
 `;
 
+const optionbyStatus = [
+  { value: "", label: "--" },
+  { value: "open", label: "Unresolved" },
+  { value: "resolved", label: "Resolved" },
+];
 export function IssueList() {
   const router = useRouter();
   const page = Number(router.query.page || 1);
@@ -133,16 +139,12 @@ export function IssueList() {
       query: { page: newPage },
     });
 
-  const issuesPage = useIssues(page);
+  const [optionStatus, setOptionStatus] = useState("");
+  const issuesPage = useIssues(page, optionStatus);
   const projects = useProjects();
 
-  if (projects.isLoading || issuesPage.isLoading) {
+  if (issuesPage.isLoading) {
     return <LoadingScreen />;
-  }
-
-  if (projects.isError) {
-    console.error(projects.error);
-    return <ErrorPage />;
   }
 
   if (issuesPage.isError) {
@@ -159,6 +161,9 @@ export function IssueList() {
   );
   const { items, meta } = issuesPage.data || {};
 
+  const handleChange = (optionbyStatus: any) => {
+    setOptionStatus(optionbyStatus.value);
+  };
   return (
     <>
       <WrapperStyle>
@@ -178,20 +183,15 @@ export function IssueList() {
 
         <FilterStyle>
           <Dropdown
-            options={[
-              { value: " ", label: "--" },
-              { value: "Unresolved", label: "Unresolved" },
-              { value: "Resolved", label: "Resolved" },
-            ]}
+            options={optionbyStatus}
             placeholder={"Unresolved"}
-            isDisabled={false}
-            isSearchable={true}
-            isClearable={false}
             styles={customStyles}
+            onChange={handleChange}
           />
 
           <Dropdown
-            placeholder={"Level"}
+            value={optionbyStatus}
+            placeholder="Level"
             options={[
               { value: " ", label: "--" },
               { value: "Error", label: "Error" },
@@ -203,7 +203,6 @@ export function IssueList() {
             isClearable={false}
             styles={customStyles}
           />
-
           <Form>
             <Input type="search" placeholder="Project Name" />
           </Form>
