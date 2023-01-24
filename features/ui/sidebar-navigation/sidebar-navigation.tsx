@@ -51,7 +51,7 @@ const FixedContainer = styled.div`
   ${containerStyles}
   position: fixed;
   transition: all 0.5s ease-in-out;
-  z-index: 1;
+  z-index: 2;
 `;
 
 const Header = styled.header`

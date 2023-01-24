@@ -8,12 +8,13 @@ import { color, space, textFont } from "@styles/theme";
 import { IssueRow } from "./issue-row";
 import * as F from "@features/ui";
 import { customStyles } from "@features/ui";
-import {
-  ButtonIcons,
-  ButtonwithIcon,
-} from "@features/ui/button-header/button-header-icon";
+import * as B from "@features/ui/button-header/button-header-icon";
 import { LoadingScreen } from "@features/projects/components/loading-screen";
 import { ErrorPage } from "@features/projects/components/error-page";
+import {
+  optionByLevel,
+  optionByStatus,
+} from "@features/issues/api/select-issues-data";
 
 const WrapperStyle = styled.div`
   display: flex;
@@ -36,7 +37,7 @@ const FilterStyle = styled.form`
   justify-content: space-around;
 `;
 
-const Form = styled.form`
+const Form = styled.div`
   border: none;
   padding: 0;
   background-color: white;
@@ -125,11 +126,6 @@ const PageNumber = styled.span`
   ${textFont("sm", "medium")}
 `;
 
-const optionbyStatus = [
-  { value: "", label: "--" },
-  { value: "open", label: "Unresolved" },
-  { value: "resolved", label: "Resolved" },
-];
 export function IssueList() {
   const router = useRouter();
   const page = Number(router.query.page || 1);
@@ -139,10 +135,17 @@ export function IssueList() {
       query: { page: newPage },
     });
 
-  const [optionStatus, setOptionStatus] = useState("");
-  const issuesPage = useIssues(page, optionStatus);
+  const [status, setOptionStatus] = useState("");
+  const [level, setOptionLevel] = useState("");
+  const issuesPage = useIssues(page, status, level);
   const projects = useProjects();
 
+  const handleStatusChange = (optionByStatus: any) => {
+    setOptionStatus(optionByStatus.value);
+  };
+  const handleLevelChange = (optionByLevel: any) => {
+    setOptionLevel(optionByLevel.value);
+  };
   if (issuesPage.isLoading) {
     return <LoadingScreen />;
   }
@@ -161,9 +164,6 @@ export function IssueList() {
   );
   const { items, meta } = issuesPage.data || {};
 
-  const handleChange = (optionbyStatus: any) => {
-    setOptionStatus(optionbyStatus.value);
-  };
   return (
     <>
       <WrapperStyle>
@@ -173,9 +173,9 @@ export function IssueList() {
             color={F.ButtonColor.primary}
             href=""
           >
-            <ButtonwithIcon
+            <B.ButtonwithIcon
               iconSrc="/icons/check.svg"
-              icon={ButtonIcons.leading}
+              icon={B.ButtonIcons.leading}
               label="Resolve selected issues"
             />
           </F.ButtonHeader>
@@ -183,25 +183,19 @@ export function IssueList() {
 
         <FilterStyle>
           <Dropdown
-            options={optionbyStatus}
-            placeholder={"Unresolved"}
+            options={optionByStatus}
+            placeholder="Status"
             styles={customStyles}
-            onChange={handleChange}
+            onChange={handleStatusChange}
+            blurInputOnSelect={true}
           />
 
           <Dropdown
-            value={optionbyStatus}
+            options={optionByLevel}
             placeholder="Level"
-            options={[
-              { value: " ", label: "--" },
-              { value: "Error", label: "Error" },
-              { value: "Warning", label: "Warning" },
-              { value: "Info", label: "Info" },
-            ]}
-            isDisabled={false}
-            isSearchable={true}
-            isClearable={false}
             styles={customStyles}
+            onChange={handleLevelChange}
+            blurInputOnSelect={true}
           />
           <Form>
             <Input type="search" placeholder="Project Name" />

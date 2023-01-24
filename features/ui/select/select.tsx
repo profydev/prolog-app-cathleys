@@ -41,7 +41,6 @@ export const customStyles = {
 
   menu: (defaultStyles: any) => ({
     ...defaultStyles,
-    paddingLeft: "0.825rem",
     boxShadow:
       "0px 12px 16px -4px rgba(16, 24, 40, 0.1), 0px 4px 6px -2px rgba(16, 24, 40, 0.05)",
   }),
