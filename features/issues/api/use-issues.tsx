@@ -4,18 +4,28 @@ import axios from "axios";
 import type { Page } from "@typings/page.types";
 import { Issue } from "../types/issue.types";
 
-async function getIssues(page: number, status: string, level: string) {
+async function getIssues(
+  page: number,
+  status: string,
+  level: string,
+  project: string
+) {
   const { data } = await axios.get(
-    `https://prolog-api.profy.dev/issue?page=${page}&status=${status}&level=${level}`
+    `https://prolog-api.profy.dev/issue?page=${page}&status=${status}&level=${level}&project=${project}`
   );
 
   return data;
 }
 
-export function useIssues(page: number, status: string, level: string) {
+export function useIssues(
+  page: number,
+  status: string,
+  level: string,
+  project: string
+) {
   const query = useQuery<Page<Issue>, Error>(
-    ["issues", page, status, level],
-    () => getIssues(page, status, level),
+    ["issues", page, status, level, project],
+    () => getIssues(page, status, level, project),
     { keepPreviousData: true, staleTime: 60000 }
   );
 
@@ -24,10 +34,10 @@ export function useIssues(page: number, status: string, level: string) {
   useEffect(() => {
     if (query.data?.meta.hasNextPage) {
       queryClient.prefetchQuery(["projects", page + 1], () =>
-        getIssues(page + 1, status, level)
+        getIssues(page + 1, status, level, project)
       );
     }
-  }, [query.data, page, status, level, queryClient]);
+  }, [query.data, page, status, level, project, queryClient]);
 
   return query;
 }
