@@ -1,3 +1,5 @@
+import { ProjectLanguage } from "@features/projects";
+
 export enum IssueStatus {
   Unresolved = "open",
   Resolved = "resolved",
@@ -7,6 +9,12 @@ export enum IssueLevel {
   info = "info",
   warning = "warning",
   error = "error",
+}
+
+interface ProjectName {
+  [ProjectLanguage.react]: "frontend - web";
+  [ProjectLanguage.node]: "backend";
+  [ProjectLanguage.python]: "ml service";
 }
 
 export type Issue = {
@@ -19,4 +27,5 @@ export type Issue = {
   level: IssueLevel;
   numEvents: number;
   numUsers: number;
+  project: ProjectName;
 };
