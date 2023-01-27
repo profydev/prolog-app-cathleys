@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import debounce from "lodash.debounce";
 import Select from "react-select";
 import styled from "styled-components";
 import { useIssues } from "@features/issues";
@@ -150,6 +151,10 @@ export function IssueList() {
     router.push(router);
   };
 
+  const debouncedSearch = useMemo(() => {
+    return debounce(handleSearchProject, 300);
+  }, []);
+
   const page = Number(router.query.page || 1);
   const navigateToPage = (newPage: number) =>
     router.push({
@@ -215,7 +220,7 @@ export function IssueList() {
             <Input
               type="search"
               placeholder="Project Name"
-              onChange={handleSearchProject}
+              onChange={debouncedSearch}
             />
           </Form>
         </FilterStyle>
