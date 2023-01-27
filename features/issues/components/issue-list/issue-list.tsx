@@ -128,6 +128,28 @@ const PageNumber = styled.span`
 
 export function IssueList() {
   const router = useRouter();
+
+  const [status, setOptionStatus] = useState("");
+  const [level, setOptionLevel] = useState("");
+  const [project, setProjectSearch] = useState("");
+
+  const handleStatusChange = (optionByStatus: any) => {
+    setOptionStatus(optionByStatus.value);
+    router.query.status = optionByStatus.value;
+    router.push(router);
+  };
+  const handleLevelChange = (optionByLevel: any) => {
+    setOptionLevel(optionByLevel.value);
+    router.query.level = optionByLevel.value;
+    router.push(router);
+  };
+  const handleSearchProject = (e: { target: { value: string } }) => {
+    const value = e.target.value.toLocaleLowerCase();
+    setProjectSearch(value);
+    router.query.project = value;
+    router.push(router);
+  };
+
   const page = Number(router.query.page || 1);
   const navigateToPage = (newPage: number) =>
     router.push({
@@ -135,17 +157,9 @@ export function IssueList() {
       query: { page: newPage },
     });
 
-  const [status, setOptionStatus] = useState("");
-  const [level, setOptionLevel] = useState("");
-  const issuesPage = useIssues(page, status, level);
+  const issuesPage = useIssues(page, status, level, project);
   const projects = useProjects();
 
-  const handleStatusChange = (optionByStatus: any) => {
-    setOptionStatus(optionByStatus.value);
-  };
-  const handleLevelChange = (optionByLevel: any) => {
-    setOptionLevel(optionByLevel.value);
-  };
   if (issuesPage.isLoading) {
     return <LoadingScreen />;
   }
@@ -198,7 +212,11 @@ export function IssueList() {
             blurInputOnSelect={true}
           />
           <Form>
-            <Input type="search" placeholder="Project Name" />
+            <Input
+              type="search"
+              placeholder="Project Name"
+              onChange={handleSearchProject}
+            />
           </Form>
         </FilterStyle>
       </WrapperStyle>
