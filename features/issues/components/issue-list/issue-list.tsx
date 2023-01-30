@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
-import { useMemo, useState } from "react";
-import debounce from "lodash.debounce";
+import { useState } from "react";
+import { useDebouncedCallback } from "use-debounce";
 import Select from "react-select";
 import styled from "styled-components";
 import { useIssues } from "@features/issues";
@@ -129,31 +129,43 @@ const PageNumber = styled.span`
 
 export function IssueList() {
   const router = useRouter();
+  const [optionStatus, setOptionStatus] = useState("");
+  const [optionLevel, setOptionLevel] = useState("");
+  const [projectSearch, setProjectSearch] = useState("");
 
-  const [status, setOptionStatus] = useState("");
-  const [level, setOptionLevel] = useState("");
-  const [project, setProjectSearch] = useState("");
+  const debouncedSearch = useDebouncedCallback((value) => {
+    router.push({
+      query: {
+        ...router.query,
+        project: value,
+      },
+    });
+  }, 300);
 
   const handleStatusChange = (optionByStatus: any) => {
     setOptionStatus(optionByStatus.value);
-    router.query.status = optionByStatus.value;
-    router.push(router);
+
+    router.push({
+      query: {
+        ...router.query,
+        status: optionByStatus.value,
+      },
+    });
   };
   const handleLevelChange = (optionByLevel: any) => {
     setOptionLevel(optionByLevel.value);
-    router.query.level = optionByLevel.value;
-    router.push(router);
+    router.push({
+      query: {
+        ...router.query,
+        level: optionByLevel.value,
+      },
+    });
   };
   const handleSearchProject = (e: { target: { value: string } }) => {
-    const value = e.target.value.toLocaleLowerCase();
-    setProjectSearch(value);
-    router.query.project = value;
-    router.push(router);
+    const searchValue = e.target.value.toLowerCase();
+    setProjectSearch(searchValue);
+    debouncedSearch(searchValue);
   };
-
-  const debouncedSearch = useMemo(() => {
-    return debounce(handleSearchProject, 300);
-  }, []);
 
   const page = Number(router.query.page || 1);
   const navigateToPage = (newPage: number) =>
@@ -162,7 +174,7 @@ export function IssueList() {
       query: { page: newPage },
     });
 
-  const issuesPage = useIssues(page, status, level, project);
+  const issuesPage = useIssues(page, optionStatus, optionLevel, projectSearch);
   const projects = useProjects();
 
   if (issuesPage.isLoading) {
@@ -220,7 +232,7 @@ export function IssueList() {
             <Input
               type="search"
               placeholder="Project Name"
-              onChange={debouncedSearch}
+              onChange={handleSearchProject}
             />
           </Form>
         </FilterStyle>
