@@ -177,7 +177,7 @@ export function IssueList() {
   const issuesPage = useIssues(page, optionStatus, optionLevel, projectSearch);
   const projects = useProjects();
 
-  if (issuesPage.isLoading) {
+  if (issuesPage.isLoading || projects.isLoading) {
     return <LoadingScreen />;
   }
 
