@@ -129,7 +129,10 @@ const PageNumber = styled.span`
 
 export function IssueList() {
   const router = useRouter();
-  const [optionStatus, setOptionStatus] = useState("");
+  const queryParam = router.query;
+  const optionInitialValue: any = queryParam.status || "";
+
+  const [optionStatus, setOptionStatus] = useState(optionInitialValue);
   const [optionLevel, setOptionLevel] = useState("");
   const [projectSearch, setProjectSearch] = useState("");
 
@@ -219,6 +222,7 @@ export function IssueList() {
             styles={customStyles}
             onChange={handleStatusChange}
             blurInputOnSelect={true}
+            value={optionStatus}
           />
 
           <Dropdown
