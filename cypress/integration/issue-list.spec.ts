@@ -8,15 +8,27 @@ describe("Issue List", () => {
     cy.intercept("GET", "https://prolog-api.profy.dev/project", {
       fixture: "projects.json",
     }).as("getProjects");
-    cy.intercept("GET", "https://prolog-api.profy.dev/issue?page=1", {
-      fixture: "issues-page-1.json",
-    }).as("getIssues");
-    cy.intercept("GET", "https://prolog-api.profy.dev/issue?page=2", {
-      fixture: "issues-page-2.json",
-    });
-    cy.intercept("GET", "https://prolog-api.profy.dev/issue?page=3", {
-      fixture: "issues-page-3.json",
-    });
+    cy.intercept(
+      "GET",
+      "https://prolog-api.profy.dev/issue?page=1&status=&level=&project=",
+      {
+        fixture: "issues-page-1.json",
+      }
+    ).as("getIssues");
+    cy.intercept(
+      "GET",
+      "https://prolog-api.profy.dev/issue?page=2&status=&level=&project=",
+      {
+        fixture: "issues-page-2.json",
+      }
+    );
+    cy.intercept(
+      "GET",
+      "https://prolog-api.profy.dev/issue?page=3&status=&level=&project=",
+      {
+        fixture: "issues-page-3.json",
+      }
+    );
 
     // open issues page
     cy.visit(`http://localhost:3000/dashboard/issues`);

@@ -1,20 +1,76 @@
 import { useRouter } from "next/router";
+import { useState } from "react";
+import { useDebouncedCallback } from "use-debounce";
+import Select from "react-select";
 import styled from "styled-components";
 import { useIssues } from "@features/issues";
 import { ProjectLanguage, useProjects } from "@features/projects";
 import { color, space, textFont } from "@styles/theme";
 import { IssueRow } from "./issue-row";
 import * as F from "@features/ui";
-import {
-  ButtonIcons,
-  ButtonwithIcon,
-} from "@features/ui/button-header/button-header-icon";
+import { customStyles } from "@features/ui";
+import * as B from "@features/ui/button-header/button-header-icon";
 import { LoadingScreen } from "@features/projects/components/loading-screen";
 import { ErrorPage } from "@features/projects/components/error-page";
+import {
+  optionByLevel,
+  optionByStatus,
+} from "@features/issues/api/select-issues-data";
+
+const WrapperStyle = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+`;
 
 const Box = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   padding-bottom: 1.563rem;
 `;
+
+const FilterStyle = styled.form`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+`;
+
+const Form = styled.div`
+  border: none;
+  padding: 0;
+  background-color: white;
+`;
+const Input = styled.input.attrs({
+  type: "search",
+})`
+  width: 260px;
+  border: 1px solid ${color("gray", 300)};
+  display: block;
+  padding: 9px 4px 9px 40px;
+  background: transparent url("/icons/search.svg") no-repeat 13px center;
+  border-radius: 0.5rem;
+  outline: none;
+
+  ::placeholder {
+    color: ${color("gray", 500)};
+    ${textFont("md", "regular")};
+  }
+
+  &:focus {
+    border: 1px solid ${color("primary", 300)};
+    box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05),
+      0px 0px 0px 4px ${color("primary", 100)};
+  }
+`;
+
+const Dropdown = styled(Select)`
+  padding-right: ${space(4)};
+  width: 10rem;
+`;
+
 const Container = styled.div`
   background: white;
   border: 1px solid ${color("gray", 200)};
@@ -73,6 +129,47 @@ const PageNumber = styled.span`
 
 export function IssueList() {
   const router = useRouter();
+  const queryParam = router.query;
+  const optionInitialValue: any = queryParam.status || "";
+
+  const [optionStatus, setOptionStatus] = useState(optionInitialValue);
+  const [optionLevel, setOptionLevel] = useState("");
+  const [projectSearch, setProjectSearch] = useState("");
+
+  const debouncedSearch = useDebouncedCallback((value) => {
+    router.push({
+      query: {
+        ...router.query,
+        project: value,
+      },
+    });
+  }, 300);
+
+  const handleStatusChange = (optionByStatus: any) => {
+    setOptionStatus(optionByStatus.value);
+
+    router.push({
+      query: {
+        ...router.query,
+        status: optionByStatus.value,
+      },
+    });
+  };
+  const handleLevelChange = (optionByLevel: any) => {
+    setOptionLevel(optionByLevel.value);
+    router.push({
+      query: {
+        ...router.query,
+        level: optionByLevel.value,
+      },
+    });
+  };
+  const handleSearchProject = (e: { target: { value: string } }) => {
+    const searchValue = e.target.value.toLowerCase();
+    setProjectSearch(searchValue);
+    debouncedSearch(searchValue);
+  };
+
   const page = Number(router.query.page || 1);
   const navigateToPage = (newPage: number) =>
     router.push({
@@ -80,16 +177,11 @@ export function IssueList() {
       query: { page: newPage },
     });
 
-  const issuesPage = useIssues(page);
+  const issuesPage = useIssues(page, optionStatus, optionLevel, projectSearch);
   const projects = useProjects();
 
-  if (projects.isLoading || issuesPage.isLoading) {
+  if (issuesPage.isLoading || projects.isLoading) {
     return <LoadingScreen />;
-  }
-
-  if (projects.isError) {
-    console.error(projects.error);
-    return <ErrorPage />;
   }
 
   if (issuesPage.isError) {
@@ -108,20 +200,47 @@ export function IssueList() {
 
   return (
     <>
-      <Box>
-        <F.ButtonHeader
-          size={F.ButtonSize.lg}
-          color={F.ButtonColor.primary}
-          href=""
-        >
-          <ButtonwithIcon
-            iconSrc="/icons/check.svg"
-            icon={ButtonIcons.leading}
-            label="Resolve selected issues"
-          />
-        </F.ButtonHeader>
-      </Box>
+      <WrapperStyle>
+        <Box>
+          <F.ButtonHeader
+            size={F.ButtonSize.md}
+            color={F.ButtonColor.primary}
+            href=""
+          >
+            <B.ButtonwithIcon
+              iconSrc="/icons/check.svg"
+              icon={B.ButtonIcons.leading}
+              label="Resolve selected issues"
+            />
+          </F.ButtonHeader>
+        </Box>
 
+        <FilterStyle>
+          <Dropdown
+            options={optionByStatus}
+            placeholder="Status"
+            styles={customStyles}
+            onChange={handleStatusChange}
+            blurInputOnSelect={true}
+            value={optionStatus}
+          />
+
+          <Dropdown
+            options={optionByLevel}
+            placeholder="Level"
+            styles={customStyles}
+            onChange={handleLevelChange}
+            blurInputOnSelect={true}
+          />
+          <Form>
+            <Input
+              type="search"
+              placeholder="Project Name"
+              onChange={handleSearchProject}
+            />
+          </Form>
+        </FilterStyle>
+      </WrapperStyle>
       <Container>
         <Table>
           <thead>
