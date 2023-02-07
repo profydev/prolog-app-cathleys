@@ -1,6 +1,6 @@
-import { useEffect } from "react";
 import { useQuery, useQueryClient } from "react-query";
 import axios from "axios";
+import { useEffect } from "react";
 import type { Page } from "@typings/page.types";
 import type { Issue } from "../types/issue.types";
 
@@ -19,13 +19,13 @@ async function getIssues(
 
 export function useIssues(
   page: number,
-  optionStatus: string,
-  optionLevel: string,
+  selectedStatus: string,
+  selectedLevel: string,
   projectSearch: string
 ) {
   const query = useQuery<Page<Issue>, Error>(
-    ["issues", page, optionStatus, optionLevel, projectSearch],
-    () => getIssues(page, optionStatus, optionLevel, projectSearch),
+    ["issues", page, selectedStatus, selectedLevel, projectSearch],
+    () => getIssues(page, selectedStatus, selectedLevel, projectSearch),
     { keepPreviousData: true, staleTime: 60000 }
   );
 
@@ -34,10 +34,17 @@ export function useIssues(
   useEffect(() => {
     if (query.data?.meta.hasNextPage) {
       queryClient.prefetchQuery(["projects", page + 1], () =>
-        getIssues(page + 1, optionStatus, optionLevel, projectSearch)
+        getIssues(page + 1, selectedStatus, selectedLevel, projectSearch)
       );
     }
-  }, [query.data, page, optionStatus, optionLevel, projectSearch, queryClient]);
+  }, [
+    query.data,
+    page,
+    selectedStatus,
+    selectedLevel,
+    projectSearch,
+    queryClient,
+  ]);
 
   return query;
 }

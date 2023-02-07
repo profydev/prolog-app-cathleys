@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import Select from "react-select";
 import styled from "styled-components";
@@ -129,14 +129,22 @@ const PageNumber = styled.span`
 
 export function IssueList() {
   const router = useRouter();
-  const queryParam = router.query;
-  const optionInitialValue: any = queryParam.status || "";
+  const { status, level, project } = router.query;
 
-  const [optionStatus, setOptionStatus] = useState(optionInitialValue);
-  const [optionLevel, setOptionLevel] = useState("");
+  const statusQueryParam = Array.isArray(status) ? status[0] : status ?? "";
+  const levelQueryParam = Array.isArray(level) ? level[0] : level ?? "";
+  const projectQueryParam = Array.isArray(project) ? project[0] : project ?? "";
+  const [selectedStatus, setSelectedStatus] = useState("");
+  const [selectedLevel, setSelectedLevel] = useState("");
   const [projectSearch, setProjectSearch] = useState("");
 
-  const debouncedSearch = useDebouncedCallback((value) => {
+  useEffect(() => {
+    if (statusQueryParam) setSelectedStatus(statusQueryParam);
+    if (levelQueryParam) setSelectedLevel(levelQueryParam);
+    if (projectQueryParam) setProjectSearch(projectQueryParam);
+  }, [statusQueryParam, levelQueryParam, projectQueryParam]);
+
+  const debouncedSearch = useDebouncedCallback((value: any) => {
     router.push({
       query: {
         ...router.query,
@@ -146,7 +154,7 @@ export function IssueList() {
   }, 300);
 
   const handleStatusChange = (optionByStatus: any) => {
-    setOptionStatus(optionByStatus.value);
+    setSelectedStatus(optionByStatus.value);
 
     router.push({
       query: {
@@ -156,7 +164,7 @@ export function IssueList() {
     });
   };
   const handleLevelChange = (optionByLevel: any) => {
-    setOptionLevel(optionByLevel.value);
+    setSelectedLevel(optionByLevel.value);
     router.push({
       query: {
         ...router.query,
@@ -177,7 +185,12 @@ export function IssueList() {
       query: { page: newPage },
     });
 
-  const issuesPage = useIssues(page, optionStatus, optionLevel, projectSearch);
+  const issuesPage = useIssues(
+    page,
+    selectedStatus,
+    selectedLevel,
+    projectSearch
+  );
   const projects = useProjects();
 
   if (issuesPage.isLoading || projects.isLoading) {
@@ -190,7 +203,7 @@ export function IssueList() {
   }
 
   const projectIdToLanguage = (projects.data || []).reduce(
-    (prev, project) => ({
+    (prev: any, project: { id: any; language: any }) => ({
       ...prev,
       [project.id]: project.language,
     }),
@@ -217,26 +230,34 @@ export function IssueList() {
 
         <FilterStyle>
           <Dropdown
+            instanceId="status-dropdown-value"
             options={optionByStatus}
             placeholder="Status"
             styles={customStyles}
             onChange={handleStatusChange}
             blurInputOnSelect={true}
-            value={optionStatus}
+            {...(selectedStatus && {
+              value: optionByStatus.find((o) => o.value === selectedStatus),
+            })}
           />
 
           <Dropdown
+            instanceId="level-dropdown-value"
             options={optionByLevel}
             placeholder="Level"
             styles={customStyles}
             onChange={handleLevelChange}
             blurInputOnSelect={true}
+            {...(selectedLevel && {
+              value: optionByLevel.find((o) => o.value === selectedLevel),
+            })}
           />
           <Form>
             <Input
               type="search"
               placeholder="Project Name"
               onChange={handleSearchProject}
+              value={projectSearch}
             />
           </Form>
         </FilterStyle>
