@@ -254,6 +254,7 @@ export function IssueList() {
           />
           <Form>
             <Input
+              id="search"
               type="search"
               placeholder="Project Name"
               onChange={handleSearchProject}
