@@ -256,6 +256,7 @@ export function IssueList() {
           />
           <Form>
             <Input
+              data-cy="search bar"
               id="search"
               type="search"
               placeholder="Project Name"
