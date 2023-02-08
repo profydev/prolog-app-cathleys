@@ -168,6 +168,7 @@ export function IssueList() {
     router.push({
       query: {
         ...router.query,
+
         level: optionByLevel.value,
       },
     });
@@ -179,11 +180,12 @@ export function IssueList() {
   };
 
   const page = Number(router.query.page || 1);
-  const navigateToPage = (newPage: number) =>
+  const navigateToPage = (newPage: number) => {
     router.push({
       pathname: router.pathname,
-      query: { page: newPage },
+      query: { ...router.query, page: newPage },
     });
+  };
 
   const issuesPage = useIssues(
     page,
