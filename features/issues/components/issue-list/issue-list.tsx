@@ -5,7 +5,7 @@ import Select from "react-select";
 import styled from "styled-components";
 import { useIssues } from "@features/issues";
 import { ProjectLanguage, useProjects } from "@features/projects";
-import { color, space, textFont } from "@styles/theme";
+import { breakpoint, color, space, textFont } from "@styles/theme";
 import { IssueRow } from "./issue-row";
 import * as F from "@features/ui";
 import { customStyles } from "@features/ui";
@@ -18,17 +18,23 @@ import {
 } from "@features/issues/api/select-issues-data";
 
 const WrapperStyle = styled.div`
+  box-sizing: border-box;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   flex-wrap: wrap;
+
+  @media (max-width: ${breakpoint("tablet")}) {
+    flex-direction: column-reverse;
+    flex: 1;
+  }
 `;
 
 const Box = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding-bottom: 1.563rem;
+  padding-bottom: ${space(6)};
 `;
 
 const FilterStyle = styled.form`
@@ -36,24 +42,33 @@ const FilterStyle = styled.form`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-around;
+
+  @media (max-width: ${breakpoint("tablet")}) {
+    padding-bottom: ${space(4)};
+  }
 `;
 
 const Form = styled.div`
   border: none;
   padding: 0;
   background-color: white;
+
+  @media (max-width: ${breakpoint("tablet")}) {
+    width: 100%;
+  }
 `;
 const Input = styled.input.attrs({
   type: "search",
 })`
-  width: 260px;
   border: 1px solid ${color("gray", 300)};
-  display: block;
   padding: 9px 4px 9px 40px;
   background: transparent url("/icons/search.svg") no-repeat 13px center;
   border-radius: 0.5rem;
   outline: none;
 
+  @media (max-width: ${breakpoint("tablet")}) {
+    width: 100%;
+  }
   ::placeholder {
     color: ${color("gray", 500)};
     ${textFont("md", "regular")};
@@ -69,6 +84,12 @@ const Input = styled.input.attrs({
 const Dropdown = styled(Select)`
   padding-right: ${space(4)};
   width: 10rem;
+
+  @media (max-width: ${breakpoint("tablet")}) {
+    width: 100%;
+    padding-right: ${space(0)};
+    padding-bottom: ${space(4)};
+  }
 `;
 
 const Container = styled.div`
