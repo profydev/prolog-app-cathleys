@@ -5,50 +5,41 @@ describe("React-select and search bar", () => {
 
   it("selects the status dropdown", () => {
     //add input for the react-select to work
-    cy.get(".issue-list__WrapperStyle-sc-6917d16d-0")
-      .get(":nth-child(1) > .css-wd1q99-control input")
+    cy.get(":nth-child(1) > .css-wd1q99-control input")
       .click({ force: true })
-      .get(".css-1n6sfyn-MenuList")
-      .find("#react-select-status-dropdown-value-option-1")
+      .get("#react-select-status-dropdown-value-option-1")
       .contains("Unresolved")
       .click();
 
-    cy.get(".issue-list__WrapperStyle-sc-6917d16d-0")
-      .get(":nth-child(1) > .css-wd1q99-control input")
+    cy.get(":nth-child(1) > .css-wd1q99-control input")
       .click({ force: true })
-      .get(".css-1n6sfyn-MenuList")
-      .find("#react-select-status-dropdown-value-option-2")
+      .get("#react-select-status-dropdown-value-option-2")
       .contains("Resolved")
       .click();
 
-    cy.get(".issue-list__WrapperStyle-sc-6917d16d-0")
-      .get(":nth-child(1) > .css-wd1q99-control input")
+    cy.get(":nth-child(1) > .css-wd1q99-control input")
       .click({ force: true })
-      .get(".css-1n6sfyn-MenuList")
       .get("#react-select-status-dropdown-value-option-0")
       .contains("--")
       .click();
   });
 
   it("selects the level dropdown", () => {
-    cy.get(".issue-list__WrapperStyle-sc-6917d16d-0")
-      .get(":nth-child(2) > .css-wd1q99-control input")
+    cy.get(":nth-child(2) > .css-wd1q99-control input")
       .click({ force: true })
       .get(".css-1n6sfyn-MenuList")
       .find("#react-select-level-dropdown-value-option-1")
       .contains("Error")
       .click();
 
-    cy.get(".issue-list__WrapperStyle-sc-6917d16d-0")
-      .get(":nth-child(2) > .css-wd1q99-control input")
+    cy.get(":nth-child(2) > .css-wd1q99-control input")
       .click({ force: true })
       .get(".css-1n6sfyn-MenuList")
       .find("#react-select-level-dropdown-value-option-2")
       .contains("Warning")
       .click();
 
-    cy.get(".issue-list__WrapperStyle-sc-6917d16d-0")
-      .get(":nth-child(2) > .css-wd1q99-control input")
+    cy.get(":nth-child(2) > .css-wd1q99-control input")
       .click({ force: true })
       .get(".css-1n6sfyn-MenuList")
       .find("#react-select-level-dropdown-value-option-0")
