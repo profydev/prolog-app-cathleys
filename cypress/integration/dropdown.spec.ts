@@ -42,6 +42,13 @@ describe("React-select and search bar", () => {
     cy.get(":nth-child(2) > .css-wd1q99-control input")
       .click({ force: true })
       .get(".css-1n6sfyn-MenuList")
+      .find("#react-select-level-dropdown-value-option-3")
+      .contains("Info")
+      .click();
+
+    cy.get(":nth-child(2) > .css-wd1q99-control input")
+      .click({ force: true })
+      .get(".css-1n6sfyn-MenuList")
       .find("#react-select-level-dropdown-value-option-0")
       .contains("--")
       .click();
