@@ -144,15 +144,6 @@ export function IssueList() {
     if (projectQueryParam) setProjectSearch(projectQueryParam);
   }, [statusQueryParam, levelQueryParam, projectQueryParam]);
 
-  const debouncedSearch = useDebouncedCallback((value: any) => {
-    router.push({
-      query: {
-        ...router.query,
-        project: value,
-      },
-    });
-  }, 300);
-
   const handleStatusChange = (optionByStatus: any) => {
     setSelectedStatus(optionByStatus.value);
 
@@ -173,6 +164,16 @@ export function IssueList() {
       },
     });
   };
+
+  const debouncedSearch = useDebouncedCallback((value: any) => {
+    router.push({
+      query: {
+        ...router.query,
+        project: value,
+      },
+    });
+  }, 300);
+
   const handleSearchProject = (e: { target: { value: string } }) => {
     const searchValue = e.target.value.toLowerCase();
     setProjectSearch(searchValue);
@@ -199,7 +200,7 @@ export function IssueList() {
     return <LoadingScreen />;
   }
 
-  if (issuesPage.isError) {
+  if (issuesPage.isError || projects.isError) {
     console.error(issuesPage.error);
     return <ErrorPage />;
   }
@@ -237,6 +238,7 @@ export function IssueList() {
             placeholder="Status"
             styles={customStyles}
             onChange={handleStatusChange}
+            isSearchable={false}
             blurInputOnSelect={true}
             {...(selectedStatus && {
               value: optionByStatus.find((o) => o.value === selectedStatus),
@@ -249,6 +251,7 @@ export function IssueList() {
             placeholder="Level"
             styles={customStyles}
             onChange={handleLevelChange}
+            isSearchable={false}
             blurInputOnSelect={true}
             {...(selectedLevel && {
               value: optionByLevel.find((o) => o.value === selectedLevel),
