@@ -254,6 +254,7 @@ export function IssueList() {
 
         <FilterStyle>
           <Dropdown
+            classNamePrefix="status"
             instanceId="status-dropdown-value"
             options={optionByStatus}
             placeholder="Status"
@@ -267,6 +268,7 @@ export function IssueList() {
           />
 
           <Dropdown
+            classNamePrefix="level"
             instanceId="level-dropdown-value"
             options={optionByLevel}
             placeholder="Level"
