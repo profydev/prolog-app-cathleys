@@ -138,9 +138,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
       </TopContainer>
       <BottomContainer>
         <Link href={`${Routes.issues}?project=${name}`} passHref>
-          <ViewIssuesAnchor data-cy="view issue link">
-            View issues
-          </ViewIssuesAnchor>
+          <ViewIssuesAnchor>View issues</ViewIssuesAnchor>
         </Link>
       </BottomContainer>
     </Container>
