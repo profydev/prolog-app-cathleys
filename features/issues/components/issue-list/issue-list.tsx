@@ -1,11 +1,11 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import Select from "react-select";
 import styled from "styled-components";
 import { useIssues } from "@features/issues";
 import { ProjectLanguage, useProjects } from "@features/projects";
-import { color, space, textFont } from "@styles/theme";
+import { breakpoint, color, space, textFont } from "@styles/theme";
 import { IssueRow } from "./issue-row";
 import * as F from "@features/ui";
 import { customStyles } from "@features/ui";
@@ -18,17 +18,23 @@ import {
 } from "@features/issues/api/select-issues-data";
 
 const WrapperStyle = styled.div`
+  box-sizing: border-box;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   flex-wrap: wrap;
+
+  @media (max-width: ${breakpoint("tablet")}) {
+    flex-direction: column-reverse;
+    flex: 1;
+  }
 `;
 
 const Box = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding-bottom: 1.563rem;
+  padding-bottom: ${space(6)};
 `;
 
 const FilterStyle = styled.form`
@@ -36,24 +42,33 @@ const FilterStyle = styled.form`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-around;
+
+  @media (max-width: ${breakpoint("tablet")}) {
+    padding-bottom: ${space(4)};
+  }
 `;
 
 const Form = styled.div`
   border: none;
   padding: 0;
   background-color: white;
+
+  @media (max-width: ${breakpoint("tablet")}) {
+    width: 100%;
+  }
 `;
 const Input = styled.input.attrs({
   type: "search",
 })`
-  width: 260px;
   border: 1px solid ${color("gray", 300)};
-  display: block;
   padding: 9px 4px 9px 40px;
   background: transparent url("/icons/search.svg") no-repeat 13px center;
   border-radius: 0.5rem;
   outline: none;
 
+  @media (max-width: ${breakpoint("tablet")}) {
+    width: 100%;
+  }
   ::placeholder {
     color: ${color("gray", 500)};
     ${textFont("md", "regular")};
@@ -69,6 +84,12 @@ const Input = styled.input.attrs({
 const Dropdown = styled(Select)`
   padding-right: ${space(4)};
   width: 10rem;
+
+  @media (max-width: ${breakpoint("tablet")}) {
+    width: 100%;
+    padding-right: ${space(0)};
+    padding-bottom: ${space(4)};
+  }
 `;
 
 const Container = styled.div`
@@ -129,24 +150,23 @@ const PageNumber = styled.span`
 
 export function IssueList() {
   const router = useRouter();
-  const queryParam = router.query;
-  const optionInitialValue: any = queryParam.status || "";
+  const { status, level, project } = router.query;
 
-  const [optionStatus, setOptionStatus] = useState(optionInitialValue);
-  const [optionLevel, setOptionLevel] = useState("");
+  const statusQueryParam = Array.isArray(status) ? status[0] : status ?? "";
+  const levelQueryParam = Array.isArray(level) ? level[0] : level ?? "";
+  const projectQueryParam = Array.isArray(project) ? project[0] : project ?? "";
+  const [selectedStatus, setSelectedStatus] = useState("");
+  const [selectedLevel, setSelectedLevel] = useState("");
   const [projectSearch, setProjectSearch] = useState("");
 
-  const debouncedSearch = useDebouncedCallback((value) => {
-    router.push({
-      query: {
-        ...router.query,
-        project: value,
-      },
-    });
-  }, 300);
+  useEffect(() => {
+    if (statusQueryParam) setSelectedStatus(statusQueryParam);
+    if (levelQueryParam) setSelectedLevel(levelQueryParam);
+    if (projectQueryParam) setProjectSearch(projectQueryParam);
+  }, [statusQueryParam, levelQueryParam, projectQueryParam]);
 
   const handleStatusChange = (optionByStatus: any) => {
-    setOptionStatus(optionByStatus.value);
+    setSelectedStatus(optionByStatus.value);
 
     router.push({
       query: {
@@ -156,14 +176,25 @@ export function IssueList() {
     });
   };
   const handleLevelChange = (optionByLevel: any) => {
-    setOptionLevel(optionByLevel.value);
+    setSelectedLevel(optionByLevel.value);
     router.push({
       query: {
         ...router.query,
+
         level: optionByLevel.value,
       },
     });
   };
+
+  const debouncedSearch = useDebouncedCallback((value: any) => {
+    router.push({
+      query: {
+        ...router.query,
+        project: value,
+      },
+    });
+  }, 300);
+
   const handleSearchProject = (e: { target: { value: string } }) => {
     const searchValue = e.target.value.toLowerCase();
     setProjectSearch(searchValue);
@@ -171,26 +202,32 @@ export function IssueList() {
   };
 
   const page = Number(router.query.page || 1);
-  const navigateToPage = (newPage: number) =>
+  const navigateToPage = (newPage: number) => {
     router.push({
       pathname: router.pathname,
-      query: { page: newPage },
+      query: { ...router.query, page: newPage },
     });
+  };
 
-  const issuesPage = useIssues(page, optionStatus, optionLevel, projectSearch);
+  const issuesPage = useIssues(
+    page,
+    selectedStatus,
+    selectedLevel,
+    projectSearch
+  );
   const projects = useProjects();
 
   if (issuesPage.isLoading || projects.isLoading) {
     return <LoadingScreen />;
   }
 
-  if (issuesPage.isError) {
+  if (issuesPage.isError || projects.isError) {
     console.error(issuesPage.error);
     return <ErrorPage />;
   }
 
   const projectIdToLanguage = (projects.data || []).reduce(
-    (prev, project) => ({
+    (prev: any, project: { id: any; language: any }) => ({
       ...prev,
       [project.id]: project.language,
     }),
@@ -217,26 +254,40 @@ export function IssueList() {
 
         <FilterStyle>
           <Dropdown
+            classNamePrefix="status"
+            instanceId="status-dropdown-value"
             options={optionByStatus}
             placeholder="Status"
             styles={customStyles}
             onChange={handleStatusChange}
+            isSearchable={false}
             blurInputOnSelect={true}
-            value={optionStatus}
+            {...(selectedStatus && {
+              value: optionByStatus.find((o) => o.value === selectedStatus),
+            })}
           />
 
           <Dropdown
+            classNamePrefix="level"
+            instanceId="level-dropdown-value"
             options={optionByLevel}
             placeholder="Level"
             styles={customStyles}
             onChange={handleLevelChange}
+            isSearchable={false}
             blurInputOnSelect={true}
+            {...(selectedLevel && {
+              value: optionByLevel.find((o) => o.value === selectedLevel),
+            })}
           />
           <Form>
             <Input
+              data-cy="search bar"
+              id="search"
               type="search"
               placeholder="Project Name"
               onChange={handleSearchProject}
+              value={projectSearch}
             />
           </Form>
         </FilterStyle>
