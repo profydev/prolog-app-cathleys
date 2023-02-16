@@ -1,2 +1,2 @@
 export { IssueList } from "./issue-list";
-export { IssueRow } from "./issue-row";
+export { IssueRow, Row, Cell } from "./issue-row";

@@ -20,19 +20,19 @@ const levelWords = {
   [IssueLevel.error]: "Critical",
 };
 
-const Row = styled.tr`
+export const Row = styled.tr`
   &:nth-child(2n) {
     background: ${color("gray", 50)};
   }
 `;
 
-const Cell = styled.td`
+export const Cell = styled.td`
   padding: ${space(4, 6)};
   color: ${color("gray", 500)};
   ${textFont("sm", "regular")}
 `;
 
-const IssueCell = styled(Cell)`
+export const IssueCell = styled(Cell)`
   display: flex;
   align-items: center;
 `;
