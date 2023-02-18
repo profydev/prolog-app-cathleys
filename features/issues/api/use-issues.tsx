@@ -37,7 +37,7 @@ export function useIssues(
         getIssues(page + 1, status, level, project)
       );
     }
-  }, [query.data, page, queryClient]);
+  }, [query.data, page, status, level, project, queryClient]);
 
   return query;
 }
