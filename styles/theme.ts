@@ -46,6 +46,8 @@ export type Theme = {
   };
   breakpoint: {
     desktop: string;
+    tablet: string;
+    mobile: string;
   };
   zIndex: {
     header: number;
@@ -154,6 +156,8 @@ export const theme = {
   },
   breakpoint: {
     desktop: "64em",
+    tablet: "52.125em",
+    mobile: "23.438em",
   },
   zIndex: {
     header: 1000,

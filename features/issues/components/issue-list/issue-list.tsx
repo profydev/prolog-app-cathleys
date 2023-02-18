@@ -1,12 +1,10 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
-import Select from "react-select";
-import styled from "styled-components";
 import { useIssues } from "@features/issues";
 import { ProjectLanguage, useProjects } from "@features/projects";
-import { color, space, textFont } from "@styles/theme";
 import { IssueRow } from "./issue-row";
+import * as I from "./issue-list.style";
 import * as F from "@features/ui";
 import { customStyles } from "@features/ui";
 import * as B from "@features/ui/button-header/button-header-icon";
@@ -17,125 +15,9 @@ import {
   optionByStatus,
 } from "@features/issues/api/select-issues-data";
 
-const WrapperStyle = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  flex-wrap: wrap;
-`;
-
-const Box = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding-bottom: 1.563rem;
-`;
-
-const FilterStyle = styled.form`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-around;
-`;
-
-const Form = styled.div`
-  border: none;
-  padding: 0;
-  background-color: white;
-`;
-const Input = styled.input.attrs({
-  type: "search",
-})`
-  width: 260px;
-  border: 1px solid ${color("gray", 300)};
-  display: block;
-  padding: 9px 4px 9px 40px;
-  background: transparent url("/icons/search.svg") no-repeat 13px center;
-  border-radius: 0.5rem;
-  outline: none;
-
-  ::placeholder {
-    color: ${color("gray", 500)};
-    ${textFont("md", "regular")};
-  }
-
-  &:focus {
-    border: 1px solid ${color("primary", 300)};
-    box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05),
-      0px 0px 0px 4px ${color("primary", 100)};
-  }
-`;
-
-const Dropdown = styled(Select)`
-  padding-right: ${space(4)};
-  width: 10rem;
-`;
-
-const Container = styled.div`
-  background: white;
-  border: 1px solid ${color("gray", 200)};
-  box-sizing: border-box;
-  box-shadow: 0px 4px 8px -2px rgba(16, 24, 40, 0.1),
-    0px 2px 4px -2px rgba(16, 24, 40, 0.06);
-  border-radius: ${space(2)};
-  overflow: hidden;
-`;
-
-const Table = styled.table`
-  width: 100%;
-  border-collapse: collapse;
-`;
-
-const HeaderRow = styled.tr`
-  border-bottom: 1px solid ${color("gray", 200)};
-`;
-
-const HeaderCell = styled.th`
-  padding: ${space(3, 6)};
-  text-align: left;
-  color: ${color("gray", 500)};
-  ${textFont("xs", "medium")};
-`;
-
-const PaginationContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: ${space(4, 6)};
-  border-top: 1px solid ${color("gray", 200)};
-`;
-
-const PaginationButton = styled.button`
-  height: 38px;
-  padding: ${space(0, 4)};
-  background: white;
-  border: 1px solid ${color("gray", 300)};
-  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
-  border-radius: 6px;
-
-  &:not(:first-of-type) {
-    margin-left: ${space(3)};
-  }
-`;
-
-const PageInfo = styled.div`
-  color: ${color("gray", 700)};
-  ${textFont("sm", "regular")}
-`;
-
-const PageNumber = styled.span`
-  ${textFont("sm", "medium")}
-`;
-
 export function IssueList() {
   const router = useRouter();
-  const queryParam = router.query;
-  const optionInitialValue: any = queryParam.status || "";
-
-  const [optionStatus, setOptionStatus] = useState(optionInitialValue);
-  const [optionLevel, setOptionLevel] = useState("");
   const [projectSearch, setProjectSearch] = useState("");
-
   const debouncedSearch = useDebouncedCallback((value) => {
     router.push({
       query: {
@@ -145,9 +27,16 @@ export function IssueList() {
     });
   }, 300);
 
-  const handleStatusChange = (optionByStatus: any) => {
-    setOptionStatus(optionByStatus.value);
+  const { status, level, project } = router.query;
+  const statusParam = Array.isArray(status) ? status[0] : status ?? "";
+  const levelParam = Array.isArray(level) ? level[0] : level ?? "";
+  const projectParam = Array.isArray(project) ? project[0] : project ?? "";
 
+  useEffect(() => {
+    if (projectParam) setProjectSearch(projectParam);
+  }, [projectParam]);
+
+  const handleStatusChange = (optionByStatus: any) => {
     router.push({
       query: {
         ...router.query,
@@ -155,8 +44,8 @@ export function IssueList() {
       },
     });
   };
+
   const handleLevelChange = (optionByLevel: any) => {
-    setOptionLevel(optionByLevel.value);
     router.push({
       query: {
         ...router.query,
@@ -164,6 +53,7 @@ export function IssueList() {
       },
     });
   };
+
   const handleSearchProject = (e: { target: { value: string } }) => {
     const searchValue = e.target.value.toLowerCase();
     setProjectSearch(searchValue);
@@ -171,26 +61,27 @@ export function IssueList() {
   };
 
   const page = Number(router.query.page || 1);
-  const navigateToPage = (newPage: number) =>
+  const navigateToPage = (newPage: number) => {
     router.push({
       pathname: router.pathname,
-      query: { page: newPage },
+      query: { ...router.query, page: newPage },
     });
+  };
 
-  const issuesPage = useIssues(page, optionStatus, optionLevel, projectSearch);
+  const issuesPage = useIssues(page, statusParam, levelParam, projectParam);
   const projects = useProjects();
 
   if (issuesPage.isLoading || projects.isLoading) {
     return <LoadingScreen />;
   }
 
-  if (issuesPage.isError) {
+  if (issuesPage.isError || projects.isError) {
     console.error(issuesPage.error);
     return <ErrorPage />;
   }
 
   const projectIdToLanguage = (projects.data || []).reduce(
-    (prev, project) => ({
+    (prev: any, project: { id: any; language: any }) => ({
       ...prev,
       [project.id]: project.language,
     }),
@@ -200,8 +91,8 @@ export function IssueList() {
 
   return (
     <>
-      <WrapperStyle>
-        <Box>
+      <I.WrapperStyle>
+        <I.Box>
           <F.ButtonHeader
             size={F.ButtonSize.md}
             color={F.ButtonColor.primary}
@@ -213,43 +104,53 @@ export function IssueList() {
               label="Resolve selected issues"
             />
           </F.ButtonHeader>
-        </Box>
+        </I.Box>
 
-        <FilterStyle>
-          <Dropdown
+        <I.FilterStyle>
+          <I.Dropdown
+            classNamePrefix="status"
+            instanceId="status-dropdown-value"
             options={optionByStatus}
             placeholder="Status"
             styles={customStyles}
             onChange={handleStatusChange}
+            isSearchable={false}
             blurInputOnSelect={true}
-            value={optionStatus}
+            {...{ value: optionByStatus.find((o) => o.value === status) }}
           />
 
-          <Dropdown
+          <I.Dropdown
+            classNamePrefix="level"
+            instanceId="level-dropdown-value"
             options={optionByLevel}
             placeholder="Level"
             styles={customStyles}
             onChange={handleLevelChange}
+            isSearchable={false}
             blurInputOnSelect={true}
+            {...{ value: optionByLevel.find((o) => o.value === level) }}
           />
-          <Form>
-            <Input
+          <I.Form>
+            <I.Input
+              data-cy="search bar"
+              id="search"
               type="search"
               placeholder="Project Name"
               onChange={handleSearchProject}
+              value={projectSearch}
             />
-          </Form>
-        </FilterStyle>
-      </WrapperStyle>
-      <Container>
-        <Table>
+          </I.Form>
+        </I.FilterStyle>
+      </I.WrapperStyle>
+      <I.Container>
+        <I.Table>
           <thead>
-            <HeaderRow>
-              <HeaderCell>Issue</HeaderCell>
-              <HeaderCell>Level</HeaderCell>
-              <HeaderCell>Events</HeaderCell>
-              <HeaderCell>Users</HeaderCell>
-            </HeaderRow>
+            <I.HeaderRow>
+              <I.HeaderCell>Issue</I.HeaderCell>
+              <I.HeaderCell>Level</I.HeaderCell>
+              <I.HeaderCell>Events</I.HeaderCell>
+              <I.HeaderCell>Users</I.HeaderCell>
+            </I.HeaderRow>
           </thead>
           <tbody>
             {(items || []).map((issue) => (
@@ -260,29 +161,29 @@ export function IssueList() {
               />
             ))}
           </tbody>
-        </Table>
-        <PaginationContainer>
+        </I.Table>
+        <I.PaginationContainer>
           <div>
-            <PaginationButton
+            <I.PaginationButton
               onClick={() => navigateToPage(page - 1)}
               disabled={page === 1}
               data-cy="Previous"
             >
               Previous
-            </PaginationButton>
-            <PaginationButton
+            </I.PaginationButton>
+            <I.PaginationButton
               onClick={() => navigateToPage(page + 1)}
               disabled={page === meta?.totalPages}
             >
               Next
-            </PaginationButton>
+            </I.PaginationButton>
           </div>
-          <PageInfo>
-            Page <PageNumber>{meta?.currentPage}</PageNumber> of{" "}
-            <PageNumber>{meta?.totalPages}</PageNumber>
-          </PageInfo>
-        </PaginationContainer>
-      </Container>
+          <I.PageInfo>
+            Page <I.PageNumber>{meta?.currentPage}</I.PageNumber> of{" "}
+            <I.PageNumber>{meta?.totalPages}</I.PageNumber>
+          </I.PageInfo>
+        </I.PaginationContainer>
+      </I.Container>
     </>
   );
 }

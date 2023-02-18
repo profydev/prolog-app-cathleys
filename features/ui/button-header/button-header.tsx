@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import styled, { css } from "styled-components";
-import { color, space, textFont } from "@styles/theme";
+import { breakpoint, color, space, textFont } from "@styles/theme";
 
 export enum ButtonSize {
   sm = "sm",
@@ -36,6 +36,10 @@ export const UiButton = styled.button<{
   border: none;
   letter-spacing: 0.044rem;
   border-radius: 0.5rem;
+
+  @media (max-width: ${breakpoint("tablet")}) {
+    width: 100%;
+  }
 
   ${(props) => {
     switch (props.size) {
