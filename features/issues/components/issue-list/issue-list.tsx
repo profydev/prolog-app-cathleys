@@ -1,12 +1,10 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
-import Select from "react-select";
-import styled from "styled-components";
 import { useIssues } from "@features/issues";
 import { ProjectLanguage, useProjects } from "@features/projects";
-import { breakpoint, color, space, textFont } from "@styles/theme";
 import { IssueRow } from "./issue-row";
+import * as I from "./issue-list.style";
 import * as F from "@features/ui";
 import { customStyles } from "@features/ui";
 import * as B from "@features/ui/button-header/button-header-icon";
@@ -17,176 +15,10 @@ import {
   optionByStatus,
 } from "@features/issues/api/select-issues-data";
 
-const WrapperStyle = styled.div`
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  flex-wrap: wrap;
-
-  @media (max-width: ${breakpoint("tablet")}) {
-    flex-direction: column-reverse;
-    flex: 1;
-  }
-`;
-
-const Box = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding-bottom: ${space(6)};
-`;
-
-const FilterStyle = styled.form`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-around;
-
-  @media (max-width: ${breakpoint("tablet")}) {
-    padding-bottom: ${space(4)};
-  }
-`;
-
-const Form = styled.div`
-  border: none;
-  padding: 0;
-  background-color: white;
-
-  @media (max-width: ${breakpoint("tablet")}) {
-    width: 100%;
-  }
-`;
-const Input = styled.input.attrs({
-  type: "search",
-})`
-  border: 1px solid ${color("gray", 300)};
-  padding: 9px 4px 9px 40px;
-  background: transparent url("/icons/search.svg") no-repeat 13px center;
-  border-radius: 0.5rem;
-  outline: none;
-
-  @media (max-width: ${breakpoint("tablet")}) {
-    width: 100%;
-  }
-  ::placeholder {
-    color: ${color("gray", 500)};
-    ${textFont("md", "regular")};
-  }
-
-  &:focus {
-    border: 1px solid ${color("primary", 300)};
-    box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05),
-      0px 0px 0px 4px ${color("primary", 100)};
-  }
-`;
-
-const Dropdown = styled(Select)`
-  padding-right: ${space(4)};
-  width: 10rem;
-
-  @media (max-width: ${breakpoint("tablet")}) {
-    width: 100%;
-    padding-right: ${space(0)};
-    padding-bottom: ${space(4)};
-  }
-`;
-
-const Container = styled.div`
-  background: white;
-  border: 1px solid ${color("gray", 200)};
-  box-sizing: border-box;
-  box-shadow: 0px 4px 8px -2px rgba(16, 24, 40, 0.1),
-    0px 2px 4px -2px rgba(16, 24, 40, 0.06);
-  border-radius: ${space(2)};
-  overflow: hidden;
-`;
-
-const Table = styled.table`
-  width: 100%;
-  border-collapse: collapse;
-`;
-
-const HeaderRow = styled.tr`
-  border-bottom: 1px solid ${color("gray", 200)};
-`;
-
-const HeaderCell = styled.th`
-  padding: ${space(3, 6)};
-  text-align: left;
-  color: ${color("gray", 500)};
-  ${textFont("xs", "medium")};
-`;
-
-const PaginationContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: ${space(4, 6)};
-  border-top: 1px solid ${color("gray", 200)};
-`;
-
-const PaginationButton = styled.button`
-  height: 38px;
-  padding: ${space(0, 4)};
-  background: white;
-  border: 1px solid ${color("gray", 300)};
-  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
-  border-radius: 6px;
-
-  &:not(:first-of-type) {
-    margin-left: ${space(3)};
-  }
-`;
-
-const PageInfo = styled.div`
-  color: ${color("gray", 700)};
-  ${textFont("sm", "regular")}
-`;
-
-const PageNumber = styled.span`
-  ${textFont("sm", "medium")}
-`;
-
 export function IssueList() {
   const router = useRouter();
-  const { status, level, project } = router.query;
-
-  const statusQueryParam = Array.isArray(status) ? status[0] : status ?? "";
-  const levelQueryParam = Array.isArray(level) ? level[0] : level ?? "";
-  const projectQueryParam = Array.isArray(project) ? project[0] : project ?? "";
-  const [selectedStatus, setSelectedStatus] = useState("");
-  const [selectedLevel, setSelectedLevel] = useState("");
   const [projectSearch, setProjectSearch] = useState("");
-
-  useEffect(() => {
-    if (statusQueryParam) setSelectedStatus(statusQueryParam);
-    if (levelQueryParam) setSelectedLevel(levelQueryParam);
-    if (projectQueryParam) setProjectSearch(projectQueryParam);
-  }, [statusQueryParam, levelQueryParam, projectQueryParam]);
-
-  const handleStatusChange = (optionByStatus: any) => {
-    setSelectedStatus(optionByStatus.value);
-
-    router.push({
-      query: {
-        ...router.query,
-        status: optionByStatus.value,
-      },
-    });
-  };
-  const handleLevelChange = (optionByLevel: any) => {
-    setSelectedLevel(optionByLevel.value);
-    router.push({
-      query: {
-        ...router.query,
-
-        level: optionByLevel.value,
-      },
-    });
-  };
-
-  const debouncedSearch = useDebouncedCallback((value: any) => {
+  const debouncedSearch = useDebouncedCallback((value) => {
     router.push({
       query: {
         ...router.query,
@@ -194,6 +26,33 @@ export function IssueList() {
       },
     });
   }, 300);
+
+  const { status, level, project } = router.query;
+  const statusParam = Array.isArray(status) ? status[0] : status ?? "";
+  const levelParam = Array.isArray(level) ? level[0] : level ?? "";
+  const projectParam = Array.isArray(project) ? project[0] : project ?? "";
+
+  useEffect(() => {
+    if (projectParam) setProjectSearch(projectParam);
+  }, [projectParam]);
+
+  const handleStatusChange = (optionByStatus: any) => {
+    router.push({
+      query: {
+        ...router.query,
+        status: optionByStatus.value,
+      },
+    });
+  };
+
+  const handleLevelChange = (optionByLevel: any) => {
+    router.push({
+      query: {
+        ...router.query,
+        level: optionByLevel.value,
+      },
+    });
+  };
 
   const handleSearchProject = (e: { target: { value: string } }) => {
     const searchValue = e.target.value.toLowerCase();
@@ -209,12 +68,7 @@ export function IssueList() {
     });
   };
 
-  const issuesPage = useIssues(
-    page,
-    selectedStatus,
-    selectedLevel,
-    projectSearch
-  );
+  const issuesPage = useIssues(page, statusParam, levelParam, projectParam);
   const projects = useProjects();
 
   if (issuesPage.isLoading || projects.isLoading) {
@@ -237,8 +91,8 @@ export function IssueList() {
 
   return (
     <>
-      <WrapperStyle>
-        <Box>
+      <I.WrapperStyle>
+        <I.Box>
           <F.ButtonHeader
             size={F.ButtonSize.md}
             color={F.ButtonColor.primary}
@@ -250,10 +104,10 @@ export function IssueList() {
               label="Resolve selected issues"
             />
           </F.ButtonHeader>
-        </Box>
+        </I.Box>
 
-        <FilterStyle>
-          <Dropdown
+        <I.FilterStyle>
+          <I.Dropdown
             classNamePrefix="status"
             instanceId="status-dropdown-value"
             options={optionByStatus}
@@ -262,12 +116,10 @@ export function IssueList() {
             onChange={handleStatusChange}
             isSearchable={false}
             blurInputOnSelect={true}
-            {...(selectedStatus && {
-              value: optionByStatus.find((o) => o.value === selectedStatus),
-            })}
+            {...{ value: optionByStatus.find((o) => o.value === status) }}
           />
 
-          <Dropdown
+          <I.Dropdown
             classNamePrefix="level"
             instanceId="level-dropdown-value"
             options={optionByLevel}
@@ -276,12 +128,10 @@ export function IssueList() {
             onChange={handleLevelChange}
             isSearchable={false}
             blurInputOnSelect={true}
-            {...(selectedLevel && {
-              value: optionByLevel.find((o) => o.value === selectedLevel),
-            })}
+            {...{ value: optionByLevel.find((o) => o.value === level) }}
           />
-          <Form>
-            <Input
+          <I.Form>
+            <I.Input
               data-cy="search bar"
               id="search"
               type="search"
@@ -289,18 +139,18 @@ export function IssueList() {
               onChange={handleSearchProject}
               value={projectSearch}
             />
-          </Form>
-        </FilterStyle>
-      </WrapperStyle>
-      <Container>
-        <Table>
+          </I.Form>
+        </I.FilterStyle>
+      </I.WrapperStyle>
+      <I.Container>
+        <I.Table>
           <thead>
-            <HeaderRow>
-              <HeaderCell>Issue</HeaderCell>
-              <HeaderCell>Level</HeaderCell>
-              <HeaderCell>Events</HeaderCell>
-              <HeaderCell>Users</HeaderCell>
-            </HeaderRow>
+            <I.HeaderRow>
+              <I.HeaderCell>Issue</I.HeaderCell>
+              <I.HeaderCell>Level</I.HeaderCell>
+              <I.HeaderCell>Events</I.HeaderCell>
+              <I.HeaderCell>Users</I.HeaderCell>
+            </I.HeaderRow>
           </thead>
           <tbody>
             {(items || []).map((issue) => (
@@ -311,29 +161,29 @@ export function IssueList() {
               />
             ))}
           </tbody>
-        </Table>
-        <PaginationContainer>
+        </I.Table>
+        <I.PaginationContainer>
           <div>
-            <PaginationButton
+            <I.PaginationButton
               onClick={() => navigateToPage(page - 1)}
               disabled={page === 1}
               data-cy="Previous"
             >
               Previous
-            </PaginationButton>
-            <PaginationButton
+            </I.PaginationButton>
+            <I.PaginationButton
               onClick={() => navigateToPage(page + 1)}
               disabled={page === meta?.totalPages}
             >
               Next
-            </PaginationButton>
+            </I.PaginationButton>
           </div>
-          <PageInfo>
-            Page <PageNumber>{meta?.currentPage}</PageNumber> of{" "}
-            <PageNumber>{meta?.totalPages}</PageNumber>
-          </PageInfo>
-        </PaginationContainer>
-      </Container>
+          <I.PageInfo>
+            Page <I.PageNumber>{meta?.currentPage}</I.PageNumber> of{" "}
+            <I.PageNumber>{meta?.totalPages}</I.PageNumber>
+          </I.PageInfo>
+        </I.PaginationContainer>
+      </I.Container>
     </>
   );
 }

@@ -19,13 +19,13 @@ async function getIssues(
 
 export function useIssues(
   page: number,
-  selectedStatus: string,
-  selectedLevel: string,
-  projectSearch: string
+  status: string,
+  level: string,
+  project: string
 ) {
   const query = useQuery<Page<Issue>, Error>(
-    ["issues", page, selectedStatus, selectedLevel, projectSearch],
-    () => getIssues(page, selectedStatus, selectedLevel, projectSearch),
+    ["issues", page, status, level, project],
+    () => getIssues(page, status, level, project),
     { keepPreviousData: true, staleTime: 60000 }
   );
 
@@ -34,17 +34,10 @@ export function useIssues(
   useEffect(() => {
     if (query.data?.meta.hasNextPage) {
       queryClient.prefetchQuery(["projects", page + 1], () =>
-        getIssues(page + 1, selectedStatus, selectedLevel, projectSearch)
+        getIssues(page + 1, status, level, project)
       );
     }
-  }, [
-    query.data,
-    page,
-    selectedStatus,
-    selectedLevel,
-    projectSearch,
-    queryClient,
-  ]);
+  }, [query.data, page, queryClient]);
 
   return query;
 }
