@@ -38,7 +38,15 @@ describe("Project List", () => {
             .invoke("val", statusColors[index]);
           cy.wrap($el)
             .find("a")
-            .should("have.attr", "href", "/dashboard/issues");
+            .should(
+              "have.attr",
+              "href",
+              "/dashboard/issues" +
+                "?" +
+                "project" +
+                "=" +
+                `${encodeURIComponent(mockProjects[index].name)}`
+            );
         });
     });
   });
