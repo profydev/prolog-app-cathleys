@@ -56,6 +56,7 @@ export function IssueRow({ projectLanguage, issue }: IssueRowProps) {
   return (
     <Row>
       <IssueCell>
+        <F.Checkbox size={F.CheckboxSize.md} check={F.CheckboxState.checked} />
         <LanguageIcon
           src={`/icons/${projectLanguage}.svg`}
           alt={projectLanguage}

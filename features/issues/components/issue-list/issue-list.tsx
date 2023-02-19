@@ -146,7 +146,13 @@ export function IssueList() {
         <I.Table>
           <thead>
             <I.HeaderRow>
-              <I.HeaderCell>Issue</I.HeaderCell>
+              <I.HeaderCell>
+                <F.Checkbox
+                  size={F.CheckboxSize.md}
+                  check={F.CheckboxState.partlyChecked}
+                  label="Issue"
+                />
+              </I.HeaderCell>
               <I.HeaderCell>Level</I.HeaderCell>
               <I.HeaderCell>Events</I.HeaderCell>
               <I.HeaderCell>Users</I.HeaderCell>

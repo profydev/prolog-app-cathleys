@@ -16,7 +16,7 @@ export enum CheckboxState {
 type CheckboxProps = {
   label?: string;
   size: CheckboxSize;
-  state: CheckboxState;
+  check: CheckboxState;
 };
 
 // Hides the default checkbox
@@ -38,7 +38,7 @@ const Checkmark = styled.span<{ size: CheckboxSize }>`
   border-radius: ${({ size }) => (size === "sm" ? "4px" : "6px")};
 `;
 
-const Label = styled.label<{ size: CheckboxSize; state: CheckboxState }>`
+const Label = styled.label<{ size: CheckboxSize; check: CheckboxState }>`
   display: flex;
   align-items: center;
   position: relative;
@@ -47,7 +47,7 @@ const Label = styled.label<{ size: CheckboxSize; state: CheckboxState }>`
   ${(props) => {
     switch (props.size) {
       case CheckboxSize.sm:
-        switch (props.state) {
+        switch (props.check) {
           case CheckboxState.unchecked:
             return css`
               padding-left: ${space(6)};
@@ -87,7 +87,7 @@ const Label = styled.label<{ size: CheckboxSize; state: CheckboxState }>`
         break;
 
       case CheckboxSize.md:
-        switch (props.state) {
+        switch (props.check) {
           case CheckboxState.unchecked:
             return css`
               padding-left: ${space(8)};
@@ -159,10 +159,10 @@ const Label = styled.label<{ size: CheckboxSize; state: CheckboxState }>`
 export function Checkbox({
   label,
   size = CheckboxSize.md,
-  state,
+  check,
 }: CheckboxProps) {
   return (
-    <Label size={size} state={state}>
+    <Label size={size} check={check}>
       <Input type="checkbox" />
       <Checkmark size={size} />
       {label}
