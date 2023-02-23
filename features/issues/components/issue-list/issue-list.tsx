@@ -6,7 +6,7 @@ import { ProjectLanguage, useProjects } from "@features/projects";
 import { IssueRow } from "./issue-row";
 import * as I from "./issue-list.style";
 import * as F from "@features/ui";
-import { customStyles } from "@features/ui";
+import { customStyles, NewCheckbox } from "@features/ui";
 import * as B from "@features/ui/button-header/button-header-icon";
 import { LoadingScreen } from "@features/projects/components/loading-screen";
 import { ErrorPage } from "@features/projects/components/error-page";
@@ -18,6 +18,8 @@ import {
 export function IssueList() {
   const router = useRouter();
   const [projectSearch, setProjectSearch] = useState("");
+  const [checkedItems, setCheckedItems] = useState<string[]>([]);
+
   const debouncedSearch = useDebouncedCallback((value) => {
     router.push({
       query: {
@@ -31,10 +33,6 @@ export function IssueList() {
   const statusParam = Array.isArray(status) ? status[0] : status ?? "";
   const levelParam = Array.isArray(level) ? level[0] : level ?? "";
   const projectParam = Array.isArray(project) ? project[0] : project ?? "";
-
-  useEffect(() => {
-    if (projectParam) setProjectSearch(projectParam);
-  }, [projectParam]);
 
   const handleStatusChange = (optionByStatus: any) => {
     router.push({
@@ -54,10 +52,28 @@ export function IssueList() {
     });
   };
 
-  const handleSearchProject = (e: { target: { value: string } }) => {
+  const handleSearchProject = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchValue = e.target.value.toLowerCase();
     setProjectSearch(searchValue);
     debouncedSearch(searchValue);
+  };
+
+  const handleChange = (id: string) => {
+    if (checkedItems.includes(id)) {
+      setCheckedItems(
+        checkedItems.filter((checkedItems) => checkedItems !== id)
+      );
+    } else {
+      setCheckedItems([...checkedItems, id]);
+    }
+  };
+
+  const checkAll = (e: any) => {
+    if (e.target.checked) {
+      setCheckedItems((items || []).map(({ id }) => id));
+    } else {
+      setCheckedItems([]);
+    }
   };
 
   const page = Number(router.query.page || 1);
@@ -67,6 +83,11 @@ export function IssueList() {
       query: { ...router.query, page: newPage },
     });
   };
+
+  useEffect(() => {
+    if (projectParam) setProjectSearch(projectParam);
+    if (page) setCheckedItems([]);
+  }, [projectParam, page]);
 
   const issuesPage = useIssues(page, statusParam, levelParam, projectParam);
   const projects = useProjects();
@@ -87,6 +108,7 @@ export function IssueList() {
     }),
     {} as Record<string, ProjectLanguage>
   );
+
   const { items, meta } = issuesPage.data || {};
 
   return (
@@ -147,10 +169,14 @@ export function IssueList() {
           <thead>
             <I.HeaderRow>
               <I.HeaderCell>
-                <F.Checkbox
-                  size={F.CheckboxSize.md}
-                  check={F.CheckboxState.partlyChecked}
-                  label="Issue"
+                <NewCheckbox
+                  checked={checkedItems.length === items?.length}
+                  indeterminate={
+                    checkedItems.length > 0 &&
+                    checkedItems.length < (items?.length || [])
+                  }
+                  onChange={checkAll}
+                  text="Issue"
                 />
               </I.HeaderCell>
               <I.HeaderCell>Level</I.HeaderCell>
@@ -160,11 +186,17 @@ export function IssueList() {
           </thead>
           <tbody>
             {(items || []).map((issue) => (
-              <IssueRow
-                key={issue.id}
-                issue={issue}
-                projectLanguage={projectIdToLanguage[issue.projectId]}
-              />
+              <>
+                {
+                  <IssueRow
+                    key={issue.id}
+                    issue={issue}
+                    projectLanguage={projectIdToLanguage[issue.projectId]}
+                    checked={checkedItems.includes(issue.id)}
+                    onChange={() => handleChange(issue.id)}
+                  />
+                }
+              </>
             ))}
           </tbody>
         </I.Table>

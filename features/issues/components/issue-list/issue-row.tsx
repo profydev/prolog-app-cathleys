@@ -4,9 +4,13 @@ import * as F from "@features/ui";
 import { IssueLevel } from "../../types/issue.types";
 import { ProjectLanguage } from "@features/projects";
 import type { Issue } from "../../types/issue.types";
+import { NewCheckbox } from "@features/ui";
+
 type IssueRowProps = {
   projectLanguage: ProjectLanguage;
   issue: Issue;
+  checked?: boolean;
+  onChange: () => void;
 };
 
 const levelColors = {
@@ -50,13 +54,13 @@ const ErrorType = styled.span`
   ${textFont("sm", "medium")}
 `;
 
-export function IssueRow({ projectLanguage, issue }: IssueRowProps) {
+export function IssueRow({ projectLanguage, issue, ...props }: IssueRowProps) {
   const { name, message, stack, level, numEvents, numUsers } = issue;
   const firstLineOfStackTrace = stack.split("\n")[1];
   return (
     <Row>
       <IssueCell>
-        <F.Checkbox size={F.CheckboxSize.md} check={F.CheckboxState.checked} />
+        <NewCheckbox {...props} />
         <LanguageIcon
           src={`/icons/${projectLanguage}.svg`}
           alt={projectLanguage}
