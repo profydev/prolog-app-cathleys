@@ -18,7 +18,7 @@ import {
 export function IssueList() {
   const router = useRouter();
   const [projectSearch, setProjectSearch] = useState("");
-  const [checkedItems, setCheckedItems] = useState<string[]>([]);
+  const [checkedItems, setCheckedItems] = useState<Set<string>>(new Set());
 
   const debouncedSearch = useDebouncedCallback((value) => {
     router.push({
@@ -58,21 +58,24 @@ export function IssueList() {
     debouncedSearch(searchValue);
   };
 
-  const handleChange = (id: string) => {
-    if (checkedItems.includes(id)) {
-      setCheckedItems(
-        checkedItems.filter((checkedItems) => checkedItems !== id)
-      );
+  const handleCheckbox = (id: string) => {
+    const newCheckedItems = new Set(checkedItems);
+
+    if (checkedItems.has(id)) {
+      //removes the item from the set
+      newCheckedItems.delete(id);
+      setCheckedItems(newCheckedItems);
     } else {
-      setCheckedItems([...checkedItems, id]);
+      newCheckedItems.add(id);
+      setCheckedItems(newCheckedItems);
     }
   };
 
-  const checkAll = (e: any) => {
+  const handleToggleAll = (e: any) => {
     if (e.target.checked) {
-      setCheckedItems((items || []).map(({ id }) => id));
+      setCheckedItems(new Set((items || []).map(({ id }) => id)));
     } else {
-      setCheckedItems([]);
+      setCheckedItems(new Set());
     }
   };
 
@@ -86,7 +89,7 @@ export function IssueList() {
 
   useEffect(() => {
     if (projectParam) setProjectSearch(projectParam);
-    if (page) setCheckedItems([]);
+    if (page) setCheckedItems(new Set());
   }, [projectParam, page]);
 
   const issuesPage = useIssues(page, statusParam, levelParam, projectParam);
@@ -170,12 +173,12 @@ export function IssueList() {
             <I.HeaderRow>
               <I.HeaderCell>
                 <NewCheckbox
-                  checked={checkedItems.length === items?.length}
+                  checked={checkedItems.size === items?.length}
                   indeterminate={
-                    checkedItems.length > 0 &&
-                    checkedItems.length < (items?.length || [])
+                    checkedItems.size > 0 &&
+                    checkedItems.size < (items?.length || [])
                   }
-                  onChange={checkAll}
+                  onChange={handleToggleAll}
                   text="Issue"
                 />
               </I.HeaderCell>
@@ -192,8 +195,8 @@ export function IssueList() {
                     key={issue.id}
                     issue={issue}
                     projectLanguage={projectIdToLanguage[issue.projectId]}
-                    checked={checkedItems.includes(issue.id)}
-                    onChange={() => handleChange(issue.id)}
+                    checked={checkedItems.has(issue.id)}
+                    onChange={() => handleCheckbox(issue.id)}
                   />
                 }
               </>
