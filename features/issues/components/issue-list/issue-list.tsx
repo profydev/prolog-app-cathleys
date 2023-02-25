@@ -6,7 +6,7 @@ import { ProjectLanguage, useProjects } from "@features/projects";
 import { IssueRow } from "./issue-row";
 import * as I from "./issue-list.style";
 import * as F from "@features/ui";
-import { customStyles } from "@features/ui";
+import { customStyles, NewCheckbox } from "@features/ui";
 import * as B from "@features/ui/button-header/button-header-icon";
 import { LoadingScreen } from "@features/projects/components/loading-screen";
 import { ErrorPage } from "@features/projects/components/error-page";
@@ -18,6 +18,8 @@ import {
 export function IssueList() {
   const router = useRouter();
   const [projectSearch, setProjectSearch] = useState("");
+  const [checkedItems, setCheckedItems] = useState<Set<string>>(new Set());
+
   const debouncedSearch = useDebouncedCallback((value) => {
     router.push({
       query: {
@@ -31,10 +33,6 @@ export function IssueList() {
   const statusParam = Array.isArray(status) ? status[0] : status ?? "";
   const levelParam = Array.isArray(level) ? level[0] : level ?? "";
   const projectParam = Array.isArray(project) ? project[0] : project ?? "";
-
-  useEffect(() => {
-    if (projectParam) setProjectSearch(projectParam);
-  }, [projectParam]);
 
   const handleStatusChange = (optionByStatus: any) => {
     router.push({
@@ -54,10 +52,31 @@ export function IssueList() {
     });
   };
 
-  const handleSearchProject = (e: { target: { value: string } }) => {
+  const handleSearchProject = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchValue = e.target.value.toLowerCase();
     setProjectSearch(searchValue);
     debouncedSearch(searchValue);
+  };
+
+  const handleCheckbox = (id: string) => {
+    const newCheckedItems = new Set(checkedItems);
+
+    if (checkedItems.has(id)) {
+      //removes the item from the set
+      newCheckedItems.delete(id);
+      setCheckedItems(newCheckedItems);
+    } else {
+      newCheckedItems.add(id);
+      setCheckedItems(newCheckedItems);
+    }
+  };
+
+  const handleToggleAll = (e: any) => {
+    if (e.target.checked) {
+      setCheckedItems(new Set((items || []).map(({ id }) => id)));
+    } else {
+      setCheckedItems(new Set());
+    }
   };
 
   const page = Number(router.query.page || 1);
@@ -67,6 +86,11 @@ export function IssueList() {
       query: { ...router.query, page: newPage },
     });
   };
+
+  useEffect(() => {
+    if (projectParam) setProjectSearch(projectParam);
+    if (page) setCheckedItems(new Set());
+  }, [projectParam, page]);
 
   const issuesPage = useIssues(page, statusParam, levelParam, projectParam);
   const projects = useProjects();
@@ -87,6 +111,7 @@ export function IssueList() {
     }),
     {} as Record<string, ProjectLanguage>
   );
+
   const { items, meta } = issuesPage.data || {};
 
   return (
@@ -146,7 +171,17 @@ export function IssueList() {
         <I.Table>
           <thead>
             <I.HeaderRow>
-              <I.HeaderCell>Issue</I.HeaderCell>
+              <I.HeaderCell>
+                <NewCheckbox
+                  checked={checkedItems.size === items?.length}
+                  indeterminate={
+                    checkedItems.size > 0 &&
+                    checkedItems.size < (items?.length || [])
+                  }
+                  onChange={handleToggleAll}
+                  text="Issue"
+                />
+              </I.HeaderCell>
               <I.HeaderCell>Level</I.HeaderCell>
               <I.HeaderCell>Events</I.HeaderCell>
               <I.HeaderCell>Users</I.HeaderCell>
@@ -154,11 +189,17 @@ export function IssueList() {
           </thead>
           <tbody>
             {(items || []).map((issue) => (
-              <IssueRow
-                key={issue.id}
-                issue={issue}
-                projectLanguage={projectIdToLanguage[issue.projectId]}
-              />
+              <>
+                {
+                  <IssueRow
+                    key={issue.id}
+                    issue={issue}
+                    projectLanguage={projectIdToLanguage[issue.projectId]}
+                    checked={checkedItems.has(issue.id)}
+                    onChange={() => handleCheckbox(issue.id)}
+                  />
+                }
+              </>
             ))}
           </tbody>
         </I.Table>
