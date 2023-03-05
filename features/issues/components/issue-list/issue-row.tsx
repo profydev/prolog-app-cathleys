@@ -11,6 +11,7 @@ type IssueRowProps = {
   issue: Issue;
   checked?: boolean;
   onChange: () => void;
+  disabled?: boolean;
 };
 
 const levelColors = {

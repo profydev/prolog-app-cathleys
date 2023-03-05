@@ -1,12 +1,10 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
-import { useIssues } from "@features/issues";
+import { Issue, useIssues, useResolveIssues } from "@features/issues";
 import { ProjectLanguage, useProjects } from "@features/projects";
 import { IssueRow } from "./issue-row";
 import * as I from "./issue-list.style";
-import * as F from "@features/ui";
-import * as B from "@features/ui/button-header/button-header-icon";
 import { customStyles, NewCheckbox } from "@features/ui";
 import { LoadingScreen } from "@features/projects/components/loading-screen";
 import { ErrorPage } from "@features/projects/components/error-page";
@@ -14,12 +12,28 @@ import {
   optionByLevel,
   optionByStatus,
 } from "@features/issues/api/select-issues-data";
+import styled from "styled-components";
+import { color } from "@styles/theme";
+import { useMutation, useQueryClient } from "react-query";
 
+const Button = styled.button`
+  background-color: ${color("primary", 600)};
+  outline: none;
+  border: none;
+  color: white;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 0.25rem;
+  &:hover {
+    background-color: ${color("primary", 700)};
+  }
+`;
 export function IssueList() {
   const router = useRouter();
   const [projectSearch, setProjectSearch] = useState("");
   const [checkedItems, setCheckedItems] = useState<Set<string>>(new Set());
-
+  const [theIssues, setIssues] = useState<Issue[]>([]);
+  const queryClient = useQueryClient();
   const debouncedSearch = useDebouncedCallback((value) => {
     router.push({
       query: {
@@ -62,7 +76,6 @@ export function IssueList() {
     const newCheckedItems = new Set(checkedItems);
 
     if (checkedItems.has(id)) {
-      //removes the item from the set
       newCheckedItems.delete(id);
       setCheckedItems(newCheckedItems);
     } else {
@@ -71,13 +84,59 @@ export function IssueList() {
     }
   };
 
-  const handleToggleAll = (e: any) => {
-    if (e.target.checked) {
+  const handleToggleAll = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if ((e.target as HTMLInputElement).checked) {
       setCheckedItems(new Set((items || []).map(({ id }) => id)));
     } else {
       setCheckedItems(new Set());
     }
   };
+  //this is where it starts
+
+  console.log("queryClient", queryClient);
+
+  const resolveCheckedItems = useMutation(useResolveIssues, {
+    onMutate: async (checkedIds: string[]) => {
+      await queryClient.cancelQueries(["issues", page, status, level, project]);
+
+      const prevItems = queryClient.getQueryData<{ items: Issue[] }>([
+        "issues",
+        page,
+        status,
+        level,
+        project,
+      ]);
+      if (!prevItems) {
+        console.log("prevItems is undefined");
+        return;
+      }
+
+      const updatedItems = prevItems?.items.filter(
+        (item) => !checkedIds.includes(item.id)
+      );
+
+      console.log("onmutate-updatedItems", updatedItems);
+
+      queryClient.setQueryData(["issues", page, status, level, project], {
+        items: updatedItems,
+      });
+
+      return { prevItems };
+    },
+    onError: (err, checkedIds, context) => {
+      queryClient.setQueryData(
+        ["issues", page, status, level, project],
+        context?.prevItems
+      );
+      console.log("onError");
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(["issues", page, status, level, project]);
+      console.log("onSettled");
+    },
+  });
+
+  //this is where it ends
 
   const page = Number(router.query.page || 1);
   const navigateToPage = (newPage: number) => {
@@ -104,6 +163,7 @@ export function IssueList() {
     return <ErrorPage />;
   }
 
+  const { items, meta } = issuesPage.data || {};
   const projectIdToLanguage = (projects.data || []).reduce(
     (prev: any, project: { id: any; language: any }) => ({
       ...prev,
@@ -112,23 +172,21 @@ export function IssueList() {
     {} as Record<string, ProjectLanguage>
   );
 
-  const { items, meta } = issuesPage.data || {};
-
   return (
     <>
       <I.WrapperStyle>
         <I.Box>
-          <F.ButtonHeader
-            size={F.ButtonSize.md}
-            color={F.ButtonColor.primary}
-            href=""
+          <Button
+            onClick={() => {
+              const checkedIds = Array.from(checkedItems);
+
+              resolveCheckedItems.mutate(checkedIds);
+
+              console.log("onclick-check ids", checkedIds);
+            }}
           >
-            <B.ButtonwithIcon
-              iconSrc="/icons/check.svg"
-              icon={B.ButtonIcons.leading}
-              label="Resolve selected issues"
-            />
-          </F.ButtonHeader>
+            Resolve Issues
+          </Button>
         </I.Box>
 
         <I.FilterStyle>
@@ -198,6 +256,7 @@ export function IssueList() {
                     projectLanguage={projectIdToLanguage[issue.projectId]}
                     checked={checkedItems.has(issue.id)}
                     onChange={() => handleCheckbox(issue.id)}
+                    disabled={issue.status === "resolved"}
                   />
                 }
               </>
