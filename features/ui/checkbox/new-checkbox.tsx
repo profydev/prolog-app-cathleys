@@ -20,7 +20,7 @@ export interface MyCheckboxProps
   checked?: boolean;
   indeterminate?: boolean;
   text?: string;
-  onChange: (e: React.FormEvent<HTMLInputElement>) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const NewCheckbox = forwardRef<HTMLInputElement, MyCheckboxProps>(
