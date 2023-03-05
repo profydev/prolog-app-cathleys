@@ -1,5 +1,5 @@
 import React from "react";
-import { Title, Subtitle, Image, HeroPage } from "@features/landing page";
+import { Title, SubHeader, Image, HeroPage } from "@features/landing page";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 export default {
@@ -14,10 +14,10 @@ export default {
 const Template: ComponentStory<typeof HeroPage> = () => (
   <HeroPage>
     <Title>Your Issues In Sight. At All Times.</Title>
-    <Subtitle>
+    <SubHeader>
       Powerful error tracking and monitoring for software applications. Trusted
       by over 4,000 startups.
-    </Subtitle>
+    </SubHeader>
     <Image>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
