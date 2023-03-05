@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Routes } from "@config/routes";
 import { ButtonHeader } from "@features/ui/button-header/index";
 import { MenuButton, MenuIcon } from "@features/ui/sidebar-navigation/index";
-import { useHero } from "@features/landing page";
+import { useHome } from "@features/landing page";
 import * as H from "@features/landing page/components/hero-section";
 import { ContactModal } from "@features/ui/modal";
 
@@ -17,13 +17,13 @@ const Header = styled.header`
   align-items: center;
   background: white;
 
-  @media (max-width: 64rem) {
+  @media (max-width: 64em) {
     padding: 1.219rem 0.75rem 1.219rem 1rem;
   }
 `;
 
 const ButtonDiv = styled.div`
-  @media (max-width: 64rem) {
+  @media (max-width: 64em) {
     display: none;
   }
 `;
@@ -31,7 +31,7 @@ const ButtonDiv = styled.div`
 const Nav = styled.nav`
   display: flex;
 
-  @media (max-width: 64rem) {
+  @media (max-width: 64em) {
     display: none;
   }
 `;
@@ -43,6 +43,60 @@ const LinkItems = styled.a`
   padding: 0 1rem;
   font-weight: 500;
   color: #667085;
+`;
+
+const SocialProofSection = styled.div`
+  box-sizing: border-box;
+  display: block;
+  padding: 64px 0;
+  background-color: white;
+`;
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+
+const SocialHeader = styled.p`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 32px;
+  font-weight: 500;
+  color: #667085;
+`;
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+
+  @media (max-width: 23.438em) {
+    justify-content: center;
+  }
+`;
+const SocialIcons = styled.img`
+  display: flex;
+  @media (max-width: 23.438em) {
+    padding: 32px 0;
+    width: 9.625rem;
+    height: 2.125rem;
+  }
+`;
+
+const SocialIconLast = styled.img`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  width: 9.625rem;
+  height: 2.125rem;
+  @media (min-width: 64em) {
+    display: none;
+  }
 `;
 
 const ContactButton = styled.button`
@@ -64,7 +118,7 @@ const ContactButton = styled.button`
 const IssuesPage = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const { data } = useHero();
+  const { data } = useHome();
 
   return (
     <div>
@@ -89,13 +143,11 @@ const IssuesPage = () => {
           <ButtonHeader label="Open Dashboard" href={Routes.projects} />
         </ButtonDiv>
       </Header>
-
       <H.Container>
         <H.Title>{data?.sections[0].title}</H.Title>
-        <H.Subtitle>{data?.sections[0].subtitle}</H.Subtitle>
+        <H.SubHeader>{data?.sections[0].subtitle}</H.SubHeader>
         <H.Image>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <H.HeaderImage
             data-cy="hero-image"
             src={`https://prolog-api.profy.dev${data?.sections[0].image.src}`}
             alt="Hero image"
@@ -103,7 +155,43 @@ const IssuesPage = () => {
         </H.Image>
       </H.Container>
 
-      {/* Contact Modal */}
+      <SocialProofSection>
+        <Container>
+          <SocialHeader>Join 4,000+ companies using Prolog</SocialHeader>
+          <Wrapper>
+            <SocialIcons
+              src={`https://prolog-api.profy.dev${data?.sections[1].companies[0].logo}`}
+              alt="sp-1"
+            />
+            <SocialIcons
+              src={`https://prolog-api.profy.dev${data?.sections[1].companies[1].logo}`}
+              alt="sp-2"
+            />
+            <SocialIcons
+              src={`https://prolog-api.profy.dev${data?.sections[1].companies[2].logo}`}
+              alt="sp-3"
+            />
+            <SocialIcons
+              src={`https://prolog-api.profy.dev${data?.sections[1].companies[3].logo}`}
+              alt="sp-4"
+            />
+            <SocialIcons
+              src={`https://prolog-api.profy.dev${data?.sections[1].companies[4].logo}`}
+              alt="sp-5"
+            />
+            <SocialIconLast
+              isMobileMenuOpen={isMobileMenuOpen}
+              src={`https://prolog-api.profy.dev${data?.sections[1].companies[5].logo}`}
+              alt="sp-6"
+            />
+          </Wrapper>
+        </Container>
+      </SocialProofSection>
+      <div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
 
       <ContactButton
         data-cy="contact-button"
