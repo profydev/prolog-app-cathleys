@@ -3,9 +3,8 @@ import styled from "styled-components";
 import { Routes } from "@config/routes";
 import { ButtonHeader } from "@features/ui/button-header/index";
 import { MenuButton, MenuIcon } from "@features/ui/sidebar-navigation/index";
-import { useHero } from "@features/landing page";
-import * as H from "@features/landing page/components/hero-section";
 import { ContactModal } from "@features/ui/modal";
+import { HeroPage, SocialProof } from "@features/landing page/components";
 
 const Header = styled.header`
   display: flex;
@@ -17,13 +16,13 @@ const Header = styled.header`
   align-items: center;
   background: white;
 
-  @media (max-width: 64rem) {
+  @media (max-width: 64em) {
     padding: 1.219rem 0.75rem 1.219rem 1rem;
   }
 `;
 
 const ButtonDiv = styled.div`
-  @media (max-width: 64rem) {
+  @media (max-width: 64em) {
     display: none;
   }
 `;
@@ -31,7 +30,7 @@ const ButtonDiv = styled.div`
 const Nav = styled.nav`
   display: flex;
 
-  @media (max-width: 64rem) {
+  @media (max-width: 64em) {
     display: none;
   }
 `;
@@ -64,7 +63,6 @@ const ContactButton = styled.button`
 const IssuesPage = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const { data } = useHero();
 
   return (
     <div>
@@ -90,20 +88,8 @@ const IssuesPage = () => {
         </ButtonDiv>
       </Header>
 
-      <H.Container>
-        <H.Title>{data?.sections[0].title}</H.Title>
-        <H.Subtitle>{data?.sections[0].subtitle}</H.Subtitle>
-        <H.Image>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            data-cy="hero-image"
-            src={`https://prolog-api.profy.dev${data?.sections[0].image.src}`}
-            alt="Hero image"
-          />
-        </H.Image>
-      </H.Container>
-
-      {/* Contact Modal */}
+      <HeroPage />
+      <SocialProof />
 
       <ContactButton
         data-cy="contact-button"

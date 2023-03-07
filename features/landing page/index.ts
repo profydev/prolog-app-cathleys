@@ -1,3 +1,2 @@
-export * from "./api/use-hero";
-export * from "./components/hero-section";
-export * from "./types/hero.types";
+export * from "./api/get-home";
+export * from "./components";
