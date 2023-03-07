@@ -65,7 +65,7 @@ export function SocialProof() {
   const findSocial = sections?.find((el) => el.sectionType === "social-proof");
 
   return (
-    <SocialSection>
+    <SocialSection data-cy="social-div">
       {findSocial && (
         <Container>
           <SocialHeader>{findSocial.title}</SocialHeader>
@@ -73,6 +73,7 @@ export function SocialProof() {
           <Wrapper>
             {findSocial?.companies?.map((item) => (
               <SocialIcons
+                data-cy="company-logos"
                 key={item.name}
                 src={`https://prolog-api.profy.dev/${item.logo}`}
                 alt={item.name}

@@ -93,6 +93,7 @@ export function HeroPage() {
           <SupportingText>{findHero.subtitle}</SupportingText>
           <Image>
             <HeaderImage
+              data-cy="hero-image"
               src={`https://prolog-api.profy.dev/${findHero.image.src}`}
               width={findHero.image.width}
               height={findHero.image.height}

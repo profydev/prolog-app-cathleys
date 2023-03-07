@@ -88,7 +88,7 @@ const IssuesPage = () => {
         </ButtonDiv>
       </Header>
 
-      <HeroPage data-cy="hero-image" />
+      <HeroPage />
       <SocialProof />
 
       <ContactButton
