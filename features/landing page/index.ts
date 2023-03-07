@@ -1,2 +1,2 @@
-export * from "./api/use-home";
+export * from "./api/get-home";
 export * from "./components";

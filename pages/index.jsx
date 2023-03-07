@@ -4,8 +4,7 @@ import { Routes } from "@config/routes";
 import { ButtonHeader } from "@features/ui/button-header/index";
 import { MenuButton, MenuIcon } from "@features/ui/sidebar-navigation/index";
 import { ContactModal } from "@features/ui/modal";
-import { HeroPage } from "@features/landing page/components";
-import { SocialProof } from "@features/landing page/components";
+import { HeroPage, SocialProof } from "@features/landing page/components";
 
 const Header = styled.header`
   display: flex;
@@ -90,6 +89,7 @@ const IssuesPage = () => {
       </Header>
 
       <HeroPage data-cy="hero-image" />
+      <SocialProof />
 
       <ContactButton
         data-cy="contact-button"

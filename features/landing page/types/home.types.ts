@@ -22,10 +22,12 @@ export type HeroSection = {
   theme: Theme;
 };
 
-export type SocialProofCompany = {
-  name: string;
-  logo: string;
-};
+export type SocialProofCompany = [
+  {
+    name: string;
+    logo: string;
+  }
+];
 
 export type SocialProofSection = {
   sectionType: SectionType.socialProof;

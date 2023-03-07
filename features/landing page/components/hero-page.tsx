@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { breakpoint, color, displayFont, space, textFont } from "@styles/theme";
-import { useHero } from "../api/use-home";
 import { LoadingScreen } from "@features/projects/components/loading-screen";
+import { useHero } from "../hooks/use-hero";
 
 export const Container = styled.div`
   box-sizing: border-box;
@@ -54,7 +54,9 @@ export const Image = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-bottom: 6.125rem;
+  @media (min-width: ${breakpoint("desktop")}) {
+    padding-bottom: ${space(16)};
+  }
 `;
 
 export const HeaderImage = styled.img`
