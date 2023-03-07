@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { breakpoint, color, displayFont, space, textFont } from "@styles/theme";
-import { HeroSection } from "../types/home.types";
 import { useHero } from "../api/use-home";
 import { LoadingScreen } from "@features/projects/components/loading-screen";
 
@@ -64,6 +63,8 @@ export const HeaderImage = styled.img`
   @media (max-width: ${breakpoint("tablet")}) {
     width: 17.375rem;
     height: 10.875rem;
+    transition: transform 0.7s linear;
+    transform: scale(0.8);
   }
 `;
 
