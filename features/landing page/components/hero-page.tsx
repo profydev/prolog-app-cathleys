@@ -35,18 +35,17 @@ export const SupportingText = styled.span`
   display: flex;
   justify-content: center;
   text-align: center;
-  margin: ${space(0)};
   max-width: 40.5rem;
   color: ${color("gray", 500)};
   padding-bottom: ${space(16)};
-  letter-spacing: normal;
-  ${textFont("lg", "regular")};
-  padding-left: ${space(4)};
-  padding-right: ${space(4)};
+  letter-spacing: 0.044rem;
+  ${textFont("xl", "regular")};
 
-  @media (min-width: ${breakpoint("desktop")}) {
-    letter-spacing: 0.044rem;
-    ${textFont("xl", "regular")};
+  @media (max-width: ${breakpoint("tablet")}) {
+    letter-spacing: normal;
+    ${textFont("lg", "regular")};
+    padding-left: ${space(4)};
+    padding-right: ${space(4)};
   }
 `;
 

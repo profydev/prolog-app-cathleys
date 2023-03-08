@@ -38,14 +38,16 @@ export type SocialProofSection = {
   companies: SocialProofCompany;
 };
 
-export type Testimonial = {
-  title: string;
-  text: string;
-  userName: string;
-  userRole: string;
-  userCompany: string;
-  userImage: ImageResolution;
-};
+export type Testimonial = [
+  {
+    title: string;
+    text: string;
+    userName: string;
+    userRole: string;
+    userCompany: string;
+    userImage: ImageResolution;
+  }
+];
 
 export type TestimonialSection = {
   sectionType: SectionType;
