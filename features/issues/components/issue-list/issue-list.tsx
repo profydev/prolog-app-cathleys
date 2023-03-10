@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import { useIssues } from "@features/issues";
 import { ProjectLanguage, useProjects } from "@features/projects";
-import { IssueRow } from "./issue-row";
+import { IssueRow, Row, Cell } from "./issue-row";
 import * as I from "./issue-list.style";
 import * as F from "@features/ui";
-import { customStyles, NewCheckbox } from "@features/ui";
 import * as B from "@features/ui/button-header/button-header-icon";
+import { customStyles, NewCheckbox } from "@features/ui";
 import { LoadingScreen } from "@features/projects/components/loading-screen";
 import { ErrorPage } from "@features/projects/components/error-page";
 import {
@@ -169,7 +169,7 @@ export function IssueList() {
       </I.WrapperStyle>
       <I.Container>
         <I.Table>
-          <thead>
+          <I.TableHead>
             <I.HeaderRow>
               <I.HeaderCell>
                 <NewCheckbox
@@ -186,8 +186,9 @@ export function IssueList() {
               <I.HeaderCell>Events</I.HeaderCell>
               <I.HeaderCell>Users</I.HeaderCell>
             </I.HeaderRow>
-          </thead>
-          <tbody>
+          </I.TableHead>
+
+          <I.TableBody>
             {(items || []).map((issue) => (
               <>
                 {
@@ -201,7 +202,7 @@ export function IssueList() {
                 }
               </>
             ))}
-          </tbody>
+          </I.TableBody>
         </I.Table>
         <I.PaginationContainer>
           <div>
