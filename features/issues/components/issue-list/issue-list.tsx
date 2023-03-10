@@ -188,7 +188,7 @@ export function IssueList() {
             </I.HeaderRow>
           </I.TableHead>
 
-          <I.TableBody>
+          <I.TableBody data-cy="tbody">
             {(items || []).map((issue) => (
               <>
                 {

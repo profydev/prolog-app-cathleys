@@ -24,13 +24,15 @@ const levelWords = {
   [IssueLevel.error]: "Critical",
 };
 
-export const Row = styled.tr`
+export const Row = styled.div`
+  display: table-row;
   &:nth-child(2n) {
     background: ${color("gray", 50)};
   }
 `;
 
-export const Cell = styled.td`
+export const Cell = styled.div`
+  display: table-cell;
   padding: ${space(4, 6)};
   color: ${color("gray", 500)};
   ${textFont("sm", "regular")}
@@ -62,7 +64,7 @@ export function IssueRow({ projectLanguage, issue, ...props }: IssueRowProps) {
   const { name, message, stack, level, numEvents, numUsers } = issue;
   const firstLineOfStackTrace = stack.split("\n")[1];
   return (
-    <Row>
+    <Row data-cy="tr">
       <IssueCell>
         <NewCheckbox {...props} />
         <LanguageIcon
