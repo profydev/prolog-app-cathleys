@@ -22,7 +22,7 @@ const Container = styled.div`
   flex-wrap: wrap;
 `;
 
-const HeaderContainer = styled(Title)`
+const HeaderContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding-top: ${space(0)};
