@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import { useIssues } from "@features/issues";
 import { ProjectLanguage, useProjects } from "@features/projects";
-import { IssueRow, Row, Cell } from "./issue-row";
+import { IssueRow } from "./issue-row";
 import * as I from "./issue-list.style";
 import * as F from "@features/ui";
 import * as B from "@features/ui/button-header/button-header-icon";
