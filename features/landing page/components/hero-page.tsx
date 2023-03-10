@@ -61,11 +61,11 @@ export const Image = styled.div`
 export const HeaderImage = styled.img`
   display: flex;
 
-  @media (max-width: ${breakpoint("tablet")}) {
+  @media (max-width: ${breakpoint("mobile")}) {
     width: 17.375rem;
     height: 10.875rem;
-    transition: transform 0.7s linear;
     transform: scale(0.8);
+    transition: transform 0.7s linear;
   }
 `;
 
