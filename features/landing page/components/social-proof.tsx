@@ -33,15 +33,16 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-between;
   align-items: center;
-  gap: ${space(8)};
+  justify-content: space-evenly;
+  gap: unset;
 
-  @media (max-width: ${breakpoint("mobile")}) {
+  @media (min-width: ${breakpoint("tablet")}) {
     justify-content: center;
-    gap: unset;
+    gap: ${space(8)};
   }
 `;
+
 const SocialIcons = styled.img`
   display: flex;
 

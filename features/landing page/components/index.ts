@@ -1,3 +1,3 @@
 export * from "./hero-page";
-export * from "./social-proof-section";
+export * from "./social-proof";
 export * from "./testimonial";

@@ -9,19 +9,20 @@ const Section = styled.div`
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  padding: ${space(24)} ${space(8)};
+  padding: ${space(0)};
 
-  @media (max-width: ${breakpoint("tablet")}) {
-    padding: ${space(0)};
+  @media (min-width: ${breakpoint("tablet")}) {
+    padding: ${space(24)} ${space(8)};
   }
 `;
+
 const Container = styled.div`
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
 `;
 
-const HeaderContainer = styled(Title)`
+const HeaderContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding-top: ${space(0)};
@@ -33,6 +34,7 @@ const HeaderContainer = styled(Title)`
 const HeaderText = styled(Title)`
   padding-top: ${space(0)};
 `;
+
 const SubHeader = styled(SupportingText)`
   max-width: unset;
 `;
@@ -40,6 +42,7 @@ const SubHeader = styled(SupportingText)`
 const TestimonialCard = styled.div`
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-around;
 `;
 
 const Quote = styled.p`
@@ -67,24 +70,24 @@ const SupportingTitle = styled.p`
 const Content = styled.div`
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  background-color: ${color("primary", 50)};
   padding: ${space(10)} ${space(6)};
-  border-radius: ${space(4)};
+  border-radius: ${space(0)};
+  background-color: ${color("primary", 50)};
 
   &:nth-child(2) {
-    margin: ${space(0)} ${space(16)};
+    margin: ${space(0)};
+    background-color: white;
 
     ${Quote},${Name},${SupportingTitle} {
       color: ${color("gray", 900)};
     }
   }
+  @media (min-width: ${breakpoint("tablet")}) {
+    border-radius: ${space(4)};
 
-  @media (max-width: ${breakpoint("tablet")}) {
-    border-radius: ${space(0)};
     &:nth-child(2) {
-      margin: ${space(0)};
+      margin: ${space(4)} ${space(16)};
+      background-color: ${color("primary", 50)};
     }
   }
 `;

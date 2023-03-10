@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { color, space, textFont } from "@styles/theme";
+import { breakpoint, color, space, textFont } from "@styles/theme";
 import * as F from "@features/ui";
 import { IssueLevel } from "../../types/issue.types";
 import { ProjectLanguage } from "@features/projects";
@@ -24,13 +24,15 @@ const levelWords = {
   [IssueLevel.error]: "Critical",
 };
 
-const Row = styled.tr`
+export const Row = styled.div`
+  display: table-row;
   &:nth-child(2n) {
     background: ${color("gray", 50)};
   }
 `;
 
-const Cell = styled.td`
+export const Cell = styled.div`
+  display: table-cell;
   padding: ${space(4, 6)};
   color: ${color("gray", 500)};
   ${textFont("sm", "regular")}
@@ -44,6 +46,10 @@ const IssueCell = styled(Cell)`
 const LanguageIcon = styled.img`
   width: ${space(10)};
   margin-right: ${space(3)};
+
+  @media (max-width: ${breakpoint("mobile")}) {
+    margin-right: ${space(2)};
+  }
 `;
 
 const ErrorTypeAndMessage = styled.div`
@@ -58,7 +64,7 @@ export function IssueRow({ projectLanguage, issue, ...props }: IssueRowProps) {
   const { name, message, stack, level, numEvents, numUsers } = issue;
   const firstLineOfStackTrace = stack.split("\n")[1];
   return (
-    <Row>
+    <Row data-cy="tr">
       <IssueCell>
         <NewCheckbox {...props} />
         <LanguageIcon
