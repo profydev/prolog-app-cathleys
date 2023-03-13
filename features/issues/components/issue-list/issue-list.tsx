@@ -15,6 +15,7 @@ import {
 import styled from "styled-components";
 import { color } from "@styles/theme";
 import { useMutation, useQueryClient } from "react-query";
+import axios from "axios";
 
 const Button = styled.button`
   background-color: ${color("primary", 600)};
@@ -32,8 +33,8 @@ export function IssueList() {
   const router = useRouter();
   const [projectSearch, setProjectSearch] = useState("");
   const [checkedItems, setCheckedItems] = useState<Set<string>>(new Set());
-  const [theIssues, setIssues] = useState<Issue[]>([]);
-  const queryClient = useQueryClient();
+  const [previousData, setPreviousData] = useState<Issue[] | undefined>();
+
   const debouncedSearch = useDebouncedCallback((value) => {
     router.push({
       query: {
@@ -91,48 +92,63 @@ export function IssueList() {
       setCheckedItems(new Set());
     }
   };
+
   //this is where it starts
+  const queryClient = useQueryClient();
+  const resolveIssueId = useMutation(useResolveIssues, {
+    onMutate: async (variables) => {
+      const { toResolveIds } = variables;
+      await queryClient.cancelQueries(["issues", page, status]);
 
-  console.log("queryClient", queryClient);
-
-  const resolveCheckedItems = useMutation(useResolveIssues, {
-    onMutate: async (checkedIds: string[]) => {
-      await queryClient.cancelQueries(["issues", page, status, level, project]);
-
-      const prevItems = queryClient.getQueryData<{ items: Issue[] }>([
+      const previousData = queryClient.getQueryData<Issue[]>([
         "issues",
         page,
         status,
-        level,
-        project,
       ]);
-      if (!prevItems) {
-        console.log("prevItems is undefined");
-        return;
-      }
 
-      const updatedItems = prevItems?.items.filter(
-        (item) => !checkedIds.includes(item.id)
-      );
+      console.error("onMutate-previousData: ", previousData);
+      if (!previousData) return;
+      // Update the cache with the resolved issues
+      const newData = previousData.map((issue) => {
+        if (toResolveIds.includes(issue.id)) {
+          return {
+            ...issue,
+            status: "resolved",
+          };
+        } else {
+          return issue;
+        }
+      }) as Issue[];
+      console.log("newData: ", newData);
+      queryClient.setQueryData<Issue[]>(["issues", page, status], newData);
 
-      console.log("onmutate-updatedItems", updatedItems);
-
-      queryClient.setQueryData(["issues", page, status, level, project], {
-        items: updatedItems,
-      });
-
-      return { prevItems };
+      return { previousData };
     },
-    onError: (err, checkedIds, context) => {
-      queryClient.setQueryData(
-        ["issues", page, status, level, project],
-        context?.prevItems
+    onSuccess: (data, variables) => {
+      const { toResolveIds } = variables;
+      const previousData = queryClient.getQueryData<Issue[]>([
+        "issues",
+        page,
+        status,
+      ]);
+      console.error("onSuccess-previousData: ", previousData);
+      if (!previousData) return;
+      // Update the cache with the resolved issues
+      const newData = previousData.filter(
+        (issue) => !toResolveIds.includes(issue.id)
       );
-      console.log("onError");
+      queryClient.setQueryData<Issue[]>(["issues", page, status], newData);
+      console.log("newData: ", newData);
+
+      console.log("onSuccess runs ");
     },
+    onError: (error, context) => {
+      console.error(error);
+    },
+
     onSettled: () => {
-      queryClient.invalidateQueries(["issues", page, status, level, project]);
-      console.log("onSettled");
+      queryClient.invalidateQueries(["issues", page, status]);
+      console.log("onsettled");
     },
   });
 
@@ -154,11 +170,11 @@ export function IssueList() {
   const issuesPage = useIssues(page, statusParam, levelParam, projectParam);
   const projects = useProjects();
 
-  if (issuesPage.isLoading || projects.isLoading) {
+  if (issuesPage.isLoading) {
     return <LoadingScreen />;
   }
 
-  if (issuesPage.isError || projects.isError) {
+  if (issuesPage.isError) {
     console.error(issuesPage.error);
     return <ErrorPage />;
   }
@@ -179,10 +195,18 @@ export function IssueList() {
           <Button
             onClick={() => {
               const checkedIds = Array.from(checkedItems);
+              resolveIssueId.mutate({
+                toResolveIds: checkedIds,
+              });
 
-              resolveCheckedItems.mutate(checkedIds);
-
-              console.log("onclick-check ids", checkedIds);
+              console.log(
+                "[onclick-checkids]: ",
+                checkedIds,
+                "[mutate call]: ",
+                resolveIssueId.mutate({
+                  toResolveIds: checkedIds,
+                })
+              );
             }}
           >
             Resolve Issues

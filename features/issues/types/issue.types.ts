@@ -1,6 +1,6 @@
 export enum IssueStatus {
-  Unresolved = "open",
-  Resolved = "resolved",
+  unresolved = "open",
+  resolved = "resolved",
 }
 
 export enum IssueLevel {
