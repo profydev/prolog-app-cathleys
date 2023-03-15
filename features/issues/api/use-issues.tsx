@@ -10,9 +10,8 @@ async function getIssues(
   level: string,
   project: string
 ) {
-  const timestamp = Date.now();
-  const { data } = await axios.get("https://prolog-api.profy.dev/v2/issue", {
-    params: { page, status, level, project, timestamp },
+  const { data } = await axios.get("https://prolog-api.profy.dev/issue", {
+    params: { page, status, level, project },
     headers: { Authorization: "4b445c570d5cab6f41933084164c426e3bb63f38" },
   });
 
@@ -28,9 +27,9 @@ export function useIssues(
   const query = useQuery<Page<Issue>, Error>(
     ["issues", page, status, level, project],
     () => getIssues(page, status, level, project),
-    { keepPreviousData: true, staleTime: 60000, retry: 3 }
+    { keepPreviousData: true, staleTime: 60000 }
   );
-  console.log("[useIssues status]: ", status);
+
   // Prefetch the next page!
   const queryClient = useQueryClient();
   useEffect(() => {
@@ -39,7 +38,7 @@ export function useIssues(
         getIssues(page + 1, status, level, project)
       );
     }
-  }, [query.data, page, status, level, queryClient]);
+  }, [query.data, page, status, level, project, queryClient]);
 
   return query;
 }
