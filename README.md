@@ -12,32 +12,29 @@ My goal is to simulate professional work environment, while building a web app t
 <li>Recieves code reviews from a senior developer: </li>[Example PR](https://github.com/profydev/prolog-app-cathleys/pull/44)
 <li>Responsive CSS using styled components: [view PR](https://github.com/profydev/prolog-app-cathleys/pull/53)and this [Example code](https://github.com/profydev/prolog-app-cathleys/pull/53/commits/e70082bfcdb381ad2d82122b42685c55426c7636)</li>
 <li>This app fetches data from Prolog API: [Example data request](docs/data-request.png)and [data transformation](https://github.com/profydev/prolog-app-cathleys/pull/44/files#diff-1fb743f14b9931a06d480ac25d22a3c7e7eb83bce1832bb0b11759db4ed8c98c)</li>
-<li>Integration test using Cypress: </li>[Example test](docs/cypress-test.jpg)
+<li>Integration test : </li>[Example test](docs/cypress-test.jpg)
 
 ## Why I built the project this way
 
 In a nutshell, the tech stack used in this app are widely supported by majority of users according to this [article](https://profy.dev/article/react-tech-stack).
 
-Typescript helps to check javascript. This allows me to reduce the bugs and erros in the code and make sure that the values are type safe.
-
 Storybook is a great tool to isolate particular react component to test its different states and UI design. Needless to say, it helps me to focus on documenting the component.
 
 styled components benefits are, first it's a react-specific CSS-in-JS styling solution that helps me to design with a custom css style. It also supports the theming of this app.
 
+Typescript helps to check javascript. This allows me to reduce bugs and errors in the code and make sure that the values are type safe.
+
 Testing is essential part of app development. Cypress is a beginner and user-friendly with a great UI which helps me to test the Prolog app easily.
 
-I don't know everything and I don't have to :). Whenever I get stuck on a
-certain task, I usually reach out for help to essentially solve the problem and learn from their experience. I think I need to mention this since I'm a human and actively learning. I can't improve this app without their existence.
+Whenever I get stuck on a certain task, I usually reach out for help to essentially solve the problem and learn from their experience. I think I need to mention this since I'm a human and actively learning. I can't improve this app without their existence.
 
 ## If I had more time I would change this
 
-Separate files according to its usage as there are some files that living in the same one file.
-Refactor some of the code: Especially this [part](https://github.com/profydev/prolog-app-cathleys/pull/35/files)
-Add end-to-end tests if I know and have time to.
+<li>Separate files according to its usage as there are some files that living in the same file.</li>
+<li?>Refactor some of the code: Especially this [part](https://github.com/profydev/prolog-app-cathleys/pull/35/files)</li>
+<li>Add end-to-end tests if I know and have time to.</li>
 
 \***\*\*\*\*\***The End\***\*\*\*\*\*\***
-
-## Prolog App is an existing codebase
 
 This repository is part of the [React Job Simulator](https://profy.dev) where you work in a professional dev environment with advanced tooling and workflows. You implement tasks based on designs starting from small bug fixes to full-blown features. Basically, you learn a lot of the things hands-on that you usually only experience once you joined a professional React team.
 
