@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useMutation, useQueryClient } from "react-query";
 import { useDebouncedCallback } from "use-debounce";
-import { Issue, updateIssue, useIssues } from "@features/issues";
+import { Issue, IssueStatus, updateIssue, useIssues } from "@features/issues";
 import { ProjectLanguage, useProjects } from "@features/projects";
 import { IssueRow } from "./issue-row";
 import * as I from "./issue-list.style";
@@ -105,6 +105,7 @@ export function IssueList() {
           return issue;
         }
       }) as Issue[];
+
       console.log("newData: ", newData);
       queryClient.setQueryData<{ items: Issue[] }>(
         ["issues", page, status, level, project],
@@ -176,17 +177,16 @@ export function IssueList() {
           <C.ButtonHeaderIcon
             icon={C.ButtonIcons.leading}
             iconSrc={"/icons/check.svg"}
-            label="Resolve Issues"
+            label="Resolve selected issues"
             color={C.ButtonColor.primary}
             size={C.ButtonSize.sm}
             onClick={() => {
               const checkedIds = Array.from(checkedItems);
               resolveIssueId.mutate({
                 toResolveIds: checkedIds,
-                status: "resolved",
+                status: IssueStatus.resolved,
               });
-
-              console.log("[onclick-checkids]: ", checkedIds);
+              setCheckedItems(new Set());
             }}
           />
         </I.Box>

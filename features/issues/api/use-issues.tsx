@@ -10,7 +10,7 @@ async function getIssues(
   level: string,
   project: string
 ) {
-  const { data } = await axios.get("https://prolog-api.profy.dev/issue", {
+  const { data } = await axios.get("https://prolog-api.profy.dev/v2/issue", {
     params: { page, status, level, project },
     headers: { Authorization: "4b445c570d5cab6f41933084164c426e3bb63f38" },
   });

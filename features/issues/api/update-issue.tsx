@@ -1,8 +1,9 @@
 import axios from "axios";
+import { IssueStatus } from "../types/issue.types";
 
 export async function updateIssue(variables: {
   toResolveIds: string[];
-  status: string;
+  status: IssueStatus.resolved;
 }) {
   const { toResolveIds, status } = variables;
   return await axios.patch(
