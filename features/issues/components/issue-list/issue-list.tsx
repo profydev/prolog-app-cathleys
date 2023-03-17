@@ -91,8 +91,7 @@ export function IssueList() {
         level,
         project,
       ]);
-      console.log("onMutate prevData: ", previousData);
-      console.log("onMutate[status value]: ", status);
+
       if (!previousData) return;
       // Update the cache with the resolved issues
       const newData = previousData.items.map((issue) => {
@@ -106,7 +105,6 @@ export function IssueList() {
         }
       }) as Issue[];
 
-      console.log("newData: ", newData);
       queryClient.setQueryData<{ items: Issue[] }>(
         ["issues", page, status, level, project],
         {
@@ -120,7 +118,6 @@ export function IssueList() {
       const { status } = variables;
       queryClient.invalidateQueries(["issues", page, status, level, project]);
       queryClient.invalidateQueries("issues");
-      console.log("onSuccess: ", variables);
     },
 
     onError: (error) => {
@@ -130,7 +127,6 @@ export function IssueList() {
 
     onSettled: () => {
       queryClient.invalidateQueries(["issues", page, status, level, project]);
-      console.log("onsettled");
     },
   });
 
