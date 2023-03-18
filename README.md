@@ -1,18 +1,18 @@
 ## How I worked on this project
 
-My goal is to simulate professional work environment, while building a web app that resembles solving a business problem.
+My goal is to simulate professional work environment.
 
-<li>I built this app based on Figma design: </li>[Screenshot of designs](docs/figma.JPG)
-<li>I worked on the tasks based on kanban board:</li>[Screenshot of tasks](docs/kanban.png)
-<li>I used feature branches and Pull Requests: </li>[Example PR](https://github.com/profydev/prolog-app-cathleys/pull/12)
+*I built this app based on Figma design:[Screenshot of designs](docs/figma.JPG)
+*I worked on the tasks based on kanban board:[Screenshot of tasks](docs/kanban.png)
+\*I used feature branches and Pull Requests: [Example PR](https://github.com/profydev/prolog-app-cathleys/pull/12)
 
 ## How to navigate this project
 
-<li>Somewhat complex application logic: [Example code](https://github.com/profydev/prolog-app-cathleys/pull/45/files#diff-521a7275a4eb3fdf5e1b8eeb2344d4d1bc0226821a14bfa32f2987ced05900b6)and[visit its PR](https://github.com/profydev/prolog-app-cathleys/pull/45)</li>
-<li>Responsive CSS using styled components: [view PR](https://github.com/profydev/prolog-app-cathleys/pull/53)and this [Example code](https://github.com/profydev/prolog-app-cathleys/pull/53/commits/e70082bfcdb381ad2d82122b42685c55426c7636)</li>
-<li>This app fetches data from Prolog API: [Example data request](docs/data-request.png)and [data transformation](https://github.com/profydev/prolog-app-cathleys/pull/44/files#diff-1fb743f14b9931a06d480ac25d22a3c7e7eb83bce1832bb0b11759db4ed8c98c)</li>
-<li>Integration test : </li>[Example test](docs/cypress-test.jpg)
-<li>Recieves code reviews from a senior developer: </li>[Example PR](https://github.com/profydev/prolog-app-cathleys/pull/44)
+*Somewhat complex application logic: [Example code](https://github.com/profydev/prolog-app-cathleys/pull/45/files#diff-521a7275a4eb3fdf5e1b8eeb2344d4d1bc0226821a14bfa32f2987ced05900b6)and[its PR](https://github.com/profydev/prolog-app-cathleys/pull/45)
+*Responsive CSS using styled components: [view PR](https://github.com/profydev/prolog-app-cathleys/pull/53)and this [Example code](https://github.com/profydev/prolog-app-cathleys/pull/53/commits/e70082bfcdb381ad2d82122b42685c55426c7636)
+*This app fetches data from Prolog API: [Example data request](docs/data-request.png)and [data transformation](https://github.com/profydev/prolog-app-cathleys/pull/44/files#diff-1fb743f14b9931a06d480ac25d22a3c7e7eb83bce1832bb0b11759db4ed8c98c)
+*Integration test : [Example test](docs/cypress-test.jpg)
+\*Recieves code reviews from a senior developer: [Example PR](https://github.com/profydev/prolog-app-cathleys/pull/44)
 
 ## Why I built the project this way
 
@@ -26,15 +26,15 @@ Typescript helps to check javascript. This allows me to reduce bugs and errors i
 
 Testing is essential part of app development. Cypress is a beginner and user-friendly with a great UI which helps me to test the Prolog app easily.
 
+I'm focused on Frontend/ React development since it's something I'm interested in for now.
+
 Whenever I get stuck on a certain task, I usually reach out for help to essentially solve the problem and learn from their experience. I think I need to mention this since I'm a human and actively learning. I can't improve this app without their existence.
 
 ## If I had more time I would change this
 
-<li>Separate files according to its usage as there are some files that living in the same file.</li>
-<li?>Refactor some of the code: Especially this [part](https://github.com/profydev/prolog-app-cathleys/pull/35/files)</li>
-<li>Add end-to-end tests if I know and have time to.</li>
-
-\***\*\*\*\*\***The End\***\*\*\*\*\*\***
+*Separate files according to its usage as there are some files that living in the same file.
+*Refactor some of the code: Especially this [part](https://github.com/profydev/prolog-app-cathleys/pull/35/files)
+\*Add end-to-end tests if I know and have time to.
 
 ## The Application
 
