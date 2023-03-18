@@ -9,10 +9,10 @@ My goal is to simulate professional work environment, while building a web app t
 ## How to navigate this project
 
 <li>Somewhat complex application logic: [Example code](https://github.com/profydev/prolog-app-cathleys/pull/45/files#diff-521a7275a4eb3fdf5e1b8eeb2344d4d1bc0226821a14bfa32f2987ced05900b6)and[visit its PR](https://github.com/profydev/prolog-app-cathleys/pull/45)</li>
-<li>Recieves code reviews from a senior developer: </li>[Example PR](https://github.com/profydev/prolog-app-cathleys/pull/44)
 <li>Responsive CSS using styled components: [view PR](https://github.com/profydev/prolog-app-cathleys/pull/53)and this [Example code](https://github.com/profydev/prolog-app-cathleys/pull/53/commits/e70082bfcdb381ad2d82122b42685c55426c7636)</li>
 <li>This app fetches data from Prolog API: [Example data request](docs/data-request.png)and [data transformation](https://github.com/profydev/prolog-app-cathleys/pull/44/files#diff-1fb743f14b9931a06d480ac25d22a3c7e7eb83bce1832bb0b11759db4ed8c98c)</li>
 <li>Integration test : </li>[Example test](docs/cypress-test.jpg)
+<li>Recieves code reviews from a senior developer: </li>[Example PR](https://github.com/profydev/prolog-app-cathleys/pull/44)
 
 ## Why I built the project this way
 
@@ -35,8 +35,6 @@ Whenever I get stuck on a certain task, I usually reach out for help to essentia
 <li>Add end-to-end tests if I know and have time to.</li>
 
 \***\*\*\*\*\***The End\***\*\*\*\*\*\***
-
-This repository is part of the [React Job Simulator](https://profy.dev) where you work in a professional dev environment with advanced tooling and workflows. You implement tasks based on designs starting from small bug fixes to full-blown features. Basically, you learn a lot of the things hands-on that you usually only experience once you joined a professional React team.
 
 ## The Application
 
