@@ -10,21 +10,21 @@ describe("Issue List", () => {
     }).as("getProjects");
     cy.intercept(
       "GET",
-      "https://prolog-api.profy.dev/issue?page=1&status=&level=&project=",
+      "https://prolog-api.profy.dev/v2/issue?page=1&status=&level=&project=",
       {
         fixture: "issues-page-1.json",
       }
     ).as("getIssues");
     cy.intercept(
       "GET",
-      "https://prolog-api.profy.dev/issue?page=2&status=&level=&project=",
+      "https://prolog-api.profy.dev/v2/issue?page=2&status=&level=&project=",
       {
         fixture: "issues-page-2.json",
       }
     );
     cy.intercept(
       "GET",
-      "https://prolog-api.profy.dev/issue?page=3&status=&level=&project=",
+      "https://prolog-api.profy.dev/v2/issue?page=3&status=&level=&project=",
       {
         fixture: "issues-page-3.json",
       }
