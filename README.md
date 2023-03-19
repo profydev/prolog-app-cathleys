@@ -8,8 +8,8 @@ My goal is to simulate professional work environment.
 
 ## How to navigate this project
 
-- Somewhat complex application logic: [Example code](https://github.com/profydev/prolog-app-cathleys/pull/45/files#diff-521a7275a4eb3fdf5e1b8eeb2344d4d1bc0226821a14bfa32f2987ced05900b6)and[its PR](https://github.com/profydev/prolog-app-cathleys/pull/45)
-- Responsive CSS using styled components: [view PR](https://github.com/profydev/prolog-app-cathleys/pull/53) and this [Example code](https://github.com/profydev/prolog-app-cathleys/pull/53/commits/e70082bfcdb381ad2d82122b42685c55426c7636)
+- Somewhat complex application logic: [Example code](https://github.com/profydev/prolog-app-cathleys/pull/45/files#diff-521a7275a4eb3fdf5e1b8eeb2344d4d1bc0226821a14bfa32f2987ced05900b6) and [its PR](https://github.com/profydev/prolog-app-cathleys/pull/45)
+- Responsive CSS using styled components: [Example code](https://github.com/profydev/prolog-app-cathleys/pull/53/commits/e70082bfcdb381ad2d82122b42685c55426c7636) and [view PR](https://github.com/profydev/prolog-app-cathleys/pull/53)
 - This app fetches data from Prolog API: [Example data request](docs/data-request.png) and [data transformation](https://github.com/profydev/prolog-app-cathleys/pull/44/files#diff-1fb743f14b9931a06d480ac25d22a3c7e7eb83bce1832bb0b11759db4ed8c98c)
 - Integration test using Cypress: [Example test](docs/cypress-test.jpg)
 - Recieves code reviews from a senior developer: [Example PR](https://github.com/profydev/prolog-app-cathleys/pull/44)
