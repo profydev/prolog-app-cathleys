@@ -1,6 +1,7 @@
 import { space } from "@styles/theme";
 import React from "react";
 import styled, { css } from "styled-components";
+import { ButtonColor, ButtonSize, UiButton } from "./button-header";
 
 export enum ButtonIcons {
   leading = "leading",
@@ -12,6 +13,9 @@ type ButtonIconProps = {
   icon: ButtonIcons;
   label?: string;
   iconSrc: string;
+  onClick?: () => void;
+  color: ButtonColor;
+  size: ButtonSize;
 };
 
 const Icon = styled.img``;
@@ -21,17 +25,13 @@ const Text = styled.p`
   letter-spacing: normal;
 `;
 
-const ButtonStyle = styled.div<{ icon: ButtonIcons }>`
+const ButtonStyle = styled(UiButton)<{ icon: ButtonIcons }>`
   display: flex;
   justify-content: center;
-  align-items: center;
-
   ${(props) => {
     switch (props.icon) {
       case ButtonIcons.leading:
         return css`
-          flex-direction: row;
-
           ${Icon} {
             padding-right: 0.5rem;
           }
@@ -54,10 +54,16 @@ const ButtonStyle = styled.div<{ icon: ButtonIcons }>`
   }}
 `;
 
-export function ButtonwithIcon({ icon, label, iconSrc }: ButtonIconProps) {
+export function ButtonHeaderIcon({
+  label,
+  iconSrc,
+  color = ButtonColor.primary,
+  size = ButtonSize.md,
+  ...props
+}: ButtonIconProps) {
   return (
-    <ButtonStyle icon={icon}>
-      <Icon src={iconSrc} alt="icon" />
+    <ButtonStyle {...props} color={color} size={size}>
+      <Icon alt="icon" src={iconSrc} />
       <Text>{label}</Text>
     </ButtonStyle>
   );

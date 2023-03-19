@@ -1,13 +1,12 @@
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { useMutation, useQueryClient } from "react-query";
 import { useDebouncedCallback } from "use-debounce";
-import { useIssues } from "@features/issues";
+import { Issue, IssueStatus, updateIssue, useIssues } from "@features/issues";
 import { ProjectLanguage, useProjects } from "@features/projects";
 import { IssueRow } from "./issue-row";
 import * as I from "./issue-list.style";
-import * as F from "@features/ui";
-import * as B from "@features/ui/button-header/button-header-icon";
-import { customStyles, NewCheckbox } from "@features/ui";
+import * as C from "@features/ui";
 import { LoadingScreen } from "@features/projects/components/loading-screen";
 import { ErrorPage } from "@features/projects/components/error-page";
 import {
@@ -62,7 +61,6 @@ export function IssueList() {
     const newCheckedItems = new Set(checkedItems);
 
     if (checkedItems.has(id)) {
-      //removes the item from the set
       newCheckedItems.delete(id);
       setCheckedItems(newCheckedItems);
     } else {
@@ -71,13 +69,68 @@ export function IssueList() {
     }
   };
 
-  const handleToggleAll = (e: any) => {
-    if (e.target.checked) {
-      setCheckedItems(new Set((items || []).map(({ id }) => id)));
+  const handleToggleAll = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if ((e.target as HTMLInputElement).checked) {
+      setCheckedItems(new Set((items || []).map((item) => item.id)));
     } else {
       setCheckedItems(new Set());
     }
   };
+
+  //this is where it starts
+  const queryClient = useQueryClient();
+  const resolveIssueId = useMutation(updateIssue, {
+    onMutate: async (variables) => {
+      const { toResolveIds, status } = variables;
+      await queryClient.cancelQueries(["issues", page, status, level, project]);
+
+      const previousData = queryClient.getQueryData<{ items: Issue[] }>([
+        "issues",
+        page,
+        status,
+        level,
+        project,
+      ]);
+
+      if (!previousData) return;
+      // Update the cache with the resolved issues
+      const newData = previousData.items.map((issue) => {
+        if (toResolveIds.includes(issue.id)) {
+          return {
+            ...issue,
+            status,
+          };
+        } else {
+          return issue;
+        }
+      }) as Issue[];
+
+      queryClient.setQueryData<{ items: Issue[] }>(
+        ["issues", page, status, level, project],
+        {
+          items: newData,
+        }
+      );
+
+      return { previousData };
+    },
+    onSuccess: (_, variables) => {
+      const { status } = variables;
+      queryClient.invalidateQueries(["issues", page, status, level, project]);
+      queryClient.invalidateQueries("issues");
+    },
+
+    onError: (error) => {
+      console.error(error);
+      queryClient.cancelQueries(["issues", page, status, level, project]);
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries(["issues", page, status, level, project]);
+    },
+  });
+
+  //this is where it ends
 
   const page = Number(router.query.page || 1);
   const navigateToPage = (newPage: number) => {
@@ -95,15 +148,16 @@ export function IssueList() {
   const issuesPage = useIssues(page, statusParam, levelParam, projectParam);
   const projects = useProjects();
 
-  if (issuesPage.isLoading || projects.isLoading) {
+  if (issuesPage.isLoading) {
     return <LoadingScreen />;
   }
 
-  if (issuesPage.isError || projects.isError) {
+  if (issuesPage.isError) {
     console.error(issuesPage.error);
     return <ErrorPage />;
   }
 
+  const { items, meta } = issuesPage.data || {};
   const projectIdToLanguage = (projects.data || []).reduce(
     (prev: any, project: { id: any; language: any }) => ({
       ...prev,
@@ -112,23 +166,25 @@ export function IssueList() {
     {} as Record<string, ProjectLanguage>
   );
 
-  const { items, meta } = issuesPage.data || {};
-
   return (
     <>
       <I.WrapperStyle>
         <I.Box>
-          <F.ButtonHeader
-            size={F.ButtonSize.md}
-            color={F.ButtonColor.primary}
-            href=""
-          >
-            <B.ButtonwithIcon
-              iconSrc="/icons/check.svg"
-              icon={B.ButtonIcons.leading}
-              label="Resolve selected issues"
-            />
-          </F.ButtonHeader>
+          <C.ButtonHeaderIcon
+            icon={C.ButtonIcons.leading}
+            iconSrc={"/icons/check.svg"}
+            label="Resolve selected issues"
+            color={C.ButtonColor.primary}
+            size={C.ButtonSize.sm}
+            onClick={() => {
+              const checkedIds = Array.from(checkedItems);
+              resolveIssueId.mutate({
+                toResolveIds: checkedIds,
+                status: IssueStatus.resolved,
+              });
+              setCheckedItems(new Set());
+            }}
+          />
         </I.Box>
 
         <I.FilterStyle>
@@ -137,7 +193,7 @@ export function IssueList() {
             instanceId="status-dropdown-value"
             options={optionByStatus}
             placeholder="Status"
-            styles={customStyles}
+            styles={C.customStyles}
             onChange={handleStatusChange}
             isSearchable={false}
             blurInputOnSelect={true}
@@ -149,7 +205,7 @@ export function IssueList() {
             instanceId="level-dropdown-value"
             options={optionByLevel}
             placeholder="Level"
-            styles={customStyles}
+            styles={C.customStyles}
             onChange={handleLevelChange}
             isSearchable={false}
             blurInputOnSelect={true}
@@ -172,7 +228,7 @@ export function IssueList() {
           <I.TableHead>
             <I.HeaderRow>
               <I.HeaderCell>
-                <NewCheckbox
+                <C.NewCheckbox
                   checked={checkedItems.size === items?.length}
                   indeterminate={
                     checkedItems.size > 0 &&
@@ -190,17 +246,14 @@ export function IssueList() {
 
           <I.TableBody data-cy="tbody">
             {(items || []).map((issue) => (
-              <>
-                {
-                  <IssueRow
-                    key={issue.id}
-                    issue={issue}
-                    projectLanguage={projectIdToLanguage[issue.projectId]}
-                    checked={checkedItems.has(issue.id)}
-                    onChange={() => handleCheckbox(issue.id)}
-                  />
-                }
-              </>
+              <IssueRow
+                key={issue.id}
+                issue={issue}
+                projectLanguage={projectIdToLanguage[issue.projectId]}
+                checked={checkedItems.has(issue.id)}
+                onChange={() => handleCheckbox(issue.id)}
+                disabled={issue.status === "resolved"}
+              />
             ))}
           </I.TableBody>
         </I.Table>

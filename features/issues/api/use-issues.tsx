@@ -10,9 +10,10 @@ async function getIssues(
   level: string,
   project: string
 ) {
-  const { data } = await axios.get(
-    `https://prolog-api.profy.dev/issue?page=${page}&status=${status}&level=${level}&project=${project}`
-  );
+  const { data } = await axios.get("https://prolog-api.profy.dev/v2/issue", {
+    params: { page, status, level, project },
+    headers: { Authorization: "4b445c570d5cab6f41933084164c426e3bb63f38" },
+  });
 
   return data;
 }
@@ -33,7 +34,7 @@ export function useIssues(
   const queryClient = useQueryClient();
   useEffect(() => {
     if (query.data?.meta.hasNextPage) {
-      queryClient.prefetchQuery(["projects", page + 1], () =>
+      queryClient.prefetchQuery(["issues", page + 1], () =>
         getIssues(page + 1, status, level, project)
       );
     }
