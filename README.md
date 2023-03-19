@@ -1,3 +1,6 @@
+To view deployed [Prolog app](https://prolog-dev.vercel.app/) site,
+visit **prolog-dev.vercel.app**
+
 ## How I worked on this project
 
 My goal is to simulate professional work environment.
