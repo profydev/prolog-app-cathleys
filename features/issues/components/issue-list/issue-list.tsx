@@ -1,18 +1,19 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useDebouncedCallback } from "use-debounce";
-import { IssueStatus, useIssues } from "@features/issues";
-import { ProjectLanguage, useProjects } from "@features/projects";
-import { IssueRow } from "./issue-row";
-import * as I from "./issue-list.style";
-import * as C from "@features/ui";
-import { LoadingScreen } from "@features/projects/components/loading-screen";
-import { ErrorPage } from "@features/projects/components/error-page";
 import {
+  IssueStatus,
   optionByLevel,
   optionByStatus,
-} from "@features/issues/api/select-issues-data";
-import { useResolveMutateIssues } from "../../api/use-resolve-mutate-issues";
+  useIssues,
+  useResolveMutateIssues,
+} from "@features/issues";
+import { ProjectLanguage, useProjects } from "@features/projects";
+import * as I from "./issue-list.style";
+import * as C from "@features/ui";
+import { IssueRow } from "./issue-row";
+import { LoadingScreen } from "@features/projects/components/loading-screen";
+import { ErrorPage } from "@features/projects/components/error-page";
 
 export function IssueList() {
   const router = useRouter();

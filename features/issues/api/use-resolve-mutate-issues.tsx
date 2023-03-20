@@ -1,10 +1,10 @@
-import { updateIssue } from "@features/issues/api/update-issue";
-import { Issue } from "@features/issues/types/issue.types";
 import { useMutation, useQueryClient } from "react-query";
+import { updateResolveIssueIds } from "./update-resolve-issue-ids";
+import { Issue } from "@features/issues/types/issue.types";
 
 export function useResolveMutateIssues() {
   const queryClient = useQueryClient();
-  return useMutation(updateIssue, {
+  return useMutation(updateResolveIssueIds, {
     onMutate: async (variables) => {
       const { toResolveIds, status } = variables;
       await queryClient.cancelQueries(["issues", status]);

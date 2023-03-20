@@ -1,7 +1,7 @@
 import axios from "axios";
 import { IssueStatus } from "../types/issue.types";
 
-export async function updateIssue(variables: {
+export async function updateResolveIssueIds(variables: {
   toResolveIds: string[];
   status: IssueStatus.resolved;
 }) {
