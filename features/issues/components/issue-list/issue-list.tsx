@@ -1,24 +1,24 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useMutation, useQueryClient } from "react-query";
 import { useDebouncedCallback } from "use-debounce";
-import { Issue, IssueStatus, updateIssue, useIssues } from "@features/issues";
-import { ProjectLanguage, useProjects } from "@features/projects";
-import { IssueRow } from "./issue-row";
-import * as I from "./issue-list.style";
-import * as C from "@features/ui";
-import { LoadingScreen } from "@features/projects/components/loading-screen";
-import { ErrorPage } from "@features/projects/components/error-page";
 import {
+  IssueStatus,
   optionByLevel,
   optionByStatus,
-} from "@features/issues/api/select-issues-data";
+  useIssues,
+  useResolveMutateIssues,
+} from "@features/issues";
+import { ProjectLanguage, useProjects } from "@features/projects";
+import * as I from "./issue-list.style";
+import * as C from "@features/ui";
+import { IssueRow } from "./issue-row";
+import { LoadingScreen } from "@features/projects/components/loading-screen";
+import { ErrorPage } from "@features/projects/components/error-page";
 
 export function IssueList() {
   const router = useRouter();
   const [projectSearch, setProjectSearch] = useState("");
   const [checkedItems, setCheckedItems] = useState<Set<string>>(new Set());
-
   const debouncedSearch = useDebouncedCallback((value) => {
     router.push({
       query: {
@@ -77,61 +77,6 @@ export function IssueList() {
     }
   };
 
-  //this is where it starts
-  const queryClient = useQueryClient();
-  const resolveIssueId = useMutation(updateIssue, {
-    onMutate: async (variables) => {
-      const { toResolveIds, status } = variables;
-      await queryClient.cancelQueries(["issues", page, status, level, project]);
-
-      const previousData = queryClient.getQueryData<{ items: Issue[] }>([
-        "issues",
-        page,
-        status,
-        level,
-        project,
-      ]);
-
-      if (!previousData) return;
-      // Update the cache with the resolved issues
-      const newData = previousData.items.map((issue) => {
-        if (toResolveIds.includes(issue.id)) {
-          return {
-            ...issue,
-            status,
-          };
-        } else {
-          return issue;
-        }
-      }) as Issue[];
-
-      queryClient.setQueryData<{ items: Issue[] }>(
-        ["issues", page, status, level, project],
-        {
-          items: newData,
-        }
-      );
-
-      return { previousData };
-    },
-    onSuccess: (_, variables) => {
-      const { status } = variables;
-      queryClient.invalidateQueries(["issues", page, status, level, project]);
-      queryClient.invalidateQueries("issues");
-    },
-
-    onError: (error) => {
-      console.error(error);
-      queryClient.cancelQueries(["issues", page, status, level, project]);
-    },
-
-    onSettled: () => {
-      queryClient.invalidateQueries(["issues", page, status, level, project]);
-    },
-  });
-
-  //this is where it ends
-
   const page = Number(router.query.page || 1);
   const navigateToPage = (newPage: number) => {
     router.push({
@@ -147,6 +92,7 @@ export function IssueList() {
 
   const issuesPage = useIssues(page, statusParam, levelParam, projectParam);
   const projects = useProjects();
+  const resolveIssueId = useResolveMutateIssues();
 
   if (issuesPage.isLoading) {
     return <LoadingScreen />;
@@ -252,7 +198,6 @@ export function IssueList() {
                 projectLanguage={projectIdToLanguage[issue.projectId]}
                 checked={checkedItems.has(issue.id)}
                 onChange={() => handleCheckbox(issue.id)}
-                disabled={issue.status === "resolved"}
               />
             ))}
           </I.TableBody>
