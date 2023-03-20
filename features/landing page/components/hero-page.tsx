@@ -1,7 +1,6 @@
+import { useHero } from "../hooks/use-hero";
 import styled from "styled-components";
 import { breakpoint, color, displayFont, space, textFont } from "@styles/theme";
-import { LoadingScreen } from "@features/projects/components/loading-screen";
-import { useHero } from "../hooks/use-hero";
 
 export const Container = styled.div`
   box-sizing: border-box;
@@ -72,12 +71,6 @@ export const HeaderImage = styled.img`
 export function HeroPage() {
   const heroSection = useHero();
 
-  if (heroSection.isLoading) return <LoadingScreen />;
-
-  if (heroSection.isError) {
-    return <p>error</p>;
-  }
-
   const { sections } = heroSection.data || {};
 
   const findHero = sections?.find((el) => {
@@ -87,7 +80,7 @@ export function HeroPage() {
   return (
     <>
       {findHero && (
-        <Container style={{ background: findHero.theme }}>
+        <Container>
           <Title>{findHero.title}</Title>
           <SupportingText>{findHero.subtitle}</SupportingText>
           <Image>

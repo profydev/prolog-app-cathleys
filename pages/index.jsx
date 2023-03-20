@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Link from "next/link";
 import styled from "styled-components";
 import { Routes } from "@config/routes";
 import { ButtonHeader } from "@features/ui/button-header/index";
@@ -74,11 +75,11 @@ const IssuesPage = () => {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/icons/logo-large.svg" alt="Prolog logo" />
 
-        <MenuButton onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}>
-          <a href={Routes.projects}>
+        <Link href={Routes.projects} passHref>
+          <MenuButton onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}>
             <MenuIcon src="/icons/menu-home.svg" alt="open sesame" />
-          </a>
-        </MenuButton>
+          </MenuButton>
+        </Link>
 
         <Nav isMobileMenuOpen={isMobileMenuOpen}>
           <LinkItems href="/">Home</LinkItems>
