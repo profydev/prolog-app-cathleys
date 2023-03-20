@@ -19,7 +19,6 @@ export function IssueList() {
   const router = useRouter();
   const [projectSearch, setProjectSearch] = useState("");
   const [checkedItems, setCheckedItems] = useState<Set<string>>(new Set());
-
   const debouncedSearch = useDebouncedCallback((value) => {
     router.push({
       query: {
@@ -199,7 +198,6 @@ export function IssueList() {
                 projectLanguage={projectIdToLanguage[issue.projectId]}
                 checked={checkedItems.has(issue.id)}
                 onChange={() => handleCheckbox(issue.id)}
-                disabled={issue.status === "resolved"}
               />
             ))}
           </I.TableBody>

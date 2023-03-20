@@ -3,7 +3,7 @@ import { IssueStatus } from "../types/issue.types";
 
 export async function updateResolveIssueIds(variables: {
   toResolveIds: string[];
-  status: IssueStatus.resolved;
+  status: IssueStatus;
 }) {
   const { toResolveIds, status } = variables;
   return await axios.patch(
