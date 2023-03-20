@@ -7,7 +7,7 @@ export async function updateIssue(variables: {
 }) {
   const { toResolveIds, status } = variables;
   return await axios.patch(
-    `https://prolog-api.profy.dev/v2/issue/${toResolveIds.join(",")}`,
+    `https://prolog-api.profy.dev/v2/issue/${toResolveIds}`,
     { status },
     {
       headers: {
