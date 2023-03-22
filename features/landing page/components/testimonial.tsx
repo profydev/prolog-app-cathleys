@@ -9,7 +9,7 @@ const Section = styled.div`
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  padding: ${space(0)};
+  padding-top: ${space(8)};
 
   @media (min-width: ${breakpoint("tablet")}) {
     padding: ${space(24)} ${space(8)};
@@ -39,12 +39,6 @@ const SubHeader = styled(SupportingText)`
   max-width: unset;
 `;
 
-const TestimonialCard = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-`;
-
 const Quote = styled.p`
   margin: ${space(0)};
   ${displayFont("xs", "medium")};
@@ -67,7 +61,7 @@ const SupportingTitle = styled.p`
     color: ${color("gray", 900)};
   }
 `;
-const Content = styled.div`
+const Card = styled.div`
   display: flex;
   flex-direction: column;
   padding: ${space(10)} ${space(6)};
@@ -75,7 +69,6 @@ const Content = styled.div`
   background-color: ${color("primary", 50)};
 
   &:nth-child(2) {
-    margin: ${space(0)};
     background-color: white;
 
     ${Quote},${Name},${SupportingTitle} {
@@ -84,9 +77,9 @@ const Content = styled.div`
   }
   @media (min-width: ${breakpoint("tablet")}) {
     border-radius: ${space(4)};
+    margin: ${space(4)};
 
     &:nth-child(2) {
-      margin: ${space(4)} ${space(16)};
       background-color: ${color("primary", 50)};
     }
   }
@@ -140,30 +133,28 @@ export function Testimonial() {
           </HeaderContainer>
 
           <Container>
-            <TestimonialCard>
-              {findTestimonial.testimonials.map((testimonial) => (
-                <Content key={testimonial.userCompany}>
-                  <QuoteAndSubheading>
-                    <Subheading>{testimonial.title}</Subheading>
-                    <Quote>{testimonial.text}</Quote>
-                  </QuoteAndSubheading>
+            {findTestimonial.testimonials.map((testimonial) => (
+              <Card key={testimonial.userCompany}>
+                <QuoteAndSubheading>
+                  <Subheading>{testimonial.title}</Subheading>
+                  <Quote>{testimonial.text}</Quote>
+                </QuoteAndSubheading>
 
-                  <AvatarAndText>
-                    <Avatar
-                      src={`https://prolog-api.profy.dev/${testimonial.userImage.src}`}
-                      width={testimonial.userImage.width}
-                      height={testimonial.userImage.height}
-                      alt={testimonial.userCompany}
-                    ></Avatar>
+                <AvatarAndText>
+                  <Avatar
+                    src={`https://prolog-api.profy.dev/${testimonial.userImage.src}`}
+                    width={testimonial.userImage.width}
+                    height={testimonial.userImage.height}
+                    alt={testimonial.userCompany}
+                  ></Avatar>
 
-                    <Name>{testimonial.userName}</Name>
-                    <SupportingTitle>
-                      {testimonial.userRole}, {testimonial.userCompany}
-                    </SupportingTitle>
-                  </AvatarAndText>
-                </Content>
-              ))}
-            </TestimonialCard>
+                  <Name>{testimonial.userName}</Name>
+                  <SupportingTitle>
+                    {testimonial.userRole}, {testimonial.userCompany}
+                  </SupportingTitle>
+                </AvatarAndText>
+              </Card>
+            ))}
           </Container>
         </>
       )}
