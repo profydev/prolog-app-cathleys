@@ -5,27 +5,21 @@ import {
   IssueStatus,
   optionByLevel,
   optionByStatus,
+  updateQueryParams,
   useIssues,
   useResolveMutateIssues,
 } from "@features/issues";
-import { ProjectLanguage, useProjects } from "@features/projects";
+import { IssueRow } from "./issue-row";
+import { ErrorPage, ProjectLanguage, useProjects } from "@features/projects";
 import * as I from "./issue-list.style";
 import * as C from "@features/ui";
-import { IssueRow } from "./issue-row";
-import { LoadingScreen } from "@features/projects/components/loading-screen";
-import { ErrorPage } from "@features/projects/components/error-page";
 
 export function IssueList() {
   const router = useRouter();
   const [projectSearch, setProjectSearch] = useState("");
   const [checkedItems, setCheckedItems] = useState<Set<string>>(new Set());
   const debouncedSearch = useDebouncedCallback((value) => {
-    router.push({
-      query: {
-        ...router.query,
-        project: value,
-      },
-    });
+    updateQueryParams({ project: value });
   }, 300);
 
   const { status, level, project } = router.query;
@@ -34,21 +28,11 @@ export function IssueList() {
   const projectParam = Array.isArray(project) ? project[0] : project ?? "";
 
   const handleStatusChange = (optionByStatus: any) => {
-    router.push({
-      query: {
-        ...router.query,
-        status: optionByStatus.value,
-      },
-    });
+    updateQueryParams({ status: optionByStatus.value });
   };
 
   const handleLevelChange = (optionByLevel: any) => {
-    router.push({
-      query: {
-        ...router.query,
-        level: optionByLevel.value,
-      },
-    });
+    updateQueryParams({ level: optionByLevel.value });
   };
 
   const handleSearchProject = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -95,7 +79,7 @@ export function IssueList() {
   const resolveIssueId = useResolveMutateIssues();
 
   if (issuesPage.isLoading) {
-    return <LoadingScreen />;
+    return <C.LoadingSpinner />;
   }
 
   if (issuesPage.isError) {
@@ -105,7 +89,7 @@ export function IssueList() {
 
   const { items, meta } = issuesPage.data || {};
   const projectIdToLanguage = (projects.data || []).reduce(
-    (prev: any, project: { id: any; language: any }) => ({
+    (prev: any, project: { id: string; language: string }) => ({
       ...prev,
       [project.id]: project.language,
     }),

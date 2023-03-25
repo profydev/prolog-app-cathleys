@@ -1,6 +1,6 @@
 import React from "react";
 import { useRouter } from "next/router";
-import * as E from "./error.style";
+import * as E from "./error-page.style";
 
 export function ErrorPage() {
   const router = useRouter();
