@@ -1,7 +1,7 @@
 import React from "react";
-import { Container, Loader } from "./loading-screen.style";
+import { Container, Loader } from "./loading-spinner.style";
 
-export function LoadingScreen() {
+export function LoadingSpinner() {
   return (
     <Container>
       <Loader data-cy="loader" />

@@ -11,7 +11,7 @@ export async function updateResolveIssueIds(variables: {
     { status },
     {
       headers: {
-        Authorization: "4b445c570d5cab6f41933084164c426e3bb63f38",
+        Authorization: `Bearer ${process.env.SECRET_KEY}`,
       },
     }
   );
