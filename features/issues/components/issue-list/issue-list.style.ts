@@ -143,21 +143,24 @@ export const TableBody = styled.div`
         0px 1px 2px rgba(16, 24, 40, 0.06);
     }
 
-    ${Row} > ${Cell}:nth-of-type(2)::before {
+    ${Row} > ${Cell}:nth-of-type(2) {
+      display: none;
+    }
+    ${Row} > ${Cell}:nth-of-type(3)::before {
       content: "Status";
       display: block;
       text-align: center;
       padding-bottom: 0.625rem;
       ${textFont("sm", "medium")};
     }
-    ${Row} > ${Cell}:nth-of-type(3)::before {
+    ${Row} > ${Cell}:nth-of-type(4)::before {
       content: "Events";
       display: block;
       text-align: center;
       padding-bottom: 0.625rem;
       ${textFont("sm", "medium")};
     }
-    ${Row} > ${Cell}:nth-of-type(4)::before {
+    ${Row} > ${Cell}:nth-of-type(5)::before {
       content: "Users";
       display: block;
       text-align: center;

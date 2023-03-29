@@ -168,6 +168,7 @@ export function IssueList() {
                   text="Issue"
                 />
               </I.HeaderCell>
+              <I.HeaderCell>Graph</I.HeaderCell>
               <I.HeaderCell>Level</I.HeaderCell>
               <I.HeaderCell>Events</I.HeaderCell>
               <I.HeaderCell>Users</I.HeaderCell>
