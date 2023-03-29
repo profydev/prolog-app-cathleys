@@ -9,3 +9,4 @@ export * from "./input";
 export * from "./modal";
 export * from "./select";
 export * from "./loading-spinner";
+export * from "./chart";

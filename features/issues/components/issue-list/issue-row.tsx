@@ -4,7 +4,7 @@ import * as F from "@features/ui";
 import { IssueLevel } from "../../types/issue.types";
 import { ProjectLanguage } from "@features/projects";
 import type { Issue } from "../../types/issue.types";
-import { NewCheckbox } from "@features/ui";
+import { BarGraph, NewCheckbox } from "@features/ui";
 
 type IssueRowProps = {
   projectLanguage: ProjectLanguage;
@@ -80,6 +80,9 @@ export function IssueRow({ projectLanguage, issue, ...props }: IssueRowProps) {
           <div>{firstLineOfStackTrace}</div>
         </div>
       </IssueCell>
+      <Cell>
+        <BarGraph />
+      </Cell>
       <Cell>
         <F.Badge color={levelColors[level]} size={F.BadgeSize.sm}>
           {levelWords[level]}
