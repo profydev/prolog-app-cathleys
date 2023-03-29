@@ -47,13 +47,14 @@ describe("Issue List", () => {
       cy.viewport(1025, 900);
     });
 
-    it("renders the issues", () => {
+    it.only("renders the issues", () => {
       cy.get("main")
         .find('[data-cy="tbody"]')
         .find('[data-cy="tr"]')
         .each(($el, index) => {
           const issue = mockIssues1.items[index];
           const firstLineOfStackTrace = issue.stack.split("\n")[1].trim();
+          const bar = "/icons/bar.svg";
           cy.wrap($el).contains(issue.name);
           cy.wrap($el).contains(issue.message);
           cy.wrap($el).contains(issue.numEvents);
