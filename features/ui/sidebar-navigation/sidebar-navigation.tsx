@@ -1,12 +1,12 @@
-import { useRouter } from "next/router";
 import { useContext, useState } from "react";
-import styled, { css } from "styled-components";
+import { useRouter } from "next/router";
 import { Routes } from "@config/routes";
+import styled, { css } from "styled-components";
 import { NavigationContext } from "./navigation-context";
+import { breakpoint, color, space, zIndex } from "@styles/theme";
 import { MenuItemButton } from "./menu-item-button";
 import { MenuItemLink } from "./menu-item-link";
 import { NavButton } from "@features/ui";
-import { breakpoint, color, space, zIndex } from "@styles/theme";
 
 const menuItems = [
   { text: "Projects", iconSrc: "/icons/projects.svg", href: Routes.projects },
@@ -30,7 +30,6 @@ const containerStyles = css`
 const Container = styled.div<{ isCollapsed: boolean }>`
   ${containerStyles}
   transition: all 0.5s ease-in-out;
-
   @media (min-width: ${breakpoint("desktop")}) {
     ${(props) =>
       props.isCollapsed &&
@@ -50,7 +49,8 @@ const Container = styled.div<{ isCollapsed: boolean }>`
 const FixedContainer = styled.div`
   ${containerStyles}
   position: fixed;
-  transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease;
+
   z-index: 2;
 `;
 
@@ -72,10 +72,9 @@ const Header = styled.header`
 `;
 
 const Logo = styled.img`
-  width: 7.375rem;
   overflow: hidden;
   @media (min-width: ${breakpoint("desktop")}) {
-    margin: ${space(0, 4)};
+    margin-left: ${space(4)};
   }
 `;
 
