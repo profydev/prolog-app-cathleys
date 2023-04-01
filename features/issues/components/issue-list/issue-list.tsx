@@ -162,7 +162,7 @@ export function IssueList() {
                   checked={checkedItems.size === items?.length}
                   indeterminate={
                     checkedItems.size > 0 &&
-                    checkedItems.size < (items?.length || [])
+                    checkedItems.size < (items?.length || 0)
                   }
                   onChange={handleToggleAll}
                   text="Issue"
