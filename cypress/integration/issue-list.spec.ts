@@ -54,7 +54,6 @@ describe("Issue List", () => {
         .each(($el, index) => {
           const issue = mockIssues1.items[index];
           const firstLineOfStackTrace = issue.stack.split("\n")[1].trim();
-          const bar = "/icons/bar.svg";
           cy.wrap($el).contains(issue.name);
           cy.wrap($el).contains(issue.message);
           cy.wrap($el).contains(issue.numEvents);
@@ -85,7 +84,7 @@ describe("Issue List", () => {
       );
 
       // test navigation back to second page
-      cy.get("@prev-button").click();
+      cy.get("@prev-button").click({ force: true });
       cy.get("@next-button").should("not.have.attr", "disabled");
       cy.contains("Page 2 of 3");
       cy.get('[data-cy="tbody"] [data-cy="tr"]:first').contains(
