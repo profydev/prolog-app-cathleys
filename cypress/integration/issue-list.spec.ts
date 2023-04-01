@@ -47,7 +47,7 @@ describe("Issue List", () => {
       cy.viewport(1025, 900);
     });
 
-    it.only("renders the issues", () => {
+    it("renders the issues", () => {
       cy.get("main")
         .find('[data-cy="tbody"]')
         .find('[data-cy="tr"]')
