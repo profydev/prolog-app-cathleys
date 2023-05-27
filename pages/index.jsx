@@ -5,11 +5,7 @@ import { Routes } from "@config/routes";
 import { ButtonHeader } from "@features/ui/button-header/index";
 import { MenuButton, MenuIcon } from "@features/ui/sidebar-navigation/index";
 import { ContactModal } from "@features/ui/modal";
-import {
-  HeroPage,
-  SocialProof,
-  Testimonial,
-} from "@features/landing page/components";
+import * as C from "@features/landing page/components";
 
 const Header = styled.header`
   display: flex;
@@ -64,8 +60,14 @@ const ContactButton = styled.button`
     background: #6941c6;
   }
 `;
+const navLinks = [
+  { id: 1, label: "Home", href: "/" },
+  { id: 2, label: "Products", href: "/products" },
+  { id: 3, label: "Documentation", href: "/documentation" },
+  { id: 4, label: "Pricing", href: "/pricing" },
+];
 
-const IssuesPage = () => {
+const LandingPage = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
@@ -82,10 +84,11 @@ const IssuesPage = () => {
         </Link>
 
         <Nav isMobileMenuOpen={isMobileMenuOpen}>
-          <LinkItems href="/">Home</LinkItems>
-          <LinkItems href="/products">Products</LinkItems>
-          <LinkItems href="/documentation">Documentation</LinkItems>
-          <LinkItems href="/pricing">Pricing</LinkItems>
+          {navLinks?.map((link) => (
+            <LinkItems key={link.id} href={link.href}>
+              {link.label}
+            </LinkItems>
+          ))}
         </Nav>
 
         <ButtonDiv>
@@ -93,9 +96,9 @@ const IssuesPage = () => {
         </ButtonDiv>
       </Header>
 
-      <HeroPage />
-      <SocialProof />
-      <Testimonial />
+      <C.HeroPage />
+      <C.SocialProof />
+      <C.Testimonial />
 
       <ContactButton
         data-cy="contact-button"
@@ -109,4 +112,4 @@ const IssuesPage = () => {
   );
 };
 
-export default IssuesPage;
+export default LandingPage;
