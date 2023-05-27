@@ -61,10 +61,10 @@ const ContactButton = styled.button`
   }
 `;
 const navLinks = [
-  { id: 1, label: "Home", href: "/" },
-  { id: 2, label: "Products", href: "/products" },
-  { id: 3, label: "Documentation", href: "/documentation" },
-  { id: 4, label: "Pricing", href: "/pricing" },
+  { id: 1, label: "Home", href: Routes.home },
+  { id: 2, label: "Products", href: Routes.products },
+  { id: 3, label: "Documentation", href: Routes.documentation },
+  { id: 4, label: "Pricing", href: Routes.pricing },
 ];
 
 const LandingPage = () => {
